@@ -12,7 +12,7 @@ public class MainController {
     @RequestMapping("/")
     public String index(Model model){
 
-        model.addAttribute("team", "pits");
+        model.addAttribute("team", "Pearl in the Soil");
 
         return "index";
     }

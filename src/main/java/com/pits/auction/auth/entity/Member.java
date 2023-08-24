@@ -1,5 +1,7 @@
-package com.pits.auction.entity;
+package com.pits.auction.auth.entity;
 
+import com.pits.auction.auctionBoard.entity.Bidding;
+import com.pits.auction.auctionBoard.entity.MusicAuction;
 import jakarta.persistence.*;
 import lombok.*;
 

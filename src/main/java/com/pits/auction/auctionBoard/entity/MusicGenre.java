@@ -1,4 +1,4 @@
-package com.pits.auction.entity;
+package com.pits.auction.auctionBoard.entity;
 
 
 import jakarta.persistence.*;

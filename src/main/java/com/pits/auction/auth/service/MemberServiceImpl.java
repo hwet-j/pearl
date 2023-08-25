@@ -32,6 +32,17 @@ public class MemberServiceImpl implements MemberService {
         }
         return null;
     }
+    public void deleteMember(Long id){
+        Optional<Member> member=memberRepository.findById(id);
+
+        Long deleteId= member.get().getId();
+        memberRepository.deleteById(deleteId);
+
+    }
+
+
+
+
 
     public List<Member> AdminEditMember(Long id){
     Optional<Member> optionalMember = memberRepository.findById(id);

@@ -11,4 +11,6 @@ public interface MemberService {
     public Member AdminEditMember();
 
     Member getMemberDetail(Long id);
+
+    public void deleteMember(Long id);
 }

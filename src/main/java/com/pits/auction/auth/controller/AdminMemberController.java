@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 @RequiredArgsConstructor
@@ -28,6 +29,13 @@ public class AdminMemberController {
         System.out.println("id="+id);
         System.out.println("member="+member);
         return "/admin/plAdminMemberEdit";
+    }
+
+    @GetMapping("/member/delete")
+    public String memberDelete(@RequestParam("id")Long id) throws Exception {
+        System.out.println("id="+id);
+        memberService.deleteMember(id);
+        return "redirect:/member/list";
     }
 
 }

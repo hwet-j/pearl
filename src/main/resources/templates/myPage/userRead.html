@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+</head>
+<body>
+<table border="1">
+    <thead>
+    <tr>
+        <th>닉네임</th>
+        <th>이메일</th>
+        <th>전화번호</th>
+        <th>잔고</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="userInfo : ${userInfoList}">
+        <td th:text="${userInfo.nickname}">Default Name</td>
+        <td th:text="${userInfo.email}">Default Email</td>
+        <td th:text="${userInfo.phoneNumber}">Default Email</td>
+        <td th:text="${userInfo.balance}">Default Email</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

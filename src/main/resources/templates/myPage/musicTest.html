@@ -3,6 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .audio-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .audio-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        audio {
+            width: 100%;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .play-button {
+            display: block;
+            width: 150px;
+            margin: 0 auto;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 
@@ -13,10 +52,7 @@
 </audio>
 
 
-
-
-<audio controls>
-    <source th:src="@{/audios/uploaded_audios/a0b88416-6ca4-41e2-867c-bdf843899627_NewJeans%20-%20ETA.mp3}" type="audio/mpeg">
+<audio controls src="/audios/uploaded_audios/__${audioFileName}__" type="audio/mpeg" duration="60">
     Your browser does not support the audio element.
 </audio>
 

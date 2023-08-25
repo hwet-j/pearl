@@ -10,7 +10,7 @@
     <p th:text="${userInfo.phoneNumber}">Default Phone</p>
     <p th:text="${userInfo.balance}">Default Balance</p>
 
-    <img th:src="@{/images/uploaded_images/__${userInfo.memberImage}__}" alt="Image">
+    <img th:src="@{__${userInfo.memberImage}__}" alt="Image">
     <br/>
     <a th:href="@{/mypage/useredit(userId=${userInfo.id})}">수정</a>
 

@@ -16,8 +16,9 @@ public class AudioUpload {
         // 웹 어플리케이션 경로
         String webAppPath = System.getProperty("user.dir");
         
-        // 첨부파일 저장 폴더 경로
-        String uploadDirectory = webAppPath + "\\src\\main\\resources\\static\\audios\\uploaded_audios";
+        // 첨부파일 저장 폴더
+        String saveFolder = "\\audios\\uploaded_audios";
+        String uploadDirectory = webAppPath + "\\src\\main\\resources\\static" + saveFolder;
 
         File directory = new File(uploadDirectory);
         // 저장 경로가 없으면 생성
@@ -37,6 +38,6 @@ public class AudioUpload {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return uniqueFileName;  // 경로는 고정이므로 파일명 반환
+        return saveFolder + "\\" + uniqueFileName;
     }
 }

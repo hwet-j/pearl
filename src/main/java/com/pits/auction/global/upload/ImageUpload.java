@@ -17,7 +17,8 @@ public class ImageUpload {
         String webAppPath = System.getProperty("user.dir");
 
         // 이미지를 저장할 경로 --> 필요하다면 추가적으로 별도의 폴더를 더 생성하여 구분
-        String uploadDirectory = webAppPath + "\\src\\main\\resources\\static\\images\\uploaded_images";
+        String saveFolder = "\\images\\uploaded_images";
+        String uploadDirectory = webAppPath + "\\src\\main\\resources\\static" +  saveFolder;
 
         File directory = new File(uploadDirectory);
         if (!directory.exists()) {
@@ -35,7 +36,7 @@ public class ImageUpload {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return uniqueFileName;
+        return saveFolder + "\\" + uniqueFileName;
     }
 
 }

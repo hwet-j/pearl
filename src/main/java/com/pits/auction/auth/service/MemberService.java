@@ -7,5 +7,11 @@ import java.util.List;
 
 public interface MemberService {
 
-    List<MemberDTO> getUserInfo();
+    List<MemberDTO> getUserList();
+
+    MemberDTO getUserInfo(Long id);
+
+    boolean  updateUserInfo(MemberDTO memberDTO);
+
+    boolean  requestUserDelete(MemberDTO memberDTO);
 }

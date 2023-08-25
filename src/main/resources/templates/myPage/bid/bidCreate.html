@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>입찰 생성</title>
+
+</head>
+<body>
+<form th:action="@{/bid/create}" method="post">
+
+    <label for="phoneNumber">전화번호</label>
+    <input type="text" id="phoneNumber" name="phoneNumber" th:value="${userInfo.phoneNumber}" /><br>
+
+    <input type="submit" value="수정하기">
+</form>
+</body>
+</html>

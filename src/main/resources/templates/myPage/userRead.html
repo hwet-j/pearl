@@ -2,26 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>마이페이지</title>
+    <title>회원 상세 정보</title>
 </head>
 <body>
-<table border="1">
-    <thead>
-    <tr>
-        <th>닉네임</th>
-        <th>이메일</th>
-        <th>전화번호</th>
-        <th>잔고</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="userInfo : ${userInfoList}">
-        <td th:text="${userInfo.nickname}">Default Name</td>
-        <td th:text="${userInfo.email}">Default Email</td>
-        <td th:text="${userInfo.phoneNumber}">Default Email</td>
-        <td th:text="${userInfo.balance}">Default Email</td>
-    </tr>
-    </tbody>
-</table>
+    <h1 th:text="${userInfo.nickname}">Default Name</h1>
+    <p th:text="${userInfo.email}">Default Email</p>
+    <p th:text="${userInfo.phoneNumber}">Default Phone</p>
+    <p th:text="${userInfo.balance}">Default Balance</p>
+
+    <img th:src="@{/images/uploaded_images/__${userInfo.memberImage}__}" alt="Image">
+    <br/>
+    <a th:href="@{/mypage/useredit(userId=${userInfo.id})}">수정</a>
+
+    <a th:href="@{/mypage/userdelete(userId=${userInfo.id})}">회원삭제</a>
+
 </body>
 </html>

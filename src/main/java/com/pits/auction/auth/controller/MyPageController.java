@@ -25,15 +25,17 @@ public class MyPageController {
     private final AudioUpload audioUpload;
 
 
+    /* 유저 전체 리스트 - 마이페이지에서는 필요없으나 테스트를 위해 작성 */
     @GetMapping("/userlist")
     public String getUserList(Model model) {
         
-        // 테스트를 위해 진행중.. 모든 회원 정보를 가져와 거기서 선택해 특정 회원을 다루기 위해
         model.addAttribute("userInfoList", memberService.getUserList());
         
         return "/myPage/plMyPage";
     }
 
+
+    /* 특정 유저 정보 (id) */
     @GetMapping("/userinfo")
     public String getUserInfo(@RequestParam("userId") Long userId, Model model) {
 
@@ -42,13 +44,16 @@ public class MyPageController {
         return "/myPage/userRead";
     }
 
+
+    /* 특정 유저 수정 폼 */
     @GetMapping("/useredit")
     public String formUserEdit(@RequestParam("userId") Long userId, Model model) {
         MemberDTO userInfo = memberService.getUserInfo(userId);
         model.addAttribute("userInfo", userInfo);
-        return "/myPage/userEdit"; // userEdit.html 템플릿으로 이동
+        return "/myPage/userEdit";
     }
 
+    /* 특정 유저 수정 작업 */
     @PostMapping("/useredit")
     public String funcUserEdit(@ModelAttribute MemberDTO memberDTO,
                                @RequestParam("image") MultipartFile imageFile,
@@ -68,24 +73,26 @@ public class MyPageController {
             audioUpload.uploadAudio(audioFile);
         }
 
-        memberService.updateUserInfo(userInfo); // 회원 정보 업데이트 로직 구현 필요
-        return "redirect:/mypage/userlist"; // 회원 목록 페이지로 이동
+        memberService.updateUserInfo(userInfo);
+
+        return "redirect:/mypage/userlist";
     }
 
 
+    /* 회원 삭제 요청 */
     @GetMapping("/userdelete")
     public String requestUserDelete(@RequestParam Long userId) {
 
         MemberDTO memberDTO = memberService.getUserInfo(userId);
-        memberDTO.setWithdrawalRequested(true);
-        memberService.updateUserInfo(memberDTO); // 회원 정보 업데이트 로직 구현 필요
-        return "redirect:/mypage/userlist"; // 회원 목록 페이지로 이동
+
+        memberService.requestUserDelete(memberDTO);
+        return "redirect:/mypage/userlist";
     }
 
-
+    /* 음악 재생 테스트를 위해 작성 -> 다른곳에서 기능 구현후 삭제 */
     @GetMapping("/musictest")
     public String musicTest(Model model) {
-        String audioFileName = "a0b88416-6ca4-41e2-867c-bdf843899627_NewJeans%20-%20ETA.mp3";
+        String audioFileName = "d6287fd2-14f9-4607-9f86-b84277771fe1_NewJeans - ETA.mp3";
         model.addAttribute("audioFileName", audioFileName);
         return "/myPage/musicTest";
     }

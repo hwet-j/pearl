@@ -1,5 +1,6 @@
 package com.pits.auction.auctionBoard.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pits.auction.auth.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,8 +28,8 @@ import java.util.List;
 */
 
 @Entity
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -40,10 +41,12 @@ public class MusicAuction {
     private Long id;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "author_nickname",  referencedColumnName = "nickname", nullable = false)
     private Member authorNickname;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "genre_id", nullable = false)
     private MusicGenre genre;
 
@@ -66,6 +69,7 @@ public class MusicAuction {
     private LocalDateTime createdAt;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(nullable = false)
     private BiddingPeriod biddingPeriod;
 
@@ -76,15 +80,9 @@ public class MusicAuction {
     private String status;
 
     // 입찰 정보
+    @JsonIgnore
     @OneToMany(mappedBy = "auctionId")
     private List<Bidding> auctionBiddings;
 
-    /*@PrePersist
-    public void prePersist() {
-        if (createdAt == null) {
-            ZoneId kst = ZoneId.of("Asia/Seoul");
-            createdAt = LocalDateTime.now(kst);
-        }
-    }*/
 
 }

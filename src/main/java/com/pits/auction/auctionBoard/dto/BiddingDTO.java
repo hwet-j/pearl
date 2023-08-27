@@ -1,8 +1,6 @@
 package com.pits.auction.auctionBoard.dto;
 
 
-import com.pits.auction.auctionBoard.entity.MusicAuction;
-import com.pits.auction.auth.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,11 +15,10 @@ import java.time.LocalDateTime;
 public class BiddingDTO {
 
     private Long id;
-    private Member bidder;
-    private MusicAuction auctionId;
+    private String bidder;
+    private Long auctionId;
     private Long price;
     private LocalDateTime bidTime;
     private String Status;
-
 
 }

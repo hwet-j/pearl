@@ -1,6 +1,7 @@
 package com.pits.auction.auctionBoard.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,8 +16,8 @@ import java.util.List;
     name : 장르명 (Not Null)
 */
 @Entity
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -31,6 +32,7 @@ public class MusicGenre {
     private String name;
 
     // 해당 장르의 경매글 정보
+    @JsonIgnore
     @OneToMany(mappedBy = "genre")
     private List<MusicAuction> genreAuctions;
 }

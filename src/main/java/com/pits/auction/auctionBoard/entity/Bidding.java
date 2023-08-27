@@ -1,8 +1,10 @@
 package com.pits.auction.auctionBoard.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pits.auction.auth.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
@@ -18,9 +20,11 @@ import java.time.LocalDateTime;
     bidTime : 입찰 시간 (Not Null)
     Status : 상태 (낙찰, 유찰, 진행)
 */
+
+
 @Entity
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -32,28 +36,23 @@ public class Bidding {
     private Long id;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "nickname", referencedColumnName = "nickname" , nullable = false)
     private Member bidder;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "auction_id", nullable = false)
     private MusicAuction auctionId;
 
     @Column(nullable = false)
     private Long price;
 
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    @CreatedDate
+    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false, updatable = false)
     private LocalDateTime bidTime;
 
     @Column(nullable = false)
     private String Status;
-
-    /*@PrePersist
-    public void prePersist() {
-        if (bidTime == null) {
-            ZoneId kst = ZoneId.of("Asia/Seoul");
-            bidTime = LocalDateTime.now(kst);
-        }
-    }*/
 
 }

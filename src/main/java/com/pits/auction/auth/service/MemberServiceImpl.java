@@ -20,7 +20,6 @@ public class MemberServiceImpl implements MemberService {
     private final ModelMapper modelMapper;
 
 
-
     /* 유저 전체 목록 */
     @Override
     public List<MemberDTO> getUserList() {
@@ -41,24 +40,25 @@ public class MemberServiceImpl implements MemberService {
         return null;    // 추후에 에러 기능 구현
     }
 
-
+    
+    /* 특정 유저 정보 수정 */
     @Override
     public boolean  updateUserInfo(MemberDTO memberDTO) {
         // 업데이트할 회원의 ID를 기반으로 해당 회원 정보 조회
         Optional<Member> memberOptional = memberRepository.findById(memberDTO.getId());
 
-        if (memberOptional.isPresent()) {
+        if (memberOptional.isPresent()) {   // 유저 조회에 성공하면 수정작업 진행
             Member existingMember = memberOptional.get();
 
             modelMapper.map(memberDTO, existingMember);
 
-            memberRepository.save(existingMember); // 엔티티 업데이트
+            memberRepository.save(existingMember);
             return true;
         }
         return false;
     }
 
-
+    /* 회원 삭제 요청하기 (회원은 DB에서 삭제하지 않음) */
     @Override
     public boolean requestUserDelete(MemberDTO memberDTO) {
         Optional<Member> memberOptional = memberRepository.findById(memberDTO.getId());
@@ -66,6 +66,8 @@ public class MemberServiceImpl implements MemberService {
         if (memberOptional.isPresent()) {
             Member existingMember = memberOptional.get();
 
+            existingMember.setWithdrawalRequested(true);    // 삭제 요청 true로 변경
+            
             modelMapper.map(memberDTO, existingMember);
 
             memberRepository.save(existingMember);

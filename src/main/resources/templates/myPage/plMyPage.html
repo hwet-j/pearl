@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Info List</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nickname</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Balance</th>
+        <th>상세보기</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="userInfo : ${userInfoList}">
+        <td th:text="${userInfo.id}">Default ID</td>
+        <td th:text="${userInfo.nickname}">Default Nickname</td>
+        <td th:text="${userInfo.email}">Default Email</td>
+        <td th:text="${userInfo.phoneNumber}">Default Phone Number</td>
+        <td th:text="${userInfo.balance}">Default Balance</td>
+        <td>
+            <a th:href="@{/mypage/userinfo(userId=${userInfo.id})}">View Details</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

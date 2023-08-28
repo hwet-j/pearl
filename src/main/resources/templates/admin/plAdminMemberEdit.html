@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<table border="1" cl    ass="table">
+    <thead class="table-dark">
+    <tr>
+        <td>번호</td><td th:text="${member.id}"></td>
+    </tr>
+    <tr>
+        <td>닉네임</td>
+        <td th:text="${member.nickname}"></td>
+    </tr>
+    <tr>
+        <td>이메일</td>
+        <td th:text="${member.email}"></td>
+    </tr>
+    <tr>
+    <td>비밀번호</td>
+    <td th:textarea="${member.password}"><input type="text" th:value="${member.password}"></td>
+    </tr>
+    <tr>
+        <td>전화번호</td>
+        <td th:textarea="${member.phoneNumber}"><input type="text" th:value="${member.phoneNumber}"></td>
+    </tr>
+    <tr>
+        <td>잔고</td>
+        <td th:textarea="${member.balance}"><input type="text" th:value="${member.balance}"></td>
+    </tr>
+    <tr>
+        <td>탈퇴여부</td>
+        <td>
+        <input type="radio" name="withdrawalRequested" value="1" th:checked="${member.withdrawalRequested}==true"}>Y
+        <input type="radio" name="withdrawalRequested" value="0" th:checked="${member.withdrawalRequested}!=true">N</td>
+    </thead>
+</table>
+    </tr>
+    <a href="/member/list">목록</a>
+    <a href="">수정</a>
+    <a th:href="@{/member/delete(id=${member.id})}">삭제</a>
+</body>
+</html>

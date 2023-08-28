@@ -1,13 +1,12 @@
 package com.pits.auction.auth.controller;
 
+import com.pits.auction.auth.dto.MemberDTO;
 import com.pits.auction.auth.entity.Member;
 import com.pits.auction.auth.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RequiredArgsConstructor
@@ -24,11 +23,16 @@ public class AdminMemberController {
     }
     @GetMapping("/member/edit/{id}")
     public String memberDetail(@PathVariable("id")Long id,Model model) throws Exception {
+        System.out.println("id="+id);
         Member member=memberService.getMemberDetail(id);
         model.addAttribute("member",member);
-        System.out.println("id="+id);
-        System.out.println("member="+member);
         return "/admin/plAdminMemberEdit";
+    }
+    @PostMapping("/member/edit/{id}")
+    public String AdminEditMember(@PathVariable("id") Long id, @ModelAttribute MemberDTO memberDTO) throws Exception{
+        System.out.println("memberDTO="+memberDTO);
+        memberService.AdminEditMember(memberDTO,id);
+        return "redirect:/member/edit/"+id;
     }
 
     @GetMapping("/member/delete")
@@ -37,5 +41,6 @@ public class AdminMemberController {
         memberService.deleteMember(id);
         return "redirect:/member/list";
     }
+
 
 }

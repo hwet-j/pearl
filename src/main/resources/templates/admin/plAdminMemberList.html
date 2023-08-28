@@ -15,10 +15,12 @@
     }
 </script>
 <body>
-<table border="1" cl    ass="table">
+<form method="post" action="/member/delete">
+
+<table border="1" class="table">
     <thead class="table-dark">
     <tr>
-        <th><input type="checkbox" onclick="checkAll(this)"></th>
+        <th><input type="checkbox" name="selectedMembers" value="${member.id}" onclick="checkAll(this)"></th>
         <th>번호</th>
         <th>이메일</th>
         <th>비밀번호</th>
@@ -31,7 +33,7 @@
     </thead>
     <tbody>
     <tr th:each="member:${memberList}" >
-        <td><input type="checkbox" name="${member.id}" value="${member.id}" ></td>
+        <td><input type="checkbox" name="selectedMembers" value="${member.id}" ></td>
         <td th:text="${member.id}"></td>
         <td th:text="${member.email}"></td>
         <td th:text="${member.password}"></td>
@@ -39,13 +41,11 @@
         <td th:text="${member.phoneNumber}"></td>
         <td th:text="${member.balance}"></td>
         <td th:text="${member.withdrawalRequested}"></td>
-        <td><a th:href="@{|/member/edit/${member.id}|}"
-             th:text="수정"></a></td>
+        <td><a th:href="@{|/member/edit/${member.id}|}" th:text="수정"></a></td>
         </tr>
-
-
     </tbody>
 </table>
-<a href="">삭제</a>
+    <button type="submit">삭제</button>
+</form>
 </body>
 </html>

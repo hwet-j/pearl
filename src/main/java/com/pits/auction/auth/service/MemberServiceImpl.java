@@ -1,6 +1,7 @@
 package com.pits.auction.auth.service;
 
 
+import com.pits.auction.auth.dto.MemberDTO;
 import com.pits.auction.auth.entity.Member;
 import com.pits.auction.auth.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +20,6 @@ public class MemberServiceImpl implements MemberService {
         return memberList;
     }
 
-    @Override
-    public Member AdminEditMember() {
-        return null;
-    }
-
-
     public Member getMemberDetail(Long id){
         Optional<Member> member=memberRepository.findById(id);
         if(member.isPresent()){
@@ -40,23 +35,16 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
-
-
-
-
-    public List<Member> AdminEditMember(Long id){
+    @Override
+    public void AdminEditMember(MemberDTO memberDTO, Long id){
     Optional<Member> optionalMember = memberRepository.findById(id);
     if (optionalMember.isPresent()) {
         Member member = optionalMember.get();
-        member.setPassword(member.getPassword());
-        member.setPhoneNumber(member.getPhoneNumber());
-        member.setBalance(member.getBalance());
+        member.setPassword(memberDTO.getPassword());
+        member.setPhoneNumber(memberDTO.getPhoneNumber());
+        member.setWithdrawalRequested(memberDTO.getWithdrawalRequested());
         memberRepository.save(member);
-
     }
-        return null;
     }
-
-
 
 }

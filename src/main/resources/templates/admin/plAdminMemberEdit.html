@@ -5,7 +5,8 @@
     <title></title>
 </head>
 <body>
-<table border="1" cl    ass="table">
+<form method="post" th:object="${member}"  th:action="@{/member/edit/__${member.id}__}">
+<table border="1" class="table">
     <thead class="table-dark">
     <tr>
         <td>번호</td><td th:text="${member.id}"></td>
@@ -20,15 +21,15 @@
     </tr>
     <tr>
     <td>비밀번호</td>
-    <td th:textarea="${member.password}"><input type="text" th:value="${member.password}"></td>
+    <td th:textarea="${member.password}"><input type="text" th:value="${member.password}" th:field="*{password}"></td>
     </tr>
     <tr>
         <td>전화번호</td>
-        <td th:textarea="${member.phoneNumber}"><input type="text" th:value="${member.phoneNumber}"></td>
+        <td th:textarea="${member.phoneNumber}"><input type="text" th:value="${member.phoneNumber}" th:field="*{phoneNumber}"></td>
     </tr>
     <tr>
         <td>잔고</td>
-        <td th:textarea="${member.balance}"><input type="text" th:value="${member.balance}"></td>
+        <td th:text="${member.balance}"></td>
     </tr>
     <tr>
         <td>탈퇴여부</td>
@@ -39,7 +40,8 @@
 </table>
     </tr>
     <a href="/member/list">목록</a>
-    <a href="">수정</a>
+    <button type="submit">수정</button>>
     <a th:href="@{/member/delete(id=${member.id})}">삭제</a>
+</form>
 </body>
 </html>

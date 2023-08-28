@@ -31,7 +31,7 @@ public class MyPageController {
     @GetMapping("/userlist")
     public String getUserList(Model model) {
         
-        model.addAttribute("userInfoList", memberService.getUserList());
+        model.addAttribute("userInfoList", memberService.findAllActiveMembers());
         
         return "/myPage/plMyPage";
     }
@@ -86,9 +86,7 @@ public class MyPageController {
     @GetMapping("/userdelete")
     public String requestUserDelete(@RequestParam Long userId) {
 
-        MemberDTO memberDTO = memberService.getUserInfo(userId);
-
-        memberService.requestUserDelete(memberDTO);
+        memberService.requestUserDelete(userId);
         return "redirect:/mypage/userlist";
     }
 

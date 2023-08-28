@@ -19,11 +19,10 @@ public class CustomExceptionHandler {
         return "error/insufficientBalance"; // 예외 페이지로 이동
     }
 
-
     @ExceptionHandler(IllegalArgumentException.class)
     public String handleIllegalArgumentException(IllegalArgumentException ex, Model model) {
         model.addAttribute("errorMessage", ex.getMessage());
-        return "error/IllegalArgument"; // 예외 페이지로 이동
+        return "error/illegalArgument"; // 예외 페이지로 이동
     }
 
 

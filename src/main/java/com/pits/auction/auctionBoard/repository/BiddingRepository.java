@@ -11,4 +11,6 @@ public interface BiddingRepository extends JpaRepository<Bidding, Long> {
 
     @Query("SELECT MAX(b.price) FROM Bidding b WHERE b.auctionId.id = :auctionId")
     Optional<Long> findMaxPriceByAuctionId(Long auctionId);
+
+    Optional<Bidding> findById(Long id);
 }

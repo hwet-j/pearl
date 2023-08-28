@@ -78,16 +78,13 @@ public class MemberServiceImpl implements MemberService {
 
     /* 회원 삭제 요청하기 (회원은 DB에서 삭제하지 않음) */
     @Override
-    public boolean requestUserDelete(MemberDTO memberDTO) {
-        Optional<Member> memberOptional = memberRepository.findById(memberDTO.getId());
+    public boolean requestUserDelete(Long userId) {
+        Optional<Member> memberOptional = memberRepository.findById(userId);
 
         if (memberOptional.isPresent()) {
             Member existingMember = memberOptional.get();
-
             existingMember.setWithdrawalRequested(true);    // 삭제 요청 true로 변경
             
-            modelMapper.map(memberDTO, existingMember);
-
             memberRepository.save(existingMember);
             return true;
         }
@@ -149,6 +146,15 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public boolean duplicatePhoneNumber(String phoneNumber){
         return memberRepository.findByPhoneNumber(phoneNumber).isPresent();
+    }
+
+    @Override
+    public List<MemberDTO> findAllActiveMembers() {
+
+        List<Member> members =  memberRepository.findAllActiveMembers();
+        return members.stream()
+                .map(member -> modelMapper.map(member, MemberDTO.class))
+                .collect(Collectors.toList());
     }
 
 

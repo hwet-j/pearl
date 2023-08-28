@@ -26,7 +26,10 @@
         <td th:text="${bidding.bidTime}"></td>
         <td th:text="${bidding.Status}"></td>
         <td>
-            <a th:href="@{/bid/biddetail(auctionId=${bidding.auctionId.id})}">View Details</a>
+            <a th:href="@{/bid/biddetail(bidding=${bidding.id})}">View Details</a>
+        </td>
+        <td>
+            <a th:href="@{/bid/biddetail2(auctionId=${bidding.auctionId.id})}">View Article</a>
         </td>
     </tr>
     </tbody>

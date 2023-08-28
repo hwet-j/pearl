@@ -11,9 +11,9 @@ public interface MemberService {
 
     MemberDTO getUserInfo(Long id);
 
-    boolean  updateUserInfo(MemberDTO memberDTO);
+    boolean updateUserInfo(MemberDTO memberDTO);
 
-    boolean  requestUserDelete(MemberDTO memberDTO);
+    boolean requestUserDelete(Long userId);
 
     Long getBalance(String nickname);
 
@@ -22,6 +22,8 @@ public interface MemberService {
     void minusBalance(Long userId, Long amount);
 
     boolean duplicatePhoneNumber(String phoneNumber);
+
+    List<MemberDTO> findAllActiveMembers();
 
 
 }

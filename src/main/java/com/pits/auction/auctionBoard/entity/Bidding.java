@@ -53,6 +53,6 @@ public class Bidding {
     private LocalDateTime bidTime;
 
     @Column(nullable = false)
-    private String Status;
+    private String status;
 
 }

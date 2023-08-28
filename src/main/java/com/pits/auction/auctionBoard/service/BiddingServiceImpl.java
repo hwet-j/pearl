@@ -1,6 +1,7 @@
 package com.pits.auction.auctionBoard.service;
 
 
+import com.pits.auction.auctionBoard.component.BiddingMapper;
 import com.pits.auction.auctionBoard.dto.BiddingDTO;
 import com.pits.auction.auctionBoard.entity.Bidding;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
@@ -12,6 +13,7 @@ import com.pits.auction.global.exception.InsufficientBiddingException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -25,7 +27,8 @@ public class BiddingServiceImpl implements BiddingService{
     private final BiddingRepository biddingRepository;
     private final MemberRepository memberRepository;
     private final MusicAuctionRepository musicAuctionRepository;
-
+    private final ModelMapper modelMapper;
+    private final BiddingMapper biddingMapper;
 
     /* 입찰 정보 저장 */
     @Override
@@ -51,8 +54,11 @@ public class BiddingServiceImpl implements BiddingService{
     }
 
 
+
+
     /* 입찰 DTO -> Entity 형변환 (첫 생성에만 사용 - 사실상 입찰은 변경이 불가능 / BidTime, Status null값 받아오면 초기값 지정) */
-    public Bidding convertToEntity(BiddingDTO biddingDTO) {
+    @Override
+    public Bidding createBidding(BiddingDTO biddingDTO) {
         Optional<Member> memberOptional = memberRepository.findByNickname(biddingDTO.getBidder());
         Optional<MusicAuction> musicAuctionOptional = musicAuctionRepository.findById(biddingDTO.getAuctionId());
 
@@ -66,12 +72,25 @@ public class BiddingServiceImpl implements BiddingService{
                     .auctionId(musicAuction)
                     .price(biddingDTO.getPrice())
                     .bidTime(biddingDTO.getBidTime() != null ? biddingDTO.getBidTime() : LocalDateTime.now())
-                    .Status(biddingDTO.getStatus() != null ? biddingDTO.getStatus() : "진행")
+                    .status(biddingDTO.getStatus() != null ? biddingDTO.getStatus() : "진행")
                     .build());
         } else {
             // new EntityNotFoundException("Member not found with nickname: " + biddingDTO.getBidder()));
             return null;
         }
+    }
+
+
+
+    /* ID값으로 입찰기록 가져오기 */
+    @Override
+    public BiddingDTO findById(Long id) {
+        Optional<Bidding> optionalBidding = biddingRepository.findById(id);
+        if (optionalBidding.isPresent()){
+            Bidding bidding = optionalBidding.get();
+            return biddingMapper.convertToDTO(bidding);
+        }
+        return null;
     }
 
 

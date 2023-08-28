@@ -25,13 +25,10 @@ import java.util.Date;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/bid")
-@Slf4j
 public class BiddingController {
 
     private final BiddingService biddingService;
     private final MusicAuctionService musicAuctionService;
-
-
 
     @GetMapping("/bidlist")
     public String biddingList(Model model){
@@ -42,15 +39,21 @@ public class BiddingController {
     }
 
     @GetMapping("/biddetail")
+    public String biddingById(Model model, @RequestParam("bidding") Long id){
+        BiddingDTO biddingDTO = biddingService.findById(id);
+
+        model.addAttribute("bidding", biddingDTO);
+
+        return "/myPage/bid/bidDetail";
+    }
+
+    @GetMapping("/biddetail2")
     public String biddingListAuctionId(Model model, @RequestParam Long auctionId){
         MusicAuctionDTO musicAuction = musicAuctionService.getMusicAuctionById(auctionId);
 
-        log.info(musicAuction.getContent());
-        log.info(musicAuction.getAlbumImage());
-        log.info(musicAuction.getAuthorNickname());
-        // model.addAttribute("biddingList", biddingService.getAuctionBiddingsById(auctionId));
+        // model.addAttribute("bidding", biddingService.getAuctionBiddingsById(auctionId));
 
-        return "/myPage/bid/bidList";
+        return "plMain";
     }
 
 
@@ -65,7 +68,7 @@ public class BiddingController {
     /* 입찰 생성 기능 (상세페이지가 구현되면 이 기능 사용) */
     @PostMapping("/create")
     public String biddingCreate(@ModelAttribute BiddingDTO biddingDTO){
-        Bidding test = biddingService.convertToEntity(biddingDTO);
+        Bidding test = biddingService.createBidding(biddingDTO);
 
         if (test != null) {
             biddingService.biddingWrite(test);
@@ -85,7 +88,6 @@ public class BiddingController {
 
         return "/myPage/bid/bidList";
     }
-
 
 
     @GetMapping("/clocktest")

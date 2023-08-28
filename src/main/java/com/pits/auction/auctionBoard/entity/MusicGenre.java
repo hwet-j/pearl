@@ -35,4 +35,5 @@ public class MusicGenre {
     @JsonIgnore
     @OneToMany(mappedBy = "genre")
     private List<MusicAuction> genreAuctions;
+
 }

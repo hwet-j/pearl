@@ -9,12 +9,13 @@ public interface BiddingService{
 
     boolean biddingWrite(Bidding bidding);
 
-    Bidding convertToEntity(BiddingDTO dto);
+    BiddingDTO findById(Long id);
+
+    Bidding createBidding(BiddingDTO biddingDTO);
 
     List<Bidding> getAuctionBiddingsById(Long auctionId);
 
     List<Bidding> getAuctionBiddings();
-
 
     Long getMaxBidPriceForAuction(Long auctionId);
 }

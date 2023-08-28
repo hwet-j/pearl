@@ -1,6 +1,7 @@
 package com.pits.auction.auctionBoard.dto;
 
 
+import com.pits.auction.auctionBoard.entity.Bidding;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,9 @@ public class BiddingDTO {
     private Long auctionId;
     private Long price;
     private LocalDateTime bidTime;
-    private String Status;
+    private String status;
+
+
+
 
 }

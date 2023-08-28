@@ -15,4 +15,5 @@ public interface BiddingService{
 
     public List<Bidding> getAuctionBiddings();
 
+
 }

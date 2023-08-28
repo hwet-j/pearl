@@ -14,4 +14,12 @@ public interface MemberService {
     boolean  updateUserInfo(MemberDTO memberDTO);
 
     boolean  requestUserDelete(MemberDTO memberDTO);
+
+    Long getBalance(String nickname);
+
+    public void addBalance(Long userId, Long amount);
+
+    public void minusBalance(Long userId, Long amount);
+
+
 }

@@ -54,6 +54,7 @@ public class BiddingServiceImpl implements BiddingService{
                     .Status(biddingDTO.getStatus() != null ? biddingDTO.getStatus() : "진행")
                     .build());
         } else {
+            // new EntityNotFoundException("Member not found with nickname: " + biddingDTO.getBidder()));
             return null;
         }
     }

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>회원 상세 정보</title>
 </head>
+
 <body>
     <h1 th:text="${userInfo.nickname}">Default Name</h1>
     <p th:text="${userInfo.email}">Default Email</p>
@@ -17,4 +18,5 @@
     <a th:href="@{/mypage/userdelete(userId=${userInfo.id})}">회원삭제</a>
 
 </body>
+
 </html>

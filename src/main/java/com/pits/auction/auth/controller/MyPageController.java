@@ -4,8 +4,10 @@ import com.pits.auction.auctionBoard.service.BiddingService;
 import com.pits.auction.auctionBoard.service.MusicAuctionService;
 import com.pits.auction.auth.dto.MemberDTO;
 import com.pits.auction.auth.service.MemberService;
+import com.pits.auction.global.exception.InsufficientBalanceException;
 import com.pits.auction.global.upload.AudioUpload;
 import com.pits.auction.global.upload.ImageUpload;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -97,11 +99,51 @@ public class MyPageController {
         return "/myPage/musicTest";
     }
 
-
+    /* 입찰 내역 */
     @GetMapping("/bidding-history")
     public String getBiddingHistory() {
 
         return "";
     }
+
+
+    @GetMapping("/balance")
+    public String getBalance(@RequestParam Long userId, Model model) {
+
+        model.addAttribute("userInfo", memberService.getUserInfo(userId));
+
+        return "/myPage/userBalance";
+    }
+
+
+    @PostMapping("/balance")
+    public String transactionBalance(
+            @RequestParam Long balance,
+            @RequestParam Long userId,
+            @RequestParam String action,
+            Model model) {
+
+        System.out.println(userId);
+        System.out.println(balance);
+        System.out.println(action);
+
+
+        try {
+            if ("deposit".equals(action)) {
+                memberService.addBalance(userId, balance);
+            } else if ("withdraw".equals(action)) {
+                memberService.minusBalance(userId, balance);
+            }
+        } catch (InsufficientBalanceException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error/insufficientBalance"; // 예외 페이지로 이동
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error/invalidAmount"; // 다른 예외 페이지로 이동
+        }
+
+        return "redirect:/mypage/userinfo?userId=" + userId;
+    }
+
 
 }

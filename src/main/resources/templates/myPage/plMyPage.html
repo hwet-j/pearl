@@ -13,7 +13,7 @@
         <th>Email</th>
         <th>Phone Number</th>
         <th>Balance</th>
-        <th>상세보기</th>
+        <th>계좌</th>
     </tr>
     </thead>
     <tbody>
@@ -25,6 +25,9 @@
         <td th:text="${userInfo.balance}">Default Balance</td>
         <td>
             <a th:href="@{/mypage/userinfo(userId=${userInfo.id})}">View Details</a>
+        </td>
+        <td>
+            <a th:href="@{/mypage/balance(userId=${userInfo.id})}">입출금</a>
         </td>
     </tr>
     </tbody>

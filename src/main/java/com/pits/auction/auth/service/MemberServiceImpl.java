@@ -4,6 +4,9 @@ package com.pits.auction.auth.service;
 import com.pits.auction.auth.dto.MemberDTO;
 import com.pits.auction.auth.entity.Member;
 import com.pits.auction.auth.repository.MemberRepository;
+import com.pits.auction.global.exception.InsufficientBalanceException;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -75,6 +78,61 @@ public class MemberServiceImpl implements MemberService {
         }
         return false;
     }
+
+
+    @Override
+    public Long getBalance(String nickname) {
+        Optional<Member> memberOptional = memberRepository.findByNickname(nickname);
+
+        if (memberOptional.isPresent()) {
+            return memberOptional.get().getBalance();
+        }
+
+        return null;
+    }
+
+
+    @Override
+    @Transactional
+    public void addBalance(Long userId, Long amount) {
+        Member user = memberRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + userId));
+
+        // 음수가 들어오면 예외처리
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Invalid withdrawal amount: " + amount);
+        }
+
+        Long newBalance = user.getBalance() + amount;
+        user.setBalance(newBalance);
+
+        memberRepository.save(user);
+    }
+
+
+    @Override
+    @Transactional
+    public void minusBalance(Long userId, Long amount) {
+        Member user = memberRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + userId));
+
+        // 음수가 들어오면 예외처리
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Invalid withdrawal amount: " + amount);
+        }
+        // 가진 금액보다 큰 금액이 들어오면 예외처리
+        if (user.getBalance() < amount) {
+            throw new InsufficientBalanceException("Insufficient balance for withdrawal");
+        }
+
+        Long newBalance = user.getBalance() - amount;
+        user.setBalance(newBalance);
+
+        memberRepository.save(user);
+    }
+
+
+
+
+
 
 
 }

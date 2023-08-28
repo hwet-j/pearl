@@ -3,34 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>목록페이지</title>
+<link href="/css/scroll.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<p>음악 목록 페이지</p>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>아이디</th>
-                <th>장르</th>
-                <th>내용</th>
-                <th>입찰시작가</th>
-                <th>생성일</th>
-                <th>경매기한</th>
-                <th>경매종료일</th>
-                <th>앨범 커버이미지</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="musicAuctions : ${musicAuctions}">
-                <th th:text="${musicAuctions.id}"></th>
-                <th th:text="${musicAuctions.genre.name}"></th>
-                <th th:text="${musicAuctions.content}"></th>
-                <th th:text="${musicAuctions.startingBid}"></th>
-                <th th:text="${musicAuctions.createdAt}"></th>
-                <th th:text="${musicAuctions.biddingPeriod.periodValue}"></th>
-                <th th:text="${musicAuctions.endTime}"></th>
-                <th><img th:src="@{/images/{filename}(filename=${musicAuctions.albumImage})}" height="500px" width="500px"></th>
-            </tr>
-        </tbody>
-    </table>
+    <div class="wrap">
+        <div class="card" th:each="musicAuctions : ${musicAuctions}">
+            <div class="albumImage">
+                <img th:src="@{/images/{filename}(filename=${musicAuctions.albumImage})}" height="" width="">
+            </div>
+            <div class="top">
+                <div th:text="${musicAuctions.id}"></div>
+            </div>
+            <div class="bottom">
+                <div th:text="${musicAuctions.content}"></div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

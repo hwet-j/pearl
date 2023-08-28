@@ -42,5 +42,12 @@ public class AdminMemberController {
         return "redirect:/member/list";
     }
 
+    @PostMapping("/member/delete")
+    public String deleteMembers(@RequestParam("selectedMembers")List<Long> ids) throws Exception {
+        System.out.println("id="+ids);
+        memberService.deleteMembers(ids);
+        return "redirect:/member/list";
+    }
+
 
 }

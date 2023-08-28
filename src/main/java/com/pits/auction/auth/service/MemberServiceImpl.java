@@ -29,10 +29,16 @@ public class MemberServiceImpl implements MemberService {
     }
     public void deleteMember(Long id){
         Optional<Member> member=memberRepository.findById(id);
-
+        System.out.println("id="+id);
         Long deleteId= member.get().getId();
         memberRepository.deleteById(deleteId);
 
+    }
+
+    public void deleteMembers(List<Long> ids) {
+        for (Long id : ids) {
+            memberRepository.deleteById(id);
+        }
     }
 
     @Override

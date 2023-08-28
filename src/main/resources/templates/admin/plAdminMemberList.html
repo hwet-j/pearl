@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="/css/bootstrap.min.css" rel="stylesheet"
-          th:href="@{/css/bootstrap.min.css}" type="text/css" />
 </head>
 <script>
     function checkAll(source) {
@@ -14,11 +12,13 @@
       }
     }
 </script>
-<body>
-<form method="post" action="/member/delete">
 
-<table border="1" class="table">
-    <thead class="table-dark">
+<body>
+    <div class="container" style="text-align: center;" >
+
+<form method="post" th:object="${member}" action="/member/delete">
+<table border="1" >
+    <thead>
     <tr>
         <th><input type="checkbox" name="selectedMembers" value="${member.id}" onclick="checkAll(this)"></th>
         <th>번호</th>
@@ -33,19 +33,22 @@
     </thead>
     <tbody>
     <tr th:each="member:${memberList}" >
-        <td><input type="checkbox" name="selectedMembers" value="${member.id}" ></td>
-        <td th:text="${member.id}"></td>
-        <td th:text="${member.email}"></td>
-        <td th:text="${member.password}"></td>
-        <td th:text="${member.nickname}"></td>
-        <td th:text="${member.phoneNumber}"></td>
-        <td th:text="${member.balance}"></td>
-        <td th:text="${member.withdrawalRequested}"></td>
+        <td><input type="checkbox" name="selectedMembers" th:value="${member.id}" ></td>
+        <td th:text="${member.id}" name="id"></td>
+        <td th:text="${member.email}" name="email"></td>
+        <td th:text="${member.password}" name="password"></td>
+        <td th:text="${member.nickname}" name="nickname"></td>
+        <td th:text="${member.phoneNumber}" name="phoneNumber"></td>
+        <td th:text="${member.balance}" name="balance"></td>
+        <td><span th:if="${member.withdrawalRequested}">Y</span>
+        <span th:unless="${member.withdrawalRequested}">N</span></td>
         <td><a th:href="@{|/member/edit/${member.id}|}" th:text="수정"></a></td>
         </tr>
     </tbody>
 </table>
     <button type="submit">삭제</button>
 </form>
+
+</div>
 </body>
 </html>

@@ -9,10 +9,11 @@ public interface MemberService {
 
     public List<Member> getMemberList();
 
-
     public Member getMemberDetail(Long id);
 
     public void deleteMember(Long id);
+
+    public void deleteMembers(List<Long> ids);
 
     public void AdminEditMember(MemberDTO memberDTO, Long id);
 

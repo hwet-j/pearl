@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <title></title>
 </head>
+<script th:inline="javascript">
+    function deleteMember(id) {
+       location.href = '/member/delete?id='+ id;
+   }
+</script>
 <body>
 <form method="post" th:object="${member}"  th:action="@{/member/edit/__${member.id}__}">
 <table border="1" class="table">
@@ -39,9 +44,11 @@
     </thead>
 </table>
     </tr>
-    <a href="/member/list">목록</a>
-    <button type="submit">수정</button>>
-    <a th:href="@{/member/delete(id=${member.id})}">삭제</a>
+    <button type="button" onclick="location.href='/member/list'">목록</button>
+    <button type="submit" >수정</button>
+    <button type="button" th:onclick="'deleteMember(' +${member.id}+')'">삭제</button>
+
+
 </form>
 </body>
 </html>

@@ -13,9 +13,24 @@ public class CustomExceptionHandler {
         return "error/insufficientBalance"; // 예외 페이지로 이동
     }
 
+    @ExceptionHandler(InsufficientBiddingException.class)
+    public String handleInsufficientBiddingException(InsufficientBiddingException ex, Model model) {
+        model.addAttribute("errorMessage", ex.getMessage());
+        return "error/insufficientBalance"; // 예외 페이지로 이동
+    }
+
+
     @ExceptionHandler(IllegalArgumentException.class)
     public String handleIllegalArgumentException(IllegalArgumentException ex, Model model) {
         model.addAttribute("errorMessage", ex.getMessage());
-        return "error/invalidAmount"; // 예외 페이지로 이동
+        return "error/IllegalArgument"; // 예외 페이지로 이동
     }
+
+
+    @ExceptionHandler(PhoneNumberDuplicateException.class)
+    public String handlePhoneNumberDuplicateException(PhoneNumberDuplicateException ex, Model model) {
+        model.addAttribute("errorMessage", ex.getMessage());
+        return "error/duplicateError"; // 예외 페이지로 이동
+    }
+
 }

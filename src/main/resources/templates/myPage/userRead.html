@@ -5,15 +5,25 @@
     <title>회원 상세 정보</title>
 </head>
 
-<body>
-    <h1 th:text="${userInfo.nickname}">Default Name</h1>
-    <p th:text="${userInfo.email}">Default Email</p>
-    <p th:text="${userInfo.phoneNumber}">Default Phone</p>
-    <p th:text="${userInfo.balance}">Default Balance</p>
+<style>
+    .profile-image {
+        width: 200px; /* 원하는 너비 값으로 조정 */
+        height: auto; /* 높이를 자동으로 조정하여 비율 유지 */
+    }
+</style>
 
-    <img th:src="@{__${userInfo.memberImage}__}" alt="Image">
+<body>
+    <h1 th:text="|${userInfo.nickname}님의 정보|"></h1>
+    <p th:text="|이메일 : ${userInfo.email}|">Default Email</p>
+    <p th:text="|전화번호 : ${userInfo.phoneNumber}|">Default Phone</p>
+    <p th:text="|잔고 : ${userInfo.balance}|">Default Balance</p>
+
+    <p th:text="|프로필 이미지|">Default Balance</p>
+    <img class="profile-image"  th:src="@{__${userInfo.memberImage}__}" alt="Image">
     <br/>
-    <a th:href="@{/mypage/useredit(userId=${userInfo.id})}">수정</a>
+    <br/>
+
+    <a th:href="@{/mypage/useredit(userId=${userInfo.id})}">회원정보수정</a>
 
     <a th:href="@{/mypage/userdelete(userId=${userInfo.id})}">회원삭제</a>
 

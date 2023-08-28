@@ -11,9 +11,10 @@ public interface BiddingService{
 
     Bidding convertToEntity(BiddingDTO dto);
 
-    public List<Bidding> getAuctionBiddingsById(Long auctionId);
+    List<Bidding> getAuctionBiddingsById(Long auctionId);
 
-    public List<Bidding> getAuctionBiddings();
+    List<Bidding> getAuctionBiddings();
 
 
+    Long getMaxBidPriceForAuction(Long auctionId);
 }

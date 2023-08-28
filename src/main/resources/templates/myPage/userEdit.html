@@ -5,7 +5,6 @@
     <title>회원 정보 수정</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script th:inline="javascript">
-
         function previewImage() {
                 var image_upload = document.getElementById('memberImage');
                 var image_preview = document.getElementById('image_preview');
@@ -24,7 +23,9 @@
                 }
             }
 
-            function cancelImage() {
+            function cancelImage(event) {
+                event.preventDefault(); // 버튼 클릭 시 기본 동작 (폼 제출) 막기
+
                 var image_preview = document.getElementById('image_preview');
                 var cancel_button = document.getElementById('cancel_image');
                 var image_upload = document.getElementById('memberImage');
@@ -34,37 +35,35 @@
                 image_preview.style.display = 'none';
                 cancel_button.style.display = 'none';
                 image_upload.value = ''; // 파일 선택 초기화
-
-                return false;
             }
+
     </script>
-
-
 
 
 </head>
 <body>
+
+<h1 th:text="|${userInfo.nickname}님의 정보수정|"></h1>
+
 <form th:action="@{/mypage/useredit(userId=${userInfo.id})}" method="post" enctype="multipart/form-data">
     <input type="hidden" id="id" name="id" th:value="${userInfo.id}"/><br>
 
-    <label for="nickname">닉네임</label>
-    <input type="text" id="nickname" name="nickname" th:value="${userInfo.nickname}" readonly/><br>
+    <label for="password">변경할 비밀번호</label>
+    <input type="password" id="password" name="password"/><br>
 
-    <label for="memberImage">이미지</label>
-    <input type="file" name="image" id="memberImage" th:value="${userInfo.memberImage}" accept="image/*" onchange="previewImage()" /><br>
-    <img id="image_preview" src="#" alt="Image Preview" style="max-width: 40%; display: none;" />
-    <button id="cancel_image" style="display: none;" onclick="cancelImage()">이미지 취소</button>
-
+    <div th:text="|변경전 전화번호 : ${userInfo.phoneNumber}|"></div>
+    <label for="phoneNumber">변경할 전화번호</label>
+    <input type="text" id="phoneNumber" name="phoneNumber"/><br>
 
     <label for="audio">오디오</label>
     <input type="file" name="audio" id="audio" accept="audio/*" /><br>
 
-    <label for="password">비밀번호</label>
-    <input type="password" id="password" name="password" th:value="${userInfo.password}" /><br>
+    <div>변경전 이미지 <img th:src="@{__${userInfo.memberImage}__}" alt="Image" style="max-width: 20%;"></div>
+    <label for="memberImage">변경할 이미지</label>
+    <input type="file" name="image" id="memberImage" th:value="${userInfo.memberImage}" accept="image/*" onchange="previewImage()" /><br>
+    <img id="image_preview" src="#" alt="Image Preview" style="max-width: 20%; display: none;" />
+    <button id="cancel_image" style="display: none;" onclick="cancelImage(event)">이미지 취소</button>
 
-
-    <label for="phoneNumber">전화번호</label>
-    <input type="text" id="phoneNumber" name="phoneNumber" th:value="${userInfo.phoneNumber}" /><br>
 
     <input type="submit" value="수정하기">
 </form>

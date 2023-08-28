@@ -17,9 +17,11 @@ public interface MemberService {
 
     Long getBalance(String nickname);
 
-    public void addBalance(Long userId, Long amount);
+    void addBalance(Long userId, Long amount);
 
-    public void minusBalance(Long userId, Long amount);
+    void minusBalance(Long userId, Long amount);
+
+    boolean duplicatePhoneNumber(String phoneNumber);
 
 
 }

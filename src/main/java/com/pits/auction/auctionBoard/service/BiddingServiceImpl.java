@@ -8,7 +8,9 @@ import com.pits.auction.auctionBoard.repository.BiddingRepository;
 import com.pits.auction.auctionBoard.repository.MusicAuctionRepository;
 import com.pits.auction.auth.entity.Member;
 import com.pits.auction.auth.repository.MemberRepository;
+import com.pits.auction.global.exception.InsufficientBiddingException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,19 @@ public class BiddingServiceImpl implements BiddingService{
 
     /* 입찰 정보 저장 */
     @Override
+    @Transactional
     public boolean biddingWrite(Bidding bidding) {
+
+        // 0원 이하의 입찰 불가
+        if (bidding.getPrice() <= 0) {
+            throw new IllegalArgumentException("Invalid bidding amount: " + bidding.getPrice());
+        }
+        
+        // 현재 최고가 보다 낮은 금액 입찰 불가
+        if (getMaxBidPriceForAuction(bidding.getAuctionId().getId()) >= bidding.getPrice()) {
+            throw new InsufficientBiddingException("Insufficient bidding amount: " + bidding.getPrice());
+        }
+
         try {
             biddingRepository.save(bidding);
             return true;
@@ -35,6 +49,7 @@ public class BiddingServiceImpl implements BiddingService{
             return false;
         }
     }
+
 
     /* 입찰 DTO -> Entity 형변환 (첫 생성에만 사용 - 사실상 입찰은 변경이 불가능 / BidTime, Status null값 받아오면 초기값 지정) */
     public Bidding convertToEntity(BiddingDTO biddingDTO) {
@@ -60,6 +75,7 @@ public class BiddingServiceImpl implements BiddingService{
     }
 
 
+    @Override
     /* 경매 물품(음악)에 따른 입찰 목록 */
     public List<Bidding> getAuctionBiddingsById(Long auctionId) {
         MusicAuction musicAuction = musicAuctionRepository.findById(auctionId)
@@ -69,10 +85,15 @@ public class BiddingServiceImpl implements BiddingService{
     }
 
     /* 입찰 전체목록 */
+    @Override
     public List<Bidding> getAuctionBiddings() {
         return biddingRepository.findAll();
     }
 
 
-
+    @Override
+    public Long getMaxBidPriceForAuction(Long auctionId) {
+        Optional<Long> maxBidPrice = biddingRepository.findMaxPriceByAuctionId(auctionId);
+        return maxBidPrice.orElse(null); // 0L 또는 원하는 기본 값으로 변경
+    }
 }

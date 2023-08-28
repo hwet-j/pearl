@@ -5,6 +5,7 @@ import com.pits.auction.auth.dto.MemberDTO;
 import com.pits.auction.auth.entity.Member;
 import com.pits.auction.auth.repository.MemberRepository;
 import com.pits.auction.global.exception.InsufficientBalanceException;
+import com.pits.auction.global.exception.PhoneNumberDuplicateException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -46,20 +47,34 @@ public class MemberServiceImpl implements MemberService {
     
     /* 특정 유저 정보 수정 */
     @Override
-    public boolean  updateUserInfo(MemberDTO memberDTO) {
+    public boolean updateUserInfo(MemberDTO memberDTO) {
         // 업데이트할 회원의 ID를 기반으로 해당 회원 정보 조회
         Optional<Member> memberOptional = memberRepository.findById(memberDTO.getId());
 
         if (memberOptional.isPresent()) {   // 유저 조회에 성공하면 수정작업 진행
             Member existingMember = memberOptional.get();
 
-            modelMapper.map(memberDTO, existingMember);
+            if (memberDTO.getPhoneNumber() != null && !memberDTO.getPhoneNumber().isEmpty()) {
+                if (memberRepository.findByPhoneNumber(memberDTO.getPhoneNumber()).isPresent()){
+                    throw new PhoneNumberDuplicateException(memberDTO.getPhoneNumber());
+                }
+                existingMember.setPhoneNumber(memberDTO.getPhoneNumber());
+            }
+
+            if (memberDTO.getPassword() != null && !memberDTO.getPassword().isEmpty()) {
+                existingMember.setPassword(memberDTO.getPassword());
+            }
+
+            if (memberDTO.getMemberImage() != null && !memberDTO.getMemberImage().isEmpty()) {
+                existingMember.setMemberImage(memberDTO.getMemberImage());
+            }
 
             memberRepository.save(existingMember);
             return true;
         }
         return false;
     }
+
 
     /* 회원 삭제 요청하기 (회원은 DB에서 삭제하지 않음) */
     @Override
@@ -103,6 +118,7 @@ public class MemberServiceImpl implements MemberService {
         }
 
         Long newBalance = user.getBalance() + amount;
+
         user.setBalance(newBalance);
 
         memberRepository.save(user);
@@ -130,9 +146,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
 
-
-
-
+    @Override
+    public boolean duplicatePhoneNumber(String phoneNumber){
+        return memberRepository.findByPhoneNumber(phoneNumber).isPresent();
+    }
 
 
 }

@@ -55,6 +55,7 @@ public class MyPageController {
         return "/myPage/userEdit";
     }
 
+
     /* 특정 유저 수정 작업 */
     @PostMapping("/useredit")
     public String funcUserEdit(@ModelAttribute MemberDTO memberDTO,
@@ -123,11 +124,6 @@ public class MyPageController {
             @RequestParam String action,
             Model model) {
 
-        System.out.println(userId);
-        System.out.println(balance);
-        System.out.println(action);
-
-
         try {
             if ("deposit".equals(action)) {
                 memberService.addBalance(userId, balance);
@@ -139,7 +135,7 @@ public class MyPageController {
             return "error/insufficientBalance"; // 예외 페이지로 이동
         } catch (IllegalArgumentException e) {
             model.addAttribute("errorMessage", e.getMessage());
-            return "error/invalidAmount"; // 다른 예외 페이지로 이동
+            return "error/invalidAmount";       // 다른 예외 페이지로 이동
         }
 
         return "redirect:/mypage/userinfo?userId=" + userId;

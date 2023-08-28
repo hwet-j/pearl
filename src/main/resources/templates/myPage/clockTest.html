@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Time Difference Example</title>
+</head>
+<body>
+<h1 id="timeDifference"></h1>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var initialTimeDifference = /*[[${timeDifference}]]*/;
+    var timeDifference = initialTimeDifference;
+
+    function updateTimeDifference() {
+        var timeDifferenceElement = document.getElementById("timeDifference");
+
+        var days = Math.floor(timeDifference / (60 * 60 * 24));
+        var hours = Math.floor((timeDifference % (60 * 60 * 24)) / (60 * 60));
+        var minutes = Math.floor((timeDifference % (60 * 60)) / 60);
+        var seconds = timeDifference % 60;
+
+        var timeString = days + " 일 " + hours + " 시간 " + minutes + " 분 " + seconds + " 초";
+        timeDifferenceElement.textContent = "Time Difference: " + timeString;
+
+        timeDifference--; // 시간 차이를 1초씩 감소
+    }
+
+    updateTimeDifference();
+    setInterval(updateTimeDifference, 1000);
+    /*]]>*/
+</script>
+</body>
+</html>

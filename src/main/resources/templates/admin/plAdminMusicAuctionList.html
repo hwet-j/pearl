@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+    function checkAll(source) {
+      var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      for(var i = 0; i < checkboxes.length; i++) {
+      if(i==0){}else{
+        checkboxes[i].checked = source.checked;
+      }
+    }
+</script>
+<body>
+<form method="post" th:object="${musicAuction}" action="/musicAuction/delete">
+<table border="1" >
+    <thead>
+    <tr>
+        <th><input type="checkbox" name="selectedMembers" value="${musicAuction.id}" onclick="checkAll(this)"></th>
+        <th>글번호</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>작성일</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="member:${musicAuctionList}" >
+        <td><input type="checkbox" name="selectedMembers" th:value="${member.id}" ></td>
+        <td text="" name="id"></td>
+        <td text="" name=""></td>
+        <td text="" name="email"></td>
+        <td text="" name="password"></td>
+    </tr>
+    </tbody>
+</table>
+</form>
+</body>
+</html>

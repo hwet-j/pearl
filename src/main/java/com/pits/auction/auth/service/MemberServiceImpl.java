@@ -20,6 +20,13 @@ public class MemberServiceImpl implements MemberService {
         return memberList;
     }
 
+
+    @Override
+    public List<Member> getMemberYList(){
+        List<Member> memberYList=memberRepository.findByWithdrawalRequestedTrue();
+        return memberYList;
+    }
+
     public Member getMemberDetail(Long id){
         Optional<Member> member=memberRepository.findById(id);
         if(member.isPresent()){

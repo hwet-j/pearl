@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.rtl.min.css" integrity="sha384-PRrgQVJ8NNHGieOA1grGdCTIt4h21CzJs6SnWH4YMQ6G5F5+IEzOHz67L4SQaF0o" crossorigin="anonymous">
 
 <script>
     function checkAll(source) {
       var checkboxes = document.querySelectorAll('input[type="checkbox"]');
       for(var i = 0; i < checkboxes.length; i++) {
-      if(i==0){}else{
         checkboxes[i].checked = source.checked;
       }
     }
 </script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.rtl.min.css" integrity="sha384-PRrgQVJ8NNHGieOA1grGdCTIt4h21CzJs6SnWH4YMQ6G5F5+IEzOHz67L4SQaF0o" crossorigin="anonymous">
+
 <style>
 .body {
 width: 1920px;
@@ -56,6 +56,7 @@ background-color : black;}
     </tbody>
 </table>
     <button class="btn btn-light" type="submit" style="text-align:right;">삭제</button>
+    <button class="btn btn-light" type="button" onclick="location.href='/member/Ylist';">탈퇴회원 목록</button>
 </form>
 
 </div>

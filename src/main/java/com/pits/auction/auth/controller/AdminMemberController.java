@@ -21,6 +21,15 @@ public class AdminMemberController {
         model.addAttribute("memberList",memberList);
         return "/admin/plAdminMemberList";
     }
+
+    @GetMapping("/member/Ylist")
+    public String memberYList(Model model) throws Exception {
+       List<Member> memberYList = this.memberService.getMemberYList();
+        model.addAttribute("memberYList",memberYList);
+        return "/admin/plAdminMemberYList";
+    }
+
+
     @GetMapping("/member/edit/{id}")
     public String memberDetail(@PathVariable("id")Long id,Model model) throws Exception {
         System.out.println("id="+id);

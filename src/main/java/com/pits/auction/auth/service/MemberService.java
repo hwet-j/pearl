@@ -8,7 +8,7 @@ import java.util.List;
 public interface MemberService {
 
     public List<Member> getMemberList();
-
+    public List<Member> getMemberYList();
     public Member getMemberDetail(Long id);
 
     public void deleteMember(Long id);

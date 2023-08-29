@@ -3,6 +3,8 @@ package com.pits.auction.auctionBoard.entity;
 import com.pits.auction.auth.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,8 +35,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Table(name = "music_auction")
+@EntityListeners(AuditingEntityListener.class)
 public class MusicAuction {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -54,7 +56,7 @@ public class MusicAuction {
     private String albumImage;
 
     @Column(name = "album_music")
-    private String albumMusic;
+    private String albumMusic;  //작성자가 지정한 음악 이름
 
     @Column(columnDefinition = "TEXT")
     private String content;
@@ -62,7 +64,8 @@ public class MusicAuction {
     @Column(name = "starting_bid", nullable = false)
     private Long startingBid;
 
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    @CreatedDate
+    @Column(columnDefinition = "TIMESTAMP", nullable = false)
     private LocalDateTime createdAt;
 
     @ManyToOne
@@ -79,6 +82,29 @@ public class MusicAuction {
     @OneToMany(mappedBy = "auctionId")
     private List<Bidding> auctionBiddings;
 
+    @PrePersist
+    public void setEndTimeUsingBiddingPeriod() {
+        if (this.createdAt == null || this.biddingPeriod == null) {
+            throw new IllegalStateException("Cannot set end time without created time or bidding period.");
+        }
+
+        String periodValue = this.biddingPeriod.getPeriodValue();
+        String[] parts = periodValue.split("");  // 예: "1 주" -> ["1", "주"]
+
+        int value = Integer.parseInt(parts[0]);
+        String unit = parts[1];
+
+        switch (unit) {
+            case "주":
+                this.endTime = this.createdAt.plusWeeks(value);
+                break;
+            case "개월":
+                this.endTime = this.createdAt.plusMonths(value);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown bidding period unit: " + unit);
+        }
+    }
     /*@PrePersist
     public void prePersist() {
         if (createdAt == null) {
@@ -86,5 +112,4 @@ public class MusicAuction {
             createdAt = LocalDateTime.now(kst);
         }
     }*/
-
 }

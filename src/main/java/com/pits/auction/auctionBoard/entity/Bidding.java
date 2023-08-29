@@ -3,6 +3,7 @@ package com.pits.auction.auctionBoard.entity;
 import com.pits.auction.auth.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
@@ -42,7 +43,8 @@ public class Bidding {
     @Column(nullable = false)
     private Long price;
 
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    @CreatedDate
+    @Column(columnDefinition = "TIMESTAMP", nullable = false)
     private LocalDateTime bidTime;
 
     @Column(nullable = false)

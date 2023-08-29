@@ -12,6 +12,7 @@ import java.util.UUID;
 @Component
 public class AudioUpload {
 
+    /* 이미지 업로드의 기능에서 경로와 메서드명만 바꿔 오디오 업로드 기능으로 구현 */
     public String uploadAudio(MultipartFile file) {
         // 웹 어플리케이션 경로
         String webAppPath = System.getProperty("user.dir");

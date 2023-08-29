@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
@@ -38,5 +39,38 @@ public class ImageUpload {
         }
         return saveFolder + "\\" + uniqueFileName;
     }
+
+
+    // 오디오 파일을 1분으로 자르는 메서드
+    /*private String cutAudio(String inputFilePath) {
+        try {
+            AudioFile audioFile = AudioFileIO.read(new File(inputFilePath));
+            long frameRate = audioFile.getAudioHeader().getSampleRateAsNumber();
+            long startFrame = 0; // 시작 프레임
+            long endFrame = frameRate * 60; // 1분에 해당하는 프레임 수
+
+            String outputFileName = UUID.randomUUID().toString() + "_cut" + getFileExtension(inputFilePath);
+            String outputPath = inputFilePath.replace(".mp3", "_cut.mp3"); // 기존 파일 경로에서 _cut.mp3로 수정
+            File outputFile = new File(outputPath);
+
+            AudioFileIO.write(audioFile, outputFile, startFrame, endFrame - startFrame);
+
+            return outputPath;
+        } catch (CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException | CannotWriteException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }*/
+
+    // 파일 확장자를 가져오는 메서드
+    private String getFileExtension(String filePath) {
+        int lastIndex = filePath.lastIndexOf(".");
+        if (lastIndex != -1) {
+            return filePath.substring(lastIndex);
+        }
+        return ".mp3"; // 기본 확장자는 MP3로 설정
+    }
+
+
 
 }

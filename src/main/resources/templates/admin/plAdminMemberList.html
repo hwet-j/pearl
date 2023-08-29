@@ -4,23 +4,32 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.rtl.min.css" integrity="sha384-PRrgQVJ8NNHGieOA1grGdCTIt4h21CzJs6SnWH4YMQ6G5F5+IEzOHz67L4SQaF0o" crossorigin="anonymous">
+
 <script>
     function checkAll(source) {
       var checkboxes = document.querySelectorAll('input[type="checkbox"]');
       for(var i = 0; i < checkboxes.length; i++) {
+      if(i==0){}else{
         checkboxes[i].checked = source.checked;
       }
     }
 </script>
-
-<body>
-    <div class="container" style="text-align: center;" >
+<style>
+.body {
+width: 1920px;
+height: 1200px;
+background-color : black;}
+</style>
+<body bgcolor="black">
+<div class="body">
+    <div class="container"  >
 
 <form method="post" th:object="${member}" action="/member/delete">
-<table border="1" >
+<table border="1" class="table table-dark table-striped" style="text-align: center;">
     <thead>
     <tr>
-        <th><input type="checkbox" name="selectedMembers" value="${member.id}" onclick="checkAll(this)"></th>
+        <th><input type="checkbox" name="selectedMembers" value="${member.id}" onclick="checkAll(this)" ></th>
         <th>번호</th>
         <th>이메일</th>
         <th>비밀번호</th>
@@ -42,13 +51,14 @@
         <td th:text="${member.balance}" name="balance"></td>
         <td><span th:if="${member.withdrawalRequested}">Y</span>
         <span th:unless="${member.withdrawalRequested}">N</span></td>
-        <td><a th:href="@{|/member/edit/${member.id}|}" th:text="수정"></a></td>
+        <td><a th:href="@{|/member/edit/${member.id}|}" th:text="수정" class="btn btn-light"></a></td>
         </tr>
     </tbody>
 </table>
-    <button type="submit">삭제</button>
+    <button class="btn btn-light" type="submit" style="text-align:right;">삭제</button>
 </form>
 
+</div>
 </div>
 </body>
 </html>

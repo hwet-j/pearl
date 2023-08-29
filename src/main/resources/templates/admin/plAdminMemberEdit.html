@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.rtl.min.css" integrity="sha384-PRrgQVJ8NNHGieOA1grGdCTIt4h21CzJs6SnWH4YMQ6G5F5+IEzOHz67L4SQaF0o" crossorigin="anonymous">
     <title></title>
 </head>
 <script th:inline="javascript">
@@ -9,9 +10,17 @@
        location.href = '/member/delete?id='+ id;
    }
 </script>
+<style>
+    .body {
+    width: 1920px;
+    height: 1200px;
+    background-color : black;}
+</style>
 <body>
+<div class="body" >
+<div class="container" >
 <form method="post" th:object="${member}"  th:action="@{/member/edit/__${member.id}__}">
-<table border="1" class="table">
+<table border="1"  class="table table-dark table-striped" style="text-align: center;">
     <thead class="table-dark">
     <tr>
         <td>번호</td><td th:text="${member.id}"></td>
@@ -44,11 +53,13 @@
     </thead>
 </table>
     </tr>
-    <button type="button" onclick="location.href='/member/list'">목록</button>
-    <button type="submit" >수정</button>
-    <button type="button" th:onclick="'deleteMember(' +${member.id}+')'">삭제</button>
+    <button type="button" onclick="location.href='/member/list'" class="btn btn-light">목록</button>
+    <button type="submit" class="btn btn-light">수정</button>
+    <button type="button" th:onclick="'deleteMember(' +${member.id}+')'" class="btn btn-light">삭제</button>
 
 
 </form>
+</div>
+</div>
 </body>
 </html>

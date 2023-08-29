@@ -13,6 +13,11 @@ import com.pits.auction.auctionBoard.service.MusicGenreService;
 import com.pits.auction.auth.entity.Member;
 import com.pits.auction.auth.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
+
+import com.pits.auction.auctionBoard.entity.MusicAuction;
+import com.pits.auction.auctionBoard.service.MusicAuctionService;
+import com.pits.auction.auctionBoard.service.MusicAuctionServiceImpl;
+import jakarta.servlet.annotation.MultipartConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,10 +32,15 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class MusicAuctionController {
     private final MusicAuctionService musicAuctionService;
+
     private final MusicGenreService musicGenreService;
     private final BiddingPeriodService biddingPeriodService;
     private final MemberService memberService;
@@ -68,6 +78,14 @@ public class MusicAuctionController {
             System.out.println(musicAuctionDTO.getBiddingPeriod());
             System.out.println(musicAuctionDTO.getBiddingPeriod());
             System.out.println(musicAuctionDTO.getBiddingPeriod());
+
+    @RequestMapping("/read")
+    public String list(Model model) {
+        List<MusicAuction> musicAuctions= musicAuctionService.findAll();
+        model.addAttribute("musicAuctions", musicAuctions);
+        return "/auction/read";
+    }
+
 
             // 음악 경매 정보를 데이터베이스에 저장하기 위한 서비스 호출
             musicAuctionService.saveMusicAuction(musicAuctionDTO);

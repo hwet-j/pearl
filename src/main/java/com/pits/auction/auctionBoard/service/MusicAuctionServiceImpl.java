@@ -53,14 +53,7 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
         return true;
     }
 
-import java.util.List;
-import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor
-public class MusicAuctionServiceImpl implements MusicAuctionService{
-
-    private final MusicAuctionRepository musicAuctionRepository;
     @Override
     public List<MusicAuction> findAll() {
         return musicAuctionRepository.findAll();

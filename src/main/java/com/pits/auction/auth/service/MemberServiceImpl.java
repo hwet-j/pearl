@@ -13,6 +13,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
+    private final MemberRepository memberRepository;
 
     private final MemberRepository memberRepository;
     public List<Member> getMemberList(){
@@ -53,4 +54,8 @@ public class MemberServiceImpl implements MemberService {
     }
     }
 
+    @Override
+    public Member findAnyMember() {
+        return memberRepository.findAll().stream().findFirst().orElse(null);
+    }
 }

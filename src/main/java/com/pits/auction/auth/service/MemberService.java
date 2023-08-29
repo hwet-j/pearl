@@ -1,5 +1,10 @@
 package com.pits.auction.auth.service;
 
+import com.pits.auction.auth.entity.Member;
+
+public interface MemberService {
+    Member findAnyMember();
+
 import com.pits.auction.auth.dto.MemberDTO;
 import com.pits.auction.auth.entity.Member;
 

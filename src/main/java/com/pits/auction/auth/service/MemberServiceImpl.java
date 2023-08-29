@@ -54,13 +54,6 @@ public class MemberServiceImpl implements MemberService {
         if (memberOptional.isPresent()) {   // 유저 조회에 성공하면 수정작업 진행
             Member existingMember = memberOptional.get();
 
-            if (memberDTO.getPhoneNumber() != null && !memberDTO.getPhoneNumber().isEmpty()) {
-                if (memberRepository.findByPhoneNumber(memberDTO.getPhoneNumber()).isPresent()){
-                    throw new PhoneNumberDuplicateException(memberDTO.getPhoneNumber());
-                }
-                existingMember.setPhoneNumber(memberDTO.getPhoneNumber());
-            }
-
             if (memberDTO.getPassword() != null && !memberDTO.getPassword().isEmpty()) {
                 existingMember.setPassword(memberDTO.getPassword());
             }
@@ -92,6 +85,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
 
+    /* 회원 잔고 가져오기 */
     @Override
     public Long getBalance(String nickname) {
         Optional<Member> memberOptional = memberRepository.findByNickname(nickname);
@@ -104,6 +98,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
 
+    /* 입금 Deposit */
     @Override
     @Transactional
     public void addBalance(Long userId, Long amount) {
@@ -121,7 +116,7 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(user);
     }
 
-
+    /* 출금 Withdraw */
     @Override
     @Transactional
     public void minusBalance(Long userId, Long amount) {
@@ -133,7 +128,7 @@ public class MemberServiceImpl implements MemberService {
         }
         // 가진 금액보다 큰 금액이 들어오면 예외처리
         if (user.getBalance() < amount) {
-            throw new InsufficientBalanceException("Insufficient balance for withdrawal");
+            throw new IllegalArgumentException("Invalid balance for withdrawal");
         }
 
         Long newBalance = user.getBalance() - amount;
@@ -143,11 +138,25 @@ public class MemberServiceImpl implements MemberService {
     }
 
 
+    /* 전화번호 중복체크 - 자기자신의 id에 저장된 전화번호와는 동일해도 상관없음 */
     @Override
-    public boolean duplicatePhoneNumber(String phoneNumber){
-        return memberRepository.findByPhoneNumber(phoneNumber).isPresent();
+    public boolean duplicatePhoneNumber(Long id, String phoneNumber){
+        Optional<Member> optionalMember = memberRepository.findById(id);
+
+        if (optionalMember.isPresent()) {
+            Member member = optionalMember.get();
+            if (member.getPhoneNumber().equals(phoneNumber)){   // 이전 전화번호와 동일 (변경X)
+                return false;
+            } else {        // 변경한 정보가 이전 전화번호와 다르면 전화번호로 중복정보 있는지 확인
+                return memberRepository.findByPhoneNumber(phoneNumber).isPresent();
+            }
+        }
+
+        return true;    // 예외처리
     }
 
+
+    /* 회원탈퇴 요청을 하지 않은 유저목록만 표시 */
     @Override
     public List<MemberDTO> findAllActiveMembers() {
 

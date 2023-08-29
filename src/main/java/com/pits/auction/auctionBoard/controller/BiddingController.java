@@ -4,23 +4,15 @@ package com.pits.auction.auctionBoard.controller;
 import com.pits.auction.auctionBoard.dto.BiddingDTO;
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
 import com.pits.auction.auctionBoard.entity.Bidding;
-import com.pits.auction.auctionBoard.entity.MusicAuction;
 import com.pits.auction.auctionBoard.service.BiddingService;
 import com.pits.auction.auctionBoard.service.MusicAuctionService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.time.ZoneId;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,6 +22,7 @@ public class BiddingController {
     private final BiddingService biddingService;
     private final MusicAuctionService musicAuctionService;
 
+    /* 입찰 전체 목록 */
     @GetMapping("/bidlist")
     public String biddingList(Model model){
 
@@ -38,6 +31,8 @@ public class BiddingController {
         return "/myPage/bid/bidList";
     }
 
+
+    /* 특정 입찰 정보(id) */
     @GetMapping("/biddetail")
     public String biddingById(Model model, @RequestParam("bidding") Long id){
         BiddingDTO biddingDTO = biddingService.findById(id);
@@ -47,6 +42,7 @@ public class BiddingController {
         return "/myPage/bid/bidDetail";
     }
 
+    /* 입찰 목록(auctionId) - Test */
     @GetMapping("/biddetail2")
     public String biddingListAuctionId(Model model, @RequestParam Long auctionId){
         MusicAuctionDTO musicAuction = musicAuctionService.getMusicAuctionById(auctionId);
@@ -60,7 +56,6 @@ public class BiddingController {
     /* 입찰 생성 폼 (상세페이지에 기능이 들어갈 예정으로 이후 삭제) */
     @GetMapping("/create")
     public String biddingCreateForm(Model model){
-
 
         return "/myPage/bid/bidCreate";
     }
@@ -79,6 +74,8 @@ public class BiddingController {
         return "/myPage/bid/bidCreate";
     }
 
+
+    /* 특정 경매 물품에 대한 최대 입찰가 */
     @GetMapping("/test")
     public String biddingMaxByAuction(){
 
@@ -90,19 +87,23 @@ public class BiddingController {
     }
 
 
+    /* 동적 시간 구현 -> 실질적인 기능은 HTML의 script에서 구현되어있고 여기서는 현재시간과 설정시간의 차이를 초단위로 변환 */
     @GetMapping("/clocktest")
     public String showClock(Model model) {
-        // 특정 시간을 설정 (예: 2023년 8월 31일 23시 59분 59초)
-        int specificYear = 2023;
-        int specificMonth = 7; // 0부터 시작
-        int specificDay = 31;
-        int specificHour = 23;
-        int specificMinute = 59;
-        int specificSecond = 59;
-
+        
         long currentTimeMillis = System.currentTimeMillis();
-        long specificTimeMillis = new Date(specificYear - 1900, specificMonth, specificDay, specificHour, specificMinute, specificSecond).getTime();
+        // 특정 시간을 설정
+        int specificYear = 2023;
+        int specificMonth = 8;
+        int specificDay = 30;
+        int specificHour = 12;
+        int specificMinute = 0;
+        int specificSecond = 0;
+
+        LocalDateTime specificDateTime = LocalDateTime.of(specificYear, specificMonth, specificDay, specificHour, specificMinute, specificSecond);
+        long specificTimeMillis = specificDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
         long timeDifferenceSeconds = (specificTimeMillis - currentTimeMillis) / 1000; // 밀리초를 초로 변환
+
 
         model.addAttribute("timeDifference", timeDifferenceSeconds);
         return "/myPage/clockTest";

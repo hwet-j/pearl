@@ -21,7 +21,7 @@ public interface MemberService {
 
     void minusBalance(Long userId, Long amount);
 
-    boolean duplicatePhoneNumber(String phoneNumber);
+    boolean duplicatePhoneNumber(Long id, String phoneNumber);
 
     List<MemberDTO> findAllActiveMembers();
 

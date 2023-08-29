@@ -7,26 +7,69 @@
 
 <style>
     .profile-image {
-        width: 200px; /* 원하는 너비 값으로 조정 */
-        height: auto; /* 높이를 자동으로 조정하여 비율 유지 */
+        width: 200px;
+        height: auto;
     }
 </style>
+<!-- jQuery 및 SweetAlert2 스타일시트, 스크립트 로드 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+
+
+<script th:inline="javascript">
+    function openPopup(action, userId) {
+        var url = '';
+        var title = '';
+
+        if (action === 'deposit') {
+            url = '/mypage/depositform?userId=' + userId; // Adjust URL for deposit popup
+            title = 'Deposit';
+        } else if (action === 'withdraw') {
+            url = '/mypage/withdrawform?userId=' + userId; // Adjust URL for withdraw popup
+            title = 'Withdraw';
+        }
+
+        var popup = window.open(url, title, 'width=400,height=300');
+
+        popup.onunload = function() {
+            location.reload(); // Reload main window after subwindow is closed
+        };
+
+        popup.onSubFormComplete = function() {
+            // Refresh the main window after successful subform completion
+            location.reload();
+        };
+
+        popup.focus();
+    }
+</script>
 
 <body>
+
+<div>
+    <h1 th:text="|My Page|"></h1>
     <h1 th:text="|${userInfo.nickname}님의 정보|"></h1>
-    <p th:text="|이메일 : ${userInfo.email}|">Default Email</p>
-    <p th:text="|전화번호 : ${userInfo.phoneNumber}|">Default Phone</p>
-    <p th:text="|잔고 : ${userInfo.balance}|">Default Balance</p>
+    <div>
+        <img class="profile-image"  th:src="@{__${userInfo.memberImage}__}" alt="Image">
+    </div>
+    <div>
+        <a th:href="@{/mypage/useredit(userId=${userInfo.id})}">Update</a>
+    </div>
 
-    <p th:text="|프로필 이미지|">Default Balance</p>
-    <img class="profile-image"  th:src="@{__${userInfo.memberImage}__}" alt="Image">
-    <br/>
-    <br/>
+    <br><br><br>
 
-    <a th:href="@{/mypage/useredit(userId=${userInfo.id})}">회원정보수정</a>
+    <div th:text="|${userInfo.balance} ₩|" style="font-size: 16px; font-weight: bold; color: #333;">Default Balance</div>
 
-    <a th:href="@{/mypage/userdelete(userId=${userInfo.id})}">회원삭제</a>
+    <div>
+        <button th:text="|Deposit|" th:onclick="'openPopup(\'deposit\', ' + ${userInfo.id} + ')'" >Deposit</button>
+        <button th:text="|Withdraw|" th:onclick="'openPopup(\'withdraw\', ' + ${userInfo.id} + ')'" >Withdraw</button>
+    </div>
+
+</div>
+
+<br/>
+<br/>
 
 </body>
-
 </html>

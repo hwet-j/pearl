@@ -1,6 +1,7 @@
 package com.pits.auction.auctionBoard.component;
 
 import com.pits.auction.auctionBoard.dto.BiddingDTO;
+import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
 import com.pits.auction.auctionBoard.entity.Bidding;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
 import com.pits.auction.auth.entity.Member;
@@ -17,12 +18,13 @@ public class BiddingMapper {
     public BiddingDTO convertToDTO(Bidding bidding) {
         return BiddingDTO.builder()
                 .id(bidding.getId())
-                .bidder(bidding.getBidder().getNickname()) // Assuming Member entity has nickname field
-                .auctionId(bidding.getAuctionId().getId()) // Assuming MusicAuction entity has id field
+                .bidder(bidding.getBidder().getNickname())
+                .auctionId(bidding.getAuctionId().getId())
                 .price(bidding.getPrice())
                 .bidTime(bidding.getBidTime())
                 .status(bidding.getStatus())
                 .build();
     }
+
 
 }

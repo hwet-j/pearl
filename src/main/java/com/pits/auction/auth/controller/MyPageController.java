@@ -5,6 +5,7 @@ import com.pits.auction.auctionBoard.service.MusicAuctionService;
 import com.pits.auction.auth.dto.MemberDTO;
 import com.pits.auction.auth.service.MemberService;
 import com.pits.auction.global.exception.InsufficientBalanceException;
+import com.pits.auction.global.exception.PhoneNumberDuplicateException;
 import com.pits.auction.global.upload.AudioUpload;
 import com.pits.auction.global.upload.ImageUpload;
 import jakarta.transaction.Transactional;
@@ -68,8 +69,15 @@ public class MyPageController {
             // 이미지 저장과 경로 DTO에 저장
             userInfo.setMemberImage(imageUpload.uploadImage(imageFile));
         }
+
+        // 중복된 정보가 없으면 업데이트
+        if (memberService.duplicatePhoneNumber(memberDTO.getId(),memberDTO.getPhoneNumber())){
+            throw new PhoneNumberDuplicateException(memberDTO.getPhoneNumber());
+        } else {
+            userInfo.setPhoneNumber(memberDTO.getPhoneNumber());
+        }
+
         userInfo.setPassword(memberDTO.getPassword());
-        userInfo.setPhoneNumber(memberDTO.getPhoneNumber());
 
         // 노래 업로드 테스트
         if (!audioFile.isEmpty()) {
@@ -106,6 +114,7 @@ public class MyPageController {
     }
 
 
+    /* 해당 회원 잔고를 보기위한 기능 - 현재 필요없음 */
     @GetMapping("/balance")
     public String getBalance(@RequestParam Long userId, Model model) {
 
@@ -115,6 +124,23 @@ public class MyPageController {
     }
 
 
+    /* 입금 폼 (서브창을 띄울때 사용) */
+    @GetMapping("/depositform")
+    public String depositFrom(@RequestParam("userId") Long userId, Model model) {
+
+        model.addAttribute("userInfo", memberService.getUserInfo(userId));
+        return "/myPage/depositPopup";
+    }
+
+    /* 출금 폼 (서브창을 띄울때 사용) */
+    @GetMapping("/withdrawform")
+    public String withdrawFrom(@RequestParam("userId") Long userId, Model model) {
+
+        model.addAttribute("userInfo", memberService.getUserInfo(userId));
+        return "/myPage/withdrawPopup";
+    }
+
+    /* 입/출금 기능 (입금인지 출금인지 action변수에 받아와 하나의 메서드에서 두 기능을 구현) */
     @PostMapping("/balance")
     public String transactionBalance(
             @RequestParam Long balance,

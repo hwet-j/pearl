@@ -15,7 +15,6 @@ import java.util.Optional;
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
 
-    private final MemberRepository memberRepository;
     public List<Member> getMemberList(){
         List<Member> memberList=memberRepository.findAll();
         return memberList;

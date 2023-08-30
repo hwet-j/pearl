@@ -40,13 +40,17 @@
     </script>
 
 
+
+
 </head>
 <body>
 
 <h1 th:text="|${userInfo.nickname}님의 정보수정|"></h1>
 <h1 th:text="|${userInfo.email}님의 정보수정|"></h1>
 
-<form th:action="@{/mypage/useredit(userId=${userInfo.id})}" method="post" enctype="multipart/form-data">
+
+
+<form th:action="@{/mypage/useredit(userId=${userInfo.id})}" th:object="${memberEditValidator}" method="post" enctype="multipart/form-data">
     <input type="hidden" id="id" name="id" th:value="${userInfo.id}"/><br>
 
     <div>변경전 이미지 <img th:src="@{__${userInfo.memberImage}__}" alt="Image" style="max-width: 20%;"></div>
@@ -56,15 +60,19 @@
     <button id="cancel_image" style="display: none;" onclick="cancelImage(event)">이미지 취소</button>
 
     <label for="password">Password</label>
-    <input type="password" id="password" name="password"/><br>
+    <input th:field="*{password}" id="password"/><br>
+
+    <div style="color:red;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></div>
 
     <label for="phoneNumber">Phone Number</label>
-    <input type="text" id="phoneNumber" name="phoneNumber" th:value="|${userInfo.phoneNumber}|"/><br>
+    <input type="text" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}" /> <br>
+
+    <div style="color:red;" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="error"></div>
 
     <label for="audio">오디오(저장테스트)</label>
     <input type="file" name="audio" id="audio" accept="audio/*" /><br>
 
-    <input type="submit" value="Sumit">
+    <input type="submit" value="Submit">
 </form>
 
 <a th:href="@{/mypage/userdelete(userId=${userInfo.id})}">회원삭제</a>

@@ -84,6 +84,10 @@ public class MemberServiceImpl implements MemberService {
                 existingMember.setPassword(memberDTO.getPassword());
             }
 
+            if (memberDTO.getPhoneNumber() != null && !memberDTO.getPhoneNumber().isEmpty()) {
+                existingMember.setPhoneNumber(memberDTO.getPhoneNumber());
+            }
+
             if (memberDTO.getMemberImage() != null && !memberDTO.getMemberImage().isEmpty()) {
                 existingMember.setMemberImage(memberDTO.getMemberImage());
             }

@@ -4,14 +4,17 @@ import com.pits.auction.auctionBoard.service.BiddingService;
 import com.pits.auction.auctionBoard.service.MusicAuctionService;
 import com.pits.auction.auth.dto.MemberDTO;
 import com.pits.auction.auth.service.MemberService;
+import com.pits.auction.auth.validation.MemberEditValidator;
 import com.pits.auction.global.exception.InsufficientBalanceException;
 import com.pits.auction.global.exception.PhoneNumberDuplicateException;
 import com.pits.auction.global.upload.AudioUpload;
 import com.pits.auction.global.upload.ImageUpload;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -50,7 +53,8 @@ public class MyPageController {
 
     /* 특정 유저 수정 폼 */
     @GetMapping("/useredit")
-    public String formUserEdit(@RequestParam("userId") Long userId, Model model) {
+    public String formUserEdit(@RequestParam("userId") Long userId, Model model,
+                               MemberEditValidator memberEditValidator) {
         MemberDTO userInfo = memberService.getUserInfo(userId);
         model.addAttribute("userInfo", userInfo);
         return "/myPage/userEdit";
@@ -59,11 +63,24 @@ public class MyPageController {
 
     /* 특정 유저 수정 작업 */
     @PostMapping("/useredit")
-    public String funcUserEdit(@ModelAttribute MemberDTO memberDTO,
+    public String funcUserEdit(@ModelAttribute @Valid MemberEditValidator memberEditValidator,
+                               BindingResult bindingResult,
                                @RequestParam("image") MultipartFile imageFile,
-                               @RequestParam("audio") MultipartFile audioFile) {
+                               @RequestParam("audio") MultipartFile audioFile,
+                               @RequestParam("userId") Long userId,
+                               Model model) {
 
-        MemberDTO userInfo = memberService.getUserInfo(memberDTO.getId());
+        // 비밀번호 유효성 검사 에러가 있는지 확인
+        if (bindingResult.hasErrors()) {
+            bindingResult.reject("password", bindingResult.getFieldError("password").getDefaultMessage());
+            bindingResult.reject("phoneNumber", bindingResult.getFieldError("phoneNumber").getDefaultMessage());
+
+            MemberDTO userInfo = memberService.getUserInfo(userId);
+            model.addAttribute("userInfo", userInfo);
+            return "/myPage/userEdit";      // 유효성 검사 에러가 있을 경우 수정 페이지로 다시 돌아감
+        }
+
+        MemberDTO userInfo = memberService.getUserInfo(memberEditValidator.getId());
 
         if (!imageFile.isEmpty()){   // 파일이 있을 경우에만 파일 업로드 진행
             // 이미지 저장과 경로 DTO에 저장
@@ -71,13 +88,15 @@ public class MyPageController {
         }
 
         // 중복된 정보가 없으면 업데이트
-        if (memberService.duplicatePhoneNumber(memberDTO.getId(),memberDTO.getPhoneNumber())){
-            throw new PhoneNumberDuplicateException(memberDTO.getPhoneNumber());
+        if (memberService.duplicatePhoneNumber(memberEditValidator.getId(),memberEditValidator.getPhoneNumber())){
+            System.out.println("중복 O" + memberEditValidator.getPhoneNumber());
+            throw new PhoneNumberDuplicateException(memberEditValidator.getPhoneNumber());
         } else {
-            userInfo.setPhoneNumber(memberDTO.getPhoneNumber());
+            System.out.println("중복 X" + memberEditValidator.getPhoneNumber());
+            userInfo.setPhoneNumber(memberEditValidator.getPhoneNumber());
         }
 
-        userInfo.setPassword(memberDTO.getPassword());
+        userInfo.setPassword(memberEditValidator.getPassword());
 
         // 노래 업로드 테스트
         if (!audioFile.isEmpty()) {

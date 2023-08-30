@@ -7,4 +7,5 @@ import java.util.List;
 public interface AdminMusicAuctionService {
     public List<MusicAuction> getMusicAuctionList();
 
+    public void deleteMusicAuction(List<Long> ids);
 }

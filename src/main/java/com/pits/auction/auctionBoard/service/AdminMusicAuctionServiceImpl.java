@@ -15,4 +15,10 @@ public class AdminMusicAuctionServiceImpl implements AdminMusicAuctionService{
         List<MusicAuction> musicAuctionList=adminMusicAuctionRepository.findAll();
         return musicAuctionList;
     }
+    public void deleteMusicAuction(List<Long> ids) {
+        for (Long id : ids) {
+            adminMusicAuctionRepository.deleteById(id);
+        }
+    }
+
 }

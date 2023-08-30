@@ -2,6 +2,7 @@ package com.pits.auction.auctionBoard.controller;
 
 
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
+import com.pits.auction.auctionBoard.dto.MusicAuctionDTO2;
 import com.pits.auction.auctionBoard.entity.BiddingPeriod;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
 import com.pits.auction.auctionBoard.entity.MusicGenre;
@@ -53,7 +54,7 @@ public class MusicAuctionController {
         List<BiddingPeriod> biddingPeriods = biddingPeriodService.findAllPeriods();
         model.addAttribute("biddingPeriods", biddingPeriods);
 
-        model.addAttribute("musicAuctionDTO", new MusicAuctionDTO());
+        model.addAttribute("musicAuctionDTO", new MusicAuctionDTO2());
 
         Member anyMember = memberService.findAnyMember();
         model.addAttribute("AnyMember", anyMember.getNickname());
@@ -62,7 +63,7 @@ public class MusicAuctionController {
     }
 
     @PostMapping("/write")
-    public String insertAuction(MusicAuctionDTO musicAuctionDTO, HttpServletRequest request) {
+    public String insertAuction(MusicAuctionDTO2 musicAuctionDTO, HttpServletRequest request) {
         try {
             // MultipartFile로 받은 파일들을 저장하기 위한 로직
             String rootPath = request.getSession().getServletContext().getRealPath("/"); // 실제 경로를 구하는 예시
@@ -86,13 +87,13 @@ public class MusicAuctionController {
             e.printStackTrace();
             return "error"; // 에러 페이지로 이동
         }
-
     }
-    
+
     @RequestMapping("/read")
     public String list(Model model) {
         List<MusicAuction> musicAuctions= musicAuctionService.findAll();
         model.addAttribute("musicAuctions", musicAuctions);
         return "/auction/read";
-    }
+    }           
+
 }

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+</head>
+<body>
+<ul>
+    <li th:each="userInfo : ${userInfoList}">
+        <h1 th:text="${userInfo.nickname}">Default Name</h1>
+        <p th:text="${userInfo.email}">Default Email</p>
+    </li>
+</ul>
+</body>
+</html>

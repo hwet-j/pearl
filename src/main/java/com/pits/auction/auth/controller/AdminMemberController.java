@@ -6,6 +6,7 @@ import com.pits.auction.auth.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,24 +20,39 @@ public class AdminMemberController {
     
     //회원목록
     @GetMapping("/member/list")
-    public String memberList(Model model, Pageable pageable) throws Exception {
+    public String memberList(Model model,@PageableDefault(size = 10) Pageable pageable) throws Exception {
         Page<Member> memberList = memberService.getMemberList(pageable);
        int nowPage=memberList.getPageable().getPageNumber()+1;
-       int startPage=Math.max(nowPage-4,1);
-       int endPage=Math.min(nowPage+5,memberList.getTotalPages());
+       int startPage=Math.max(nowPage-3,1);
+       int endPage=Math.min(nowPage+3,memberList.getTotalPages());
+       int firstPage=Math.max(0,0);
+       int lastPage=memberList.getTotalPages()-1;
 
         model.addAttribute("memberList",memberList);
         model.addAttribute("nowPage",nowPage);
         model.addAttribute("startPage",startPage);
         model.addAttribute("endPage",endPage);
+        model.addAttribute("firstPage",firstPage);
+        model.addAttribute("lastPage",lastPage);
+
         return "/admin/plAdminMemberList";
     }
     
     //탈퇴회원 리스트
     @GetMapping("/member/Ylist")
-    public String memberYList(Model model,Pageable pageable) throws Exception {
+    public String memberYList(Model model,@PageableDefault(size = 10) Pageable pageable) throws Exception {
        Page<Member> memberYList = memberService.getMemberYList(pageable);
+        int nowPage=memberYList.getPageable().getPageNumber()+1;
+        int startPage=Math.max(nowPage-3,1);
+        int endPage=Math.min(nowPage+3,memberYList.getTotalPages());
+        int firstPage=Math.max(0,0);
+        int lastPage=memberYList.getTotalPages()-1;
         model.addAttribute("memberYList",memberYList);
+        model.addAttribute("nowPage",nowPage);
+        model.addAttribute("startPage",startPage);
+        model.addAttribute("endPage",endPage);
+        model.addAttribute("firstPage",firstPage);
+        model.addAttribute("lastPage",lastPage);
         return "/admin/plAdminMemberYList";
     }
 

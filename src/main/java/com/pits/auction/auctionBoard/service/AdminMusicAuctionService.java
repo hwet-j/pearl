@@ -1,11 +1,13 @@
 package com.pits.auction.auctionBoard.service;
 
 import com.pits.auction.auctionBoard.entity.MusicAuction;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface AdminMusicAuctionService {
-    public List<MusicAuction> getMusicAuctionList();
+    Page<MusicAuction> getMusicAuctionList(Pageable pageable);
 
-    public void deleteMusicAuction(List<Long> ids);
+    void deleteMusicAuction(List<Long> ids);
 }

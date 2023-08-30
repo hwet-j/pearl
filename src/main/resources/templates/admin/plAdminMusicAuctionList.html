@@ -29,6 +29,7 @@
         <th><input type="checkbox" name="selectedMusicAutions" value="${musicAuction.id}" onclick="checkAll(this)"></th>
         <th>글번호</th>
         <th>제목</th>
+        <th>장르</th>
         <th>작성자</th>
         <th>작성일</th>
     </tr>
@@ -38,6 +39,7 @@
         <td><input type="checkbox" name="selectedMusicAutions" th:value="${musicAuction.id}" ></td>
         <td th:text="${musicAuction.id}" name="id"></td>
         <td  name="title"><a href="" th:text="${musicAuction.title}"></a></td>
+        <td th:text="${musicAuction.authorNickname.nickname}" name="authorNickname"></td>
         <td th:text="${musicAuction.authorNickname.nickname}" name="authorNickname"></td>
         <td th:text="${#temporals.format(musicAuction.createdAt,'yyyy-MM-dd HH:mm')}" name="createdAt"></td>
     </tr>

@@ -5,6 +5,8 @@ import com.pits.auction.auth.dto.MemberDTO;
 import com.pits.auction.auth.entity.Member;
 import com.pits.auction.auth.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,15 +17,15 @@ import java.util.Optional;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
-    public List<Member> getMemberList(){
-        List<Member> memberList=memberRepository.findAll();
+    public Page<Member> getMemberList(Pageable pageable){
+        Page<Member> memberList=memberRepository.findAll(pageable);
         return memberList;
     }
 
 
     @Override
-    public List<Member> getMemberYList(){
-        List<Member> memberYList=memberRepository.findByWithdrawalRequestedTrue();
+    public Page<Member> getMemberYList(Pageable pageable){
+        Page<Member> memberYList=memberRepository.findByWithdrawalRequestedTrue(pageable);
         return memberYList;
     }
 

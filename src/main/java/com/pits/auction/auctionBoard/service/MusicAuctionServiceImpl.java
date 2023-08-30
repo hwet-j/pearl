@@ -32,7 +32,7 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
     private final MusicGenreRepository musicGenreRepository;
     private final BiddingPeriodRepository biddingPeriodRepository;
     private final MemberRepository memberRepository;
-   private final ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     @Override
     public boolean saveMusicAuction(MusicAuctionDTO2 musicAuctionDTO) {

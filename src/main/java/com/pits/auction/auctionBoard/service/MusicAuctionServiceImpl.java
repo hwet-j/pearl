@@ -72,7 +72,7 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
         return null;
     }
   
-  @Override
+    @Override
     public List<MusicAuction> findAll() {
         return musicAuctionRepository.findAll();
     }

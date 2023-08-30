@@ -24,6 +24,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final ModelMapper modelMapper;
     
+
     public List<Member> getMemberList(){
         List<Member> memberList=memberRepository.findAll();
         return memberList;

@@ -78,22 +78,20 @@ public class MusicAuctionController {
             System.out.println(musicAuctionDTO.getBiddingPeriod());
             System.out.println(musicAuctionDTO.getBiddingPeriod());
             System.out.println(musicAuctionDTO.getBiddingPeriod());
+          // 음악 경매 정보를 데이터베이스에 저장하기 위한 서비스 호출
+            musicAuctionService.saveMusicAuction(musicAuctionDTO);
+          return "redirect:/write"; // 성공 페이지로 리다이렉트
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "error"; // 에러 페이지로 이동
+        }
+    }
 
     @RequestMapping("/read")
     public String list(Model model) {
         List<MusicAuction> musicAuctions= musicAuctionService.findAll();
         model.addAttribute("musicAuctions", musicAuctions);
         return "/auction/read";
-    }
+    }           
 
-
-            // 음악 경매 정보를 데이터베이스에 저장하기 위한 서비스 호출
-            musicAuctionService.saveMusicAuction(musicAuctionDTO);
-
-            return "redirect:/write"; // 성공 페이지로 리다이렉트
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "error"; // 에러 페이지로 이동
-        }
-    }
 }

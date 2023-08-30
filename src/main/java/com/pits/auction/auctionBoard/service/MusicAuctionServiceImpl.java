@@ -2,6 +2,12 @@ package com.pits.auction.auctionBoard.service;
 
 
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
+import com.pits.auction.auctionBoard.entity.MusicAuction;
+import com.pits.auction.auctionBoard.repository.MusicAuctionRepository;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+import java.util.List;
 import com.pits.auction.auctionBoard.entity.BiddingPeriod;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
 import com.pits.auction.auctionBoard.entity.MusicGenre;
@@ -10,14 +16,11 @@ import com.pits.auction.auctionBoard.repository.MusicAuctionRepository;
 import com.pits.auction.auctionBoard.repository.MusicGenreRepository;
 import com.pits.auction.auth.entity.Member;
 import com.pits.auction.auth.repository.MemberRepository;
-
 import com.pits.auction.auctionBoard.entity.MusicAuction;
 import com.pits.auction.auctionBoard.repository.MusicAuctionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
- 
 import java.time.LocalDateTime;
 
 @Service
@@ -27,6 +30,7 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
     private final MusicGenreRepository musicGenreRepository;
     private final BiddingPeriodRepository biddingPeriodRepository;
     private final MemberRepository memberRepository;
+   private final ModelMapper modelMapper;
 
     @Override
     public boolean saveMusicAuction(MusicAuctionDTO musicAuctionDTO) {
@@ -52,16 +56,21 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
         // DB에 저장
         return true;
     }
+  
+  
+  @Override
+    public MusicAuctionDTO getMusicAuctionById(Long id) {
+        Optional<MusicAuction> optionalMusicAuction = musicAuctionRepository.findById(id);
 
-import java.util.List;
-import java.util.Optional;
+        if(optionalMusicAuction.isPresent()){
+            MusicAuction musicAuction = optionalMusicAuction.get();
+            return MusicAuctionDTO.fromEntity(musicAuction);
+        }
 
-@Service
-@RequiredArgsConstructor
-public class MusicAuctionServiceImpl implements MusicAuctionService{
-
-    private final MusicAuctionRepository musicAuctionRepository;
-    @Override
+        return null;
+    }
+  
+  @Override
     public List<MusicAuction> findAll() {
         return musicAuctionRepository.findAll();
     }
@@ -70,6 +79,9 @@ public class MusicAuctionServiceImpl implements MusicAuctionService{
     public Optional<MusicAuction> findById(long id) {
         return musicAuctionRepository.findById(id);
     }
+
+
+
 
 
 }

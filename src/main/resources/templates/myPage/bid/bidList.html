@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bidding List</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>입찰자</th>
+        <th>입찰 물품</th>
+        <th>가격</th>
+        <th>입찰시간</th>
+        <th>상태</th>
+        <th>물품 입찰목록</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="bidding : ${biddingList}">
+        <td th:text="${bidding.id}"></td>
+        <td th:text="${bidding.bidder.nickname}"></td>
+        <td th:text="${bidding.auctionId.id}"></td>
+        <td th:text="${bidding.price}"></td>
+        <td th:text="${bidding.bidTime}"></td>
+        <td th:text="${bidding.Status}"></td>
+        <td>
+            <a th:href="@{/bid/biddetail(bidding=${bidding.id})}">View Details</a>
+        </td>
+        <td>
+            <a th:href="@{/bid/biddetail2(auctionId=${bidding.auctionId.id})}">View Article</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

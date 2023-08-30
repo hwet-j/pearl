@@ -16,13 +16,39 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
+
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
-
     private final MemberRepository memberRepository;
     private final ModelMapper modelMapper;
+    
+    public List<Member> getMemberList(){
+        List<Member> memberList=memberRepository.findAll();
+        return memberList;
+    }
 
+    public Member getMemberDetail(Long id){
+        Optional<Member> member=memberRepository.findById(id);
+        if(member.isPresent()){
+            return member.get();
+        }
+        return null;
+    }
+    public void deleteMember(Long id){
+        Optional<Member> member=memberRepository.findById(id);
+        System.out.println("id="+id);
+        Long deleteId= member.get().getId();
+        memberRepository.deleteById(deleteId);
+
+    }
+
+    public void deleteMembers(List<Long> ids) {
+        for (Long id : ids) {
+            memberRepository.deleteById(id);
+        }
+    }
 
     /* 유저 전체 목록 */
     @Override
@@ -167,4 +193,21 @@ public class MemberServiceImpl implements MemberService {
     }
 
 
+    @Override
+    public void AdminEditMember(MemberDTO memberDTO, Long id){
+    Optional<Member> optionalMember = memberRepository.findById(id);
+    if (optionalMember.isPresent()) {
+        Member member = optionalMember.get();
+        member.setPassword(memberDTO.getPassword());
+        member.setPhoneNumber(memberDTO.getPhoneNumber());
+        member.setWithdrawalRequested(memberDTO.getWithdrawalRequested());
+        memberRepository.save(member);
+    }
+    }
+
+
+    @Override
+    public Member findAnyMember() {
+        return memberRepository.findAll().stream().findFirst().orElse(null);
+    }
 }

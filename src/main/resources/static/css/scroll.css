@@ -1,0 +1,25 @@
+.card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  width: 18%; /* 4 cards in a row */
+  display: inline-block;
+  vertical-align: top;
+}
+
+.wrap{
+display:flex;
+flex-direction: row;
+flex-wrap: wrap;
+word-break:break-all;
+justify-content:space-around;
+gap:16px;
+width:80%;
+}
+
+img{
+margin:10px;
+width:90%;
+height:90%;
+text-align: center;
+}

@@ -2,6 +2,7 @@ package com.pits.auction.auctionBoard.service;
 
 
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
+import com.pits.auction.auctionBoard.dto.MusicAuctionDTO2;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
 import com.pits.auction.auctionBoard.repository.MusicAuctionRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +35,7 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
    private final ModelMapper modelMapper;
 
     @Override
-    public boolean saveMusicAuction(MusicAuctionDTO musicAuctionDTO) {
+    public boolean saveMusicAuction(MusicAuctionDTO2 musicAuctionDTO) {
         Member member = memberRepository.findByNickname(musicAuctionDTO.getAuthorNickname())
                 .orElseThrow(() -> new IllegalArgumentException("No member with nickname: " + musicAuctionDTO.getAuthorNickname()));
 

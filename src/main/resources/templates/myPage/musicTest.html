@@ -4,7 +4,19 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+        var audio = document.getElementById('audioPlayer');
 
+        audio.addEventListener('timeupdate', function() {
+            if (audio.currentTime >= 60) {      // 60초(1분) 지나면 재생 중지
+                audio.pause();
+                audio.currentTime = 0;
+            }
+        });
+    });
+
+    </script>
 </head>
 <body>
 
@@ -14,26 +26,21 @@
     Your browser does not support the audio element.
 </audio>
 
-<audio controls>
-    <source th:src="@{/audios/uploaded_audios/d6287fd2-14f9-4607-9f86-b84277771fe1_NewJeans - ETA.mp3}" type="audio/mpeg">
-    Your browser does not support the audio element.
-</audio>
-
-<audio id="audioPlayer" volume="0.2" controls>
+<audio volume="0.2" controls>
     <source th:src="@{/audios/uploaded_audios/__${audioFileName}__}" type="audio/mpeg">
     Your browser does not support the audio element.
 </audio>
+
+
+
+<audio controls id="audioPlayer">
+    <source th:src="@{/audios/uploaded_audios/NewJeans - ETA.mp3}" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+
 <button onclick="playPreview()">1분 미리듣기</button>
 
-<script th:inline="javascript">
-    var audio = document.getElementById('audioPlayer');
 
-    audio.addEventListener('timeupdate', function() {
-        if (audio.currentTime >= 60) { // 1분(60초) 지나면 재생 중지
-            audio.pause();
-        }
-    });
-</script>
 
 </body>
 </html>

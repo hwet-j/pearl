@@ -9,6 +9,8 @@ import lombok.Setter;
 @Setter
 public class MemberEditValidator {
 
+    private Long id;
+
     private String memberImage;
 
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
@@ -19,6 +21,7 @@ public class MemberEditValidator {
     private String phoneNumber;
 
 }
+
 
 /*
 비밀번호 유효성 검사

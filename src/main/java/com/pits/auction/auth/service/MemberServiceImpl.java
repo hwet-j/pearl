@@ -9,6 +9,8 @@ import com.pits.auction.global.exception.PhoneNumberDuplicateException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +25,18 @@ import java.util.stream.Collectors;
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final ModelMapper modelMapper;
-    
-    public List<Member> getMemberList(){
-        List<Member> memberList=memberRepository.findAll();
+
+
+    public Page<Member> getMemberList(Pageable pageable){
+        Page<Member> memberList=memberRepository.findAll(pageable);
         return memberList;
+    }
+
+
+    @Override
+    public Page<Member> getMemberYList(Pageable pageable){
+        Page<Member> memberYList=memberRepository.findByWithdrawalRequestedTrue(pageable);
+        return memberYList;
     }
 
     public Member getMemberDetail(Long id){
@@ -70,7 +80,7 @@ public class MemberServiceImpl implements MemberService {
         return null;    // 추후에 에러 기능 구현
     }
 
-    
+
     /* 특정 유저 정보 수정 */
     @Override
     public boolean updateUserInfo(MemberDTO memberDTO) {
@@ -82,6 +92,10 @@ public class MemberServiceImpl implements MemberService {
 
             if (memberDTO.getPassword() != null && !memberDTO.getPassword().isEmpty()) {
                 existingMember.setPassword(memberDTO.getPassword());
+            }
+
+            if (memberDTO.getPhoneNumber() != null && !memberDTO.getPhoneNumber().isEmpty()) {
+                existingMember.setPhoneNumber(memberDTO.getPhoneNumber());
             }
 
             if (memberDTO.getMemberImage() != null && !memberDTO.getMemberImage().isEmpty()) {
@@ -103,7 +117,7 @@ public class MemberServiceImpl implements MemberService {
         if (memberOptional.isPresent()) {
             Member existingMember = memberOptional.get();
             existingMember.setWithdrawalRequested(true);    // 삭제 요청 true로 변경
-            
+
             memberRepository.save(existingMember);
             return true;
         }

@@ -16,18 +16,18 @@
 <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.rtl.min.css" integrity="sha384-PRrgQVJ8NNHGieOA1grGdCTIt4h21CzJs6SnWH4YMQ6G5F5+IEzOHz67L4SQaF0o" rel="stylesheet">
 
 <style>
-body {
- background-color: #000000;
-}
-.fixed-row th, .fixed-row td {
-min-width: 80px;}
+    body {
+             background-color: #000000;
+          }
+     .fixed-row th, .fixed-row td {
+    min-width: 80px;}
 </style>
 <body>
 <div style="margin:150px;" >
-    <div class="container">
+    <div class="container"  >
 
 <form action="/member/delete" method="post" th:object="${member}">
-<table border="1" class="table table-dark table-striped" style="text-align: center;">
+<table border="1" class="table table-dark table-striped " style="text-align: center;">
     <thead>
     <tr class="fixed-row">
         <th><input name="selectedMembers" onclick="checkAll(this)" type="checkbox" value="${member.id}" ></th>
@@ -41,9 +41,8 @@ min-width: 80px;}
         <th>수정</th>
     </tr>
     </thead>
-
     <tbody>
-     <tr th:each="member:${memberList}" >
+    <tr th:each="member:${memberYList}" >
         <td><input name="selectedMembers" th:value="${member.id}" type="checkbox" ></td>
         <td name="id" th:text="${member.id}"></td>
         <td name="email" th:text="${member.email}"></td>
@@ -55,21 +54,18 @@ min-width: 80px;}
         <span th:unless="${member.withdrawalRequested}">N</span></td>
         <td><a class="btn btn-light" th:href="@{|/member/edit/${member.id}|}" th:text="수정"></a></td>
         </tr>
-
-     </th:block>
-
     </tbody>
 </table><div style="text-align: right;">
     <button class="btn btn-light" style="text-align:right;" type="submit">삭제</button>
-    <button class="btn btn-light" onclick="location.href='/member/Ylist';" type="button">탈퇴회원 목록</button>
+    <button class="btn btn-light" onclick="location.href='/member/list';" type="button">회원목록</button>
 </div>
     <div style="text-align: center;">
-        <a th:href="@{/member/list(page=${firstPage})}" th:if="${page!=firstPage}"  th:text="'처음'" class="btn btn-light"></a>
+    <a th:href="@{/member/Ylist(page=${firstPage})}" th:if="${page!=firstPage}"  th:text="'처음'" class="btn btn-light"></a>
     <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-        <a th:href="@{/member/list(page=${page-1})}" th:if="${page != nowPage}"  th:text="${page}" class="btn btn-light"></a>
+        <a th:href="@{/member/Ylist(page=${page-1})}" th:if="${page != nowPage}"  th:text="${page}" class="btn btn-light"></a>
         <strong th:if="${page == nowPage}" th:text="${page}" class="btn btn-primary" style="background-color:#5F23E5; border-color:#5F23E5;"></strong>
     </th:block>
-        <a th:href="@{/member/list(page=${lastPage})}" th:if="${page != lastPage}" th:text="'끝'" class="btn btn-light"></a>
+    <a th:href="@{/member/Ylist(page=${lastPage})}" th:if="${page != lastPage}" th:text="'끝'" class="btn btn-light"></a>
     </div>
 </form>
 

@@ -14,7 +14,7 @@ public class MainController {
 
         model.addAttribute("team", "Pearl in the Soil");
 
-        return "index";
+        return "plMain";
     }
 
 }

@@ -31,7 +31,6 @@ public class MyPageController {
     private final ImageUpload imageUpload;
     private final AudioUpload audioUpload;
 
-
     /* 유저 전체 리스트 - 마이페이지에서는 필요없으나 테스트를 위해 작성 */
     @GetMapping("/userlist")
     public String getUserList(Model model) {
@@ -50,7 +49,6 @@ public class MyPageController {
         MemberDTO userInfo = memberService.getUserInfo(userId);
         model.addAttribute("userInfo",userInfo);
 
-
         // 입찰중인 경매물품 - 마지막에 입찰한 물품 하나
         MusicAuctionDTO auction = musicAuctionService.getLastBiddingAuction(userInfo.getNickname());
 
@@ -66,7 +64,6 @@ public class MyPageController {
             // auction 객체가 null인 경우에 수행할 로직
             // 예: 다른 기본값 설정 또는 에러 메시지 등
         }
-
 
         return "/myPage/userRead";
     }

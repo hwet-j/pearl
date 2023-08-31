@@ -44,6 +44,7 @@ public class MyPageController {
 
     /* 마이페이지 (id) */
     @GetMapping("/userinfo")
+    @Transactional
     public String getUserInfo(@RequestParam("userId") Long userId, Model model) {
 
         // 회원 정보
@@ -51,14 +52,11 @@ public class MyPageController {
         model.addAttribute("userInfo",userInfo);
 
 
-        System.out.println("111111111111111111111");
         // 입찰중인 경매물품 - 마지막에 입찰한 물품 하나
         MusicAuctionDTO auction = musicAuctionService.getLastBiddingAuction(userInfo.getNickname());
-        System.out.println("22222222222222222222");
 
         // 입찰중인 경매물품이 존재할 경우
         if (auction != null) {
-            System.out.println("333333333333333333333");
             // auction 객체를 받아온 경우에 수행할 로직
             model.addAttribute("auction", auction);
 
@@ -76,6 +74,7 @@ public class MyPageController {
 
 
     /* 특정 유저 수정 폼 */
+    @Transactional
     @GetMapping("/useredit")
     public String formUserEdit(@RequestParam("userId") Long userId, Model model,
                                MemberEditValidator memberEditValidator) {
@@ -88,6 +87,7 @@ public class MyPageController {
 
 
     /* 특정 유저 수정 작업 */
+    @Transactional
     @PostMapping("/useredit")
     public String funcUserEdit(@ModelAttribute @Valid MemberEditValidator memberEditValidator,
                                BindingResult bindingResult,
@@ -166,6 +166,7 @@ public class MyPageController {
 
 
     /* 해당 회원 잔고를 보기위한 기능 - 현재 필요없음 */
+    @Transactional
     @GetMapping("/balance")
     public String getBalance(@RequestParam Long userId, Model model) {
 
@@ -193,6 +194,7 @@ public class MyPageController {
 
     /* 입/출금 기능 (입금인지 출금인지 action변수에 받아와 하나의 메서드에서 두 기능을 구현) */
     @PostMapping("/balance")
+    @Transactional
     public String transactionBalance(
             @RequestParam Long balance,
             @RequestParam Long userId,

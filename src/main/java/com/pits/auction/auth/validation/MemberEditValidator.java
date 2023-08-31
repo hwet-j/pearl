@@ -20,7 +20,7 @@ public class MemberEditValidator {
 
 
     @Pattern(regexp = "^\\d{3}-\\d{3,4}-\\d{4}$|^$",
-            message = "전화번호 형식에 맞지 않습니다. (xxx-xxxx-xxxx)")
+            message = "전화번호 형식에 맞지 않습니다. (010-0000-0000)")
     private String phoneNumber;
 
 }

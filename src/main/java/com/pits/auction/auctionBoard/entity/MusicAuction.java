@@ -87,6 +87,7 @@ public class MusicAuction {
     @OneToMany(mappedBy = "auctionId")
     private List<Bidding> auctionBiddings;
 
+
     @PrePersist
     public void setEndTimeUsingBiddingPeriod() {
         if (this.createdAt == null || this.biddingPeriod == null) {

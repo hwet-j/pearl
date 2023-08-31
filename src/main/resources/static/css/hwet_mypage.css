@@ -49,6 +49,7 @@ body {
 
 /* Input요소 설정 */
 .bordered input[type="text"],
+.bordered input[type="number"],
 .bordered input[type="password"] {
     border: none;       /* 테두리 제거 */
     padding: 0;
@@ -176,11 +177,10 @@ body {
     box-sizing: border-box;
 }
 
-/*
-.inner-left {
-    background-color: green;
-}
+/*******************************/
+/* 입출금 관련 페이지 글자색 */
+/*******************************/
 
-.inner-right {
-    background-color: yellow;
-}*/
+.transaction-container {
+    color: white; /* 기본 글자색을 흰색으로 설정 */
+}

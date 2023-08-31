@@ -44,7 +44,6 @@ public class MyPageController {
 
     /* 마이페이지 (id) */
     @GetMapping("/userinfo")
-    @Transactional
     public String getUserInfo(@RequestParam("userId") Long userId, Model model) {
 
         // 회원 정보
@@ -74,7 +73,6 @@ public class MyPageController {
 
 
     /* 특정 유저 수정 폼 */
-    @Transactional
     @GetMapping("/useredit")
     public String formUserEdit(@RequestParam("userId") Long userId, Model model,
                                MemberEditValidator memberEditValidator) {
@@ -87,7 +85,6 @@ public class MyPageController {
 
 
     /* 특정 유저 수정 작업 */
-    @Transactional
     @PostMapping("/useredit")
     public String funcUserEdit(@ModelAttribute @Valid MemberEditValidator memberEditValidator,
                                BindingResult bindingResult,

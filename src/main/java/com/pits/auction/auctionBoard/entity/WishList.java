@@ -21,12 +21,12 @@ public class WishList {
     private Long id; // 자동 증가하는 단일 기본 키
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "member_nickname", referencedColumnName = "nickname", nullable = false)
     private Member memberNickname;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "auction_id", nullable = false)
     private MusicAuction auctionId;
 

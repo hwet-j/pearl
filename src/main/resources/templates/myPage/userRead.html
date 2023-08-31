@@ -67,17 +67,23 @@
         </div>
 
         <div class="inner-divider"></div>
+        <div class="inner-divider"></div>
+        <div class="inner-divider"></div>
+        <div class="inner-divider"></div>
 
+        <div class="center-align money-text">My Account</div>
+        <div class="inner-divider"></div>
         <div class="bordered center-align money-text">
+
             <span data-th-text="${#numbers.formatInteger(userInfo.balance, 0, 'COMMA') + ' ₩'}"></span>
         </div>
 
         <div class="inner-divider"></div>
 
         <div class="center-align">
-            <button  class="bordered" th:text="|Deposit|" th:onclick="'openPopup(\'deposit\', ' + ${userInfo.id} + ')'" >Deposit</button>
+            <button  class="bordered transaction-button" th:text="|Deposit|" th:onclick="'openPopup(\'deposit\', ' + ${userInfo.id} + ')'" >Deposit</button>
             <div class="divider"></div>
-            <button  class="bordered" th:text="|Withdraw|" th:onclick="'openPopup(\'withdraw\', ' + ${userInfo.id} + ')'" >Withdraw</button>
+            <button  class="bordered transaction-button" th:text="|Withdraw|" th:onclick="'openPopup(\'withdraw\', ' + ${userInfo.id} + ')'" >Withdraw</button>
         </div>
     </div>
 
@@ -86,12 +92,13 @@
 
     <div class="right-side">
         <!-- 우측 상단 마지막 입찰 물품 -->
+        <!-- 입찰한 내역이 있을경우 -->
         <div class="upper-side" th:if="${auction != null}">
             <h1 th:text="|My Bidding Music|"></h1>
 
             <div class="inner-split-container ">
                 <div class="inner-left">
-                    <img class="profile-image"  th:src="@{__${userInfo.memberImage}__}" alt="Image">
+                    <img class="music-image"  th:src="@{__${userInfo.memberImage}__}" alt="Image">
 
                     <div th:text="${auction.albumImage}">이미지 경로</div>
                     <div th:text="${auction.albumMusic}">오디오 경로</div>
@@ -106,13 +113,13 @@
                 </div>
             </div>
         </div>
-
+        <!-- 입찰한 내역이 없을경우 -->
         <div class="upper-side" th:if="${auction == null}">
             <h1 th:text="|My Bidding Music|"></h1>
 
             <div class="inner-split-container ">
                 <div class="inner-left">
-                    <img class="profile-image" th:src="@{/pictures/auction.jpg}" alt="Image">
+                    <img class=".music-image" th:src="@{/pictures/auction.jpg}" alt="Image">
                 </div>
 
 
@@ -130,15 +137,30 @@
         <div class="lower-side">
             <h1 th:text="|Wish List|"></h1>
             <div class="image-container">
-                <img class="wish-image"  th:src="@{__${userInfo.memberImage}__}" alt="Image">
-                <img class="wish-image"  th:src="@{__${userInfo.memberImage}__}" alt="Image">
-                <img class="wish-image"  th:src="@{__${userInfo.memberImage}__}" alt="Image">
+                <div class="image-with-text">
+                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" alt="Image">
+                    <p>Title for Image 1</p>
+                </div>
+                <div class="image-with-text">
+                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" alt="Image">
+                    <p>Title for Image 2</p>
+                </div>
+                <div class="image-with-text">
+                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" alt="Image">
+                    <p>Title for Image 3</p>
+                </div>
+                <div class="image-with-text">
+                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" alt="Image">
+                    <p>Title for Image 4</p>
+                </div>
+                <div class="image-with-text">
+                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" alt="Image">
+                    <p>Title for Image 5</p>
+                </div>
             </div>
             <div>
-                <a th:href="@{/mypage/useredit(userId=${userInfo.id})}">Update</a>
-            </div>
 
-            <br><br><br>
+            </div>
         </div>
 
     </div>

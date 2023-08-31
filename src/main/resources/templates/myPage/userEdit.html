@@ -9,6 +9,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script th:inline="javascript">
+
+        var imageUrl = /*[[${userInfo.memberImage}]]*/ '';
+
         function previewImage() {
                 var image_upload = document.getElementById('memberImage');
                 var image_preview = document.getElementById('image_preview');
@@ -35,8 +38,7 @@
                 var image_upload = document.getElementById('memberImage');
 
                 // 이미지 미리보기 초기화
-                image_preview.src = '#';
-                image_preview.style.display = 'none';
+                image_preview.src = imageUrl;
                 cancel_button.style.display = 'none';
                 image_upload.value = ''; // 파일 선택 초기화
             }
@@ -60,8 +62,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }).then((result) => {
                 if (result.isConfirmed) {
                     const deleteForm = button.closest('form'); // 버튼이 속한 form 요소 찾기
-                    deleteForm.action = "/mypage/userdelete?userId=" + userId;
-                    deleteForm.submit(); // form 제출
+
+                    window.location.href = "/mypage/userdelete?userId=" + userId;
                 }
             });
         });
@@ -79,44 +81,60 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 <form th:action="@{/mypage/useredit(userId=${userInfo.id})}" th:object="${memberEditValidator}" method="post" enctype="multipart/form-data">
-    <div class="split-container">
+    <div class="split-container-edit">
         <div class="left-side-edit">
             <input type="hidden" id="id" name="id" th:value="${userInfo.id}"/><br>
+            <div class="image-with-text">
+                <div class="center-align">
+                    <img class="edit-image" id="image_preview" th:src="@{__${userInfo.memberImage}__}" alt="Image">
+                </div>
+                <!--<img id="image_preview" src="#" alt="Image Preview" style="max-width: 20%; display: none;" />-->
 
-            <div>변경전 이미지 <img th:src="@{__${userInfo.memberImage}__}" alt="Image" style="max-width: 20%;"></div>
-            <label for="memberImage">변경할 이미지</label>
-            <input type="file" name="image" id="memberImage" th:value="${userInfo.memberImage}" accept="image/*" onchange="previewImage()" /><br>
-            <img id="image_preview" src="#" alt="Image Preview" style="max-width: 20%; display: none;" />
-            <button id="cancel_image" style="display: none;" onclick="cancelImage(event)">이미지 취소</button>
+                <div class="file-input-container">
+                    <label for="memberImage">Attachment</label>
+                    <input type="file" name="image" id="memberImage" th:value="${userInfo.memberImage}" accept="image/*" onchange="previewImage()" />
+                </div>
+                <div class="center-align">
+                    <button class="cancle-button" id="cancel_image" style="display: none;" onclick="cancelImage(event)">이미지 취소</button>
+                </div>
+            </div>
+
         </div>
 
-
         <div class="right-side-edit">
+
             <div>Nickname</div>
             <div class="bordered"><span th:text="${userInfo.nickname}"></span><span class="right-align">수정불가</span></div>
+
+            <div class="inner-divider"></div>
+            <div class="inner-divider"></div>
 
             <div>E-mail</div>
             <div class="bordered"><span th:text="${userInfo.email}"></span><span class="right-align">수정불가</span></div>
 
+            <div class="inner-divider"></div>
+            <div class="inner-divider"></div>
+
             <label for="password">Password</label>
-            <div class="bordered"><input type="password" th:field="*{password}"/><br></div>
+            <div class="bordered"><input type="password" th:field="*{password}" placeholder="수정을 원하지 않으면 빈칸"/><br></div>
 
-            <div style="color:red;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></div>
-
+            <div class="inner-divider"><div style="color:red;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></div></div>
+            <div class="inner-divider"></div>
             <label for="phoneNumber">Phone Number</label>
-            <div class="bordered"><input type="text" th:field="*{phoneNumber}" /></div>
+            <div class="bordered"><input type="text" th:field="*{phoneNumber}" placeholder="수정을 원하지 않으면 빈칸"/></div>
 
-            <div style="color:red;" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="error"></div>
-
+            <div class="inner-divider"><div style="color:red;" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="error"></div></div>
+            <div class="inner-divider"></div>
             <label for="audio">오디오(저장테스트)</label>
             <input type="file" name="audio" id="audio" accept="audio/*" /><br>
 
             <div class="inner-divider"></div>
-
-            <div>
-                <input type="submit" value="Submit">
-                <button class="delete-button" th:attr="data-userid=${userInfo.id}">회원삭제</button>
+            <div class="inner-divider"></div>
+            <div class="right-align">
+                <button class="delete-button" th:attr="data-userid=${userInfo.id}">회원탈퇴</button>
+                <input class="action-button"  type="submit" value="Submit">
             </div>
+
         </div>
     </div>
 </form>

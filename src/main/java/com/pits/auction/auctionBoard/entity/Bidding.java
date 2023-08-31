@@ -35,12 +35,12 @@ public class Bidding {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JsonIgnore
     @JoinColumn(name = "nickname", referencedColumnName = "nickname" , nullable = false)
     private Member bidder;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JsonIgnore
     @JoinColumn(name = "auction_id", nullable = false)
     private MusicAuction auctionId;

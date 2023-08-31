@@ -1,5 +1,6 @@
 package com.pits.auction.auth.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pits.auction.auctionBoard.entity.Bidding;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
 import jakarta.persistence.*;
@@ -23,8 +24,8 @@ import java.util.List;
 */
 
 @Entity
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -58,10 +59,12 @@ public class Member {
     /* 다른 테이블과 관계 설정 */
     
     // 해당 회원의 입찰 정보
+    @JsonIgnore
     @OneToMany(mappedBy = "bidder", cascade = CascadeType.REMOVE)
     private List<Bidding> biddings;
 
     // 해당 회원의 경매글 정보
+    @JsonIgnore
     @OneToMany(mappedBy = "authorNickname", cascade = CascadeType.REMOVE)
     private List<MusicAuction> musicAuctions;
 

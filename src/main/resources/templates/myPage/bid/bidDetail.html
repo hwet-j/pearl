@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bidding Details</title>
+</head>
+<body>
+<div>
+    <p>ID: <span th:text="${bidding.id}"></span></p>
+    <p>입찰자: <span th:text="${bidding.bidder}"></span></p>
+    <!--<p>입찰 물품 ID: <span th:text="${bidding.auctionId.id}"></span></p>-->
+    <p>가격: <span th:text="${bidding.price}"></span></p>
+    <p>입찰시간: <span th:text="${bidding.bidTime}"></span></p>
+    <p>상태: <span th:text="${bidding.status}"></span></p>
+
+</div>
+</body>
+</html>

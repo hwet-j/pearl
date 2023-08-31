@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Balance</title>
+</head>
+<body>
+<h1>User Balance</h1>
+
+<div th:if="${userInfo}">
+    <p>User: <span th:text="${userInfo.nickname}"></span></p>
+    <p>Balance: <span th:text="${userInfo.balance}"></span></p>
+</div>
+
+<h2>Deposit</h2>
+<form th:action="@{/mypage/balance}" method="post">
+    <input type="hidden" name="userId" th:value="${userInfo.id}" />
+    <input type="hidden" name="action" value="deposit" />
+    <label for="depositAmount">Amount:</label>
+    <input type="number" name="balance" id="depositAmount" required />
+    <button type="submit">Deposit</button>
+</form>
+
+<h2>Withdraw</h2>
+<form th:action="@{/mypage/balance}" method="post">
+    <input type="hidden" name="userId" th:value="${userInfo.id}" />
+    <input type="hidden" name="action" value="withdraw" />
+    <label for="withdrawAmount">Amount:</label>
+    <input type="number" name="balance" id="withdrawAmount" required />
+    <button type="submit">Withdraw</button>
+</form>
+</body>
+</html>

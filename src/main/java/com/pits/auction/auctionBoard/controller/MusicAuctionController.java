@@ -22,20 +22,20 @@ import jakarta.servlet.annotation.MultipartConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -94,6 +94,41 @@ public class MusicAuctionController {
         List<MusicAuction> musicAuctions= musicAuctionService.findAll();
         model.addAttribute("musicAuctions", musicAuctions);
         return "/auction/read";
-    }           
+    }
+
+    /* 글 상세보기 (auctionId) */
+    @GetMapping("/detail")
+    @ResponseBody
+    public Long auctionDedail(Long auctionId){
+        Long id = 2L;
+        Optional<MusicAuction> musicAuction = musicAuctionService.findById(id);
+
+        // 리턴 값 남은 시간
+        return  musicAuctionService.remainingTime(musicAuction.get().getEndTime());
+    }
+
+
+    /* 동적 시간 구현 -> 실질적인 기능은 HTML의 script에서 구현되어있고 여기서는 현재시간과 설정시간의 차이를 초단위로 변환 */
+    @GetMapping("/clocktest")
+    public String showClock(Model model) {
+
+        long currentTimeMillis = System.currentTimeMillis();
+        // 특정 시간을 설정
+        int specificYear = 2023;
+        int specificMonth = 8;
+        int specificDay = 30;
+        int specificHour = 12;
+        int specificMinute = 0;
+        int specificSecond = 0;
+
+        LocalDateTime specificDateTime = LocalDateTime.of(specificYear, specificMonth, specificDay, specificHour, specificMinute, specificSecond);
+        long specificTimeMillis = specificDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        long timeDifferenceSeconds = (specificTimeMillis - currentTimeMillis) / 1000; // 밀리초를 초로 변환
+
+
+        model.addAttribute("timeDifference", timeDifferenceSeconds);
+        return "/myPage/clockTest";
+    }
+
 
 }

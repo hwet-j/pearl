@@ -1,5 +1,6 @@
 package com.pits.auction.auth.controller;
 
+import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
 import com.pits.auction.auctionBoard.service.BiddingService;
 import com.pits.auction.auctionBoard.service.MusicAuctionService;
 import com.pits.auction.auth.dto.MemberDTO;
@@ -41,11 +42,34 @@ public class MyPageController {
     }
 
 
-    /* 특정 유저 정보 (id) */
+    /* 마이페이지 (id) */
     @GetMapping("/userinfo")
     public String getUserInfo(@RequestParam("userId") Long userId, Model model) {
 
-        model.addAttribute("userInfo", memberService.getUserInfo(userId));
+        // 회원 정보
+        MemberDTO userInfo = memberService.getUserInfo(userId);
+        model.addAttribute("userInfo",userInfo);
+
+
+        System.out.println("111111111111111111111");
+        // 입찰중인 경매물품 - 마지막에 입찰한 물품 하나
+        MusicAuctionDTO auction = musicAuctionService.getLastBiddingAuction(userInfo.getNickname());
+        System.out.println("22222222222222222222");
+
+        // 입찰중인 경매물품이 존재할 경우
+        if (auction != null) {
+            System.out.println("333333333333333333333");
+            // auction 객체를 받아온 경우에 수행할 로직
+            model.addAttribute("auction", auction);
+
+            // 해당 물품 입찰 최고가
+            model.addAttribute("maxPrice",biddingService.getMaxBidPriceForAuction(auction.getId()));
+            model.addAttribute("myPrice",musicAuctionService.findLastBidPriceByNickname(userInfo.getNickname()));
+        } else {
+            // auction 객체가 null인 경우에 수행할 로직
+            // 예: 다른 기본값 설정 또는 에러 메시지 등
+        }
+
 
         return "/myPage/userRead";
     }
@@ -57,6 +81,8 @@ public class MyPageController {
                                MemberEditValidator memberEditValidator) {
         MemberDTO userInfo = memberService.getUserInfo(userId);
         model.addAttribute("userInfo", userInfo);
+    //        memberEditValidator.setPhoneNumber(userInfo.getPhoneNumber());
+    //        memberEditValidator.setPassword(userInfo.getPassword());
         return "/myPage/userEdit";
     }
 
@@ -72,11 +98,18 @@ public class MyPageController {
 
         // 비밀번호 유효성 검사 에러가 있는지 확인
         if (bindingResult.hasErrors()) {
-            bindingResult.reject("password", bindingResult.getFieldError("password").getDefaultMessage());
-            bindingResult.reject("phoneNumber", bindingResult.getFieldError("phoneNumber").getDefaultMessage());
 
             MemberDTO userInfo = memberService.getUserInfo(userId);
             model.addAttribute("userInfo", userInfo);
+            if (bindingResult.hasFieldErrors("password")) {
+                bindingResult.reject("password", bindingResult.getFieldError("password").getDefaultMessage());
+            }
+
+            if (bindingResult.hasFieldErrors("phoneNumber")) {
+                bindingResult.reject("phoneNumber", bindingResult.getFieldError("phoneNumber").getDefaultMessage());
+            }
+
+
             return "/myPage/userEdit";      // 유효성 검사 에러가 있을 경우 수정 페이지로 다시 돌아감
         }
 
@@ -89,10 +122,8 @@ public class MyPageController {
 
         // 중복된 정보가 없으면 업데이트
         if (memberService.duplicatePhoneNumber(memberEditValidator.getId(),memberEditValidator.getPhoneNumber())){
-            System.out.println("중복 O" + memberEditValidator.getPhoneNumber());
             throw new PhoneNumberDuplicateException(memberEditValidator.getPhoneNumber());
         } else {
-            System.out.println("중복 X" + memberEditValidator.getPhoneNumber());
             userInfo.setPhoneNumber(memberEditValidator.getPhoneNumber());
         }
 
@@ -101,6 +132,7 @@ public class MyPageController {
         // 노래 업로드 테스트
         if (!audioFile.isEmpty()) {
             audioUpload.uploadAudio(audioFile);
+            // audioUpload.cutAndSaveAudio(audioFile);
         }
 
         memberService.updateUserInfo(userInfo);

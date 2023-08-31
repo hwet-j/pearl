@@ -23,8 +23,8 @@ public class AdminMemberController {
     public String memberList(Model model,@PageableDefault(size = 10) Pageable pageable) throws Exception {
         Page<Member> memberList = memberService.getMemberList(pageable);
        int nowPage=memberList.getPageable().getPageNumber()+1;
-       int startPage=Math.max(nowPage-3,1);
-       int endPage=Math.min(nowPage+3,memberList.getTotalPages());
+       int startPage=Math.max(nowPage-4,1);
+       int endPage=Math.min(nowPage+4,memberList.getTotalPages());
        int firstPage=Math.max(0,0);
        int lastPage=memberList.getTotalPages()-1;
 
@@ -43,8 +43,8 @@ public class AdminMemberController {
     public String memberYList(Model model,@PageableDefault(size = 10) Pageable pageable) throws Exception {
        Page<Member> memberYList = memberService.getMemberYList(pageable);
         int nowPage=memberYList.getPageable().getPageNumber()+1;
-        int startPage=Math.max(nowPage-3,1);
-        int endPage=Math.min(nowPage+3,memberYList.getTotalPages());
+        int startPage=Math.max(nowPage-4,1);
+        int endPage=Math.min(nowPage+4,memberYList.getTotalPages());
         int firstPage=Math.max(0,0);
         int lastPage=memberYList.getTotalPages()-1;
         model.addAttribute("memberYList",memberYList);

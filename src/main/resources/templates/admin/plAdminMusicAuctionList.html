@@ -4,28 +4,32 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.rtl.min.css" integrity="sha384-PRrgQVJ8NNHGieOA1grGdCTIt4h21CzJs6SnWH4YMQ6G5F5+IEzOHz67L4SQaF0o" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.rtl.min.css" integrity="sha384-PRrgQVJ8NNHGieOA1grGdCTIt4h21CzJs6SnWH4YMQ6G5F5+IEzOHz67L4SQaF0o" crossorigin="anonymous">
 
 <script>
     function checkAll(source) {
       var checkboxes = document.querySelectorAll('input[type="checkbox"]');
       for(var i = 0; i < checkboxes.length; i++) {
         checkboxes[i].checked = source.checked;
+      }
     }
 </script>
 <style>
   body {
-   background-color: #000000;
+           background-color: #000000;
         }
+a {
+  text-decoration-line: none;
+;}
 </style>
 <body>
-<div class="body">
+<div style="margin:150px;" >
     <div class="container"  >
-<form action="/musicAuction/delete" method="post" th:object="${musicAuction}">
+<form method="post" th:object="${musicAuction}" action="/musicAuction/delete">
 <table border="1"  class="table table-dark table-striped" style="text-align: center;">
     <thead>
     <tr>
-        <th><input name="selectedMusicAutions" onclick="checkAll(this)" type="checkbox" value="${musicAuction.id}"></th>
+        <th><input type="checkbox" name="selectedMusicAutions" value="${musicAuction.id}" onclick="checkAll(this)"></th>
         <th>글번호</th>
         <th>제목</th>
         <th>장르</th>
@@ -35,22 +39,23 @@
     </thead>
     <tbody>
     <tr th:each="musicAuction:${musicAuctionList}" >
-        <td><input name="selectedMusicAutions" th:value="${musicAuction.id}" type="checkbox" ></td>
-        <td name="id" th:text="${musicAuction.id}"></td>
+        <td><input type="checkbox" name="selectedMusicAutions" th:value="${musicAuction.id}" ></td>
+        <td th:text="${musicAuction.id}" name="id"></td>
         <td  name="title"><a href="" th:text="${musicAuction.title}"></a></td>
-        <td name="authorNickname" th:text="${musicAuction.authorNickname.nickname}"></td>
-        <td name="authorNickname" th:text="${musicAuction.authorNickname.nickname}"></td>
-        <td name="createdAt" th:text="${#temporals.format(musicAuction.createdAt,'yyyy-MM-dd HH:mm')}"></td>
+        <td th:text="${musicAuction.genre.name}" name="genre"></td>
+        <td th:text="${musicAuction.authorNickname.nickname}" name="authorNickname"></td>
+        <td th:text="${#temporals.format(musicAuction.createdAt,'yyyy-MM-dd HH:mm')}" name="createdAt"></td>
     </tr>
     </tbody>
-</table>
-    <button class="btn btn-light" style="text-align:right;" type="submit">삭제</button>
-    <a th:href="@{/musicAuction/list(page=${firstPage})}" th:if="${page!=firstPage}"  th:text="'처음'"></a>
+</table><div style="text-align: right;">
+    <button class="btn btn-light" style="text-align:right;" type="submit">삭제</button></div>  <div style="text-align: center;">
+    <a th:href="@{/musicAuction/list(page=${firstPage})}" th:if="${page!=firstPage}"  th:text="'처음'" class="btn btn-light"></a>
     <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-        <a th:href="@{/musicAuction/list(page=${page-1})}" th:if="${page != nowPage}"  th:text="${page}"></a>
-        <strong th:if="${page == nowPage}" th:text="${page}"></strong>
+        <a th:href="@{/musicAuction/list(page=${page-1})}" th:if="${page != nowPage}"  th:text="${page}" class="btn btn-light"></a>
+        <strong th:if="${page == nowPage}" th:text="${page}" class="btn btn-primary" style="background-color:#5F23E5; border-color:#5F23E5;"></strong>
     </th:block>
-    <a th:href="@{/musicAuction/list(page=${lastPage})}" th:if="${page != lastPage}" th:text="'끝'"></a>
+    <a th:href="@{/musicAuction/list(page=${lastPage})}" th:if="${page != lastPage}" th:text="'끝'" class="btn btn-light"></a>
+</div>
 </form>
     </div>
 </div>

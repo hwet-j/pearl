@@ -22,8 +22,8 @@ public class AdminMusicAuctionController {
     public String musicAuctionList(Model model,@PageableDefault(size = 10) Pageable pageable) throws Exception {
         Page<MusicAuction> musicAuctionList = adminMusicService.getMusicAuctionList(pageable);
         int nowPage=musicAuctionList.getPageable().getPageNumber()+1;
-        int startPage=Math.max(nowPage-3,1);
-        int endPage=Math.min(nowPage+3,musicAuctionList.getTotalPages());
+        int startPage=Math.max(nowPage-4,1);
+        int endPage=Math.min(nowPage+4,musicAuctionList.getTotalPages());
         int firstPage=Math.max(0,0);
         int lastPage=musicAuctionList.getTotalPages()-1;
         model.addAttribute("musicAuctionList",musicAuctionList);

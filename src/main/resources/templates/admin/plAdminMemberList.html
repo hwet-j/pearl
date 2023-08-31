@@ -18,17 +18,18 @@
 <style>
 body {
  background-color: #000000;
-
 }
+.fixed-row th, .fixed-row td {
+min-width: 80px;}
 </style>
 <body>
-<div class="body">
+<div style="margin:150px;" >
     <div class="container">
 
 <form action="/member/delete" method="post" th:object="${member}">
 <table border="1" class="table table-dark table-striped" style="text-align: center;">
     <thead>
-    <tr>
+    <tr class="fixed-row">
         <th><input name="selectedMembers" onclick="checkAll(this)" type="checkbox" value="${member.id}" ></th>
         <th>번호</th>
         <th>이메일</th>
@@ -58,15 +59,18 @@ body {
      </th:block>
 
     </tbody>
-</table>
+</table><div style="text-align: right;">
     <button class="btn btn-light" style="text-align:right;" type="submit">삭제</button>
     <button class="btn btn-light" onclick="location.href='/member/Ylist';" type="button">탈퇴회원 목록</button>
-        <a th:href="@{/member/list(page=${firstPage})}" th:if="${page!=firstPage}"  th:text="'처음'"></a>
+</div>
+    <div style="text-align: center;">
+        <a th:href="@{/member/list(page=${firstPage})}" th:if="${page!=firstPage}"  th:text="'처음'" class="btn btn-light"></a>
     <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-        <a th:href="@{/member/list(page=${page-1})}" th:if="${page != nowPage}"  th:text="${page}"></a>
-        <strong th:if="${page == nowPage}" th:text="${page}"></strong>
+        <a th:href="@{/member/list(page=${page-1})}" th:if="${page != nowPage}"  th:text="${page}" class="btn btn-light"></a>
+        <strong th:if="${page == nowPage}" th:text="${page}" class="btn btn-primary" style="background-color:#5F23E5; border-color:#5F23E5;"></strong>
     </th:block>
-        <a th:href="@{/member/list(page=${lastPage})}" th:if="${page != lastPage}" th:text="'끝'"></a>
+        <a th:href="@{/member/list(page=${lastPage})}" th:if="${page != lastPage}" th:text="'끝'" class="btn btn-light"></a>
+    </div>
 </form>
 
 </div>

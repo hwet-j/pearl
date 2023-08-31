@@ -31,8 +31,8 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.modelmapper:modelmapper:2.4.4'
-	implementation 'org.jaudiotagger:jaudiotagger:2.2.6'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
 
 }
 

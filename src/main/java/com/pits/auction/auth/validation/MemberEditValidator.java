@@ -1,6 +1,7 @@
 package com.pits.auction.auth.validation;
 
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,11 +14,13 @@ public class MemberEditValidator {
 
     private String memberImage;
 
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$|^$",
             message = "비밀번호는 최소 8자 길이, 대문자, 소문자, 숫자, 특수 문자가 포함되어야 합니다.")
     private String password;
 
-    @Pattern(regexp = "^\\d{3}-\\d{3,4}-\\d{4}$", message = "전화번호 형식에 맞지 않습니다. (xxx-xxxx-xxxx)")
+
+    @Pattern(regexp = "^\\d{3}-\\d{3,4}-\\d{4}$|^$",
+            message = "전화번호 형식에 맞지 않습니다. (010-0000-0000)")
     private String phoneNumber;
 
 }

@@ -3,6 +3,7 @@ package com.pits.auction.auth.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pits.auction.auctionBoard.entity.Bidding;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
+import com.pits.auction.auctionBoard.entity.WishList;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -68,5 +69,8 @@ public class Member {
     @OneToMany(mappedBy = "authorNickname", cascade = CascadeType.REMOVE)
     private List<MusicAuction> musicAuctions;
 
-
+    // 찜목록
+    @JsonIgnore
+    @OneToMany(mappedBy = "memberNickname")
+    private List<WishList> wishList;
 }

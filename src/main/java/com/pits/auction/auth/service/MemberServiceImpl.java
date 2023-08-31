@@ -209,14 +209,14 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void AdminEditMember(MemberDTO memberDTO, Long id){
-    Optional<Member> optionalMember = memberRepository.findById(id);
-    if (optionalMember.isPresent()) {
-        Member member = optionalMember.get();
-        member.setPassword(memberDTO.getPassword());
-        member.setPhoneNumber(memberDTO.getPhoneNumber());
-        member.setWithdrawalRequested(memberDTO.getWithdrawalRequested());
-        memberRepository.save(member);
-    }
+        Optional<Member> optionalMember = memberRepository.findById(id);
+        if (optionalMember.isPresent()) {
+            Member member = optionalMember.get();
+            member.setPassword(memberDTO.getPassword());
+            member.setPhoneNumber(memberDTO.getPhoneNumber());
+            member.setWithdrawalRequested(memberDTO.getWithdrawalRequested());
+            memberRepository.save(member);
+        }
     }
 
 

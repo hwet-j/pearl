@@ -22,7 +22,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     List<Member> findAllActiveMembers();
 
 
-   @Query("SELECT m FROM Member m WHERE m.withdrawalRequested = true")
+    @Query("SELECT m FROM Member m WHERE m.withdrawalRequested = true")
     Page<Member> findByWithdrawalRequestedTrue(Pageable pageable);
     Page<Member> findAll(Pageable pageable);
 }

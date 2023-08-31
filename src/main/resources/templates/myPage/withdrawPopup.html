@@ -17,6 +17,7 @@
     <label for="withdrawAmount">출금 금액:</label>
     <input type="number" id="withdrawAmount" required>
     <button type="button" onclick="submitWithdraw()">출금</button>
+    <button type="button" onclick="closeWindow()">취소</button>
 </form>
 
 <script th:inline="javascript">
@@ -53,6 +54,10 @@
                 });
             }
         });
+    }
+
+    function closeWindow() {
+        window.close();
     }
 </script>
 </body>

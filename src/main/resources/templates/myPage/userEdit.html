@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>회원 정보 수정</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/hwet_mypage.css}">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script th:inline="javascript">
         function previewImage() {
                 var image_upload = document.getElementById('memberImage');
@@ -37,10 +40,34 @@
                 image_upload.value = ''; // 파일 선택 초기화
             }
 
+document.addEventListener("DOMContentLoaded", function () {
+    const deleteButtons = document.querySelectorAll(".delete-button");
+
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", function (event) {
+            event.preventDefault(); // 기본 동작 취소
+
+            const userId = button.getAttribute("data-userid");
+
+            Swal.fire({
+                title: '회원 삭제',
+                text: '정말로 삭제하시겠습니까?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '삭제',
+                cancelButtonText: '취소',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const deleteForm = button.closest('form'); // 버튼이 속한 form 요소 찾기
+                    deleteForm.action = "/mypage/userdelete?userId=" + userId;
+                    deleteForm.submit(); // form 제출
+                }
+            });
+        });
+    });
+});
+
     </script>
-
-
-
 
 </head>
 <body>
@@ -51,30 +78,48 @@
 
 
 <form th:action="@{/mypage/useredit(userId=${userInfo.id})}" th:object="${memberEditValidator}" method="post" enctype="multipart/form-data">
-    <input type="hidden" id="id" name="id" th:value="${userInfo.id}"/><br>
+    <div class="split-container">
+        <div class="left-side-edit">
+            <input type="hidden" id="id" name="id" th:value="${userInfo.id}"/><br>
 
-    <div>변경전 이미지 <img th:src="@{__${userInfo.memberImage}__}" alt="Image" style="max-width: 20%;"></div>
-    <label for="memberImage">변경할 이미지</label>
-    <input type="file" name="image" id="memberImage" th:value="${userInfo.memberImage}" accept="image/*" onchange="previewImage()" /><br>
-    <img id="image_preview" src="#" alt="Image Preview" style="max-width: 20%; display: none;" />
-    <button id="cancel_image" style="display: none;" onclick="cancelImage(event)">이미지 취소</button>
+            <div>변경전 이미지 <img th:src="@{__${userInfo.memberImage}__}" alt="Image" style="max-width: 20%;"></div>
+            <label for="memberImage">변경할 이미지</label>
+            <input type="file" name="image" id="memberImage" th:value="${userInfo.memberImage}" accept="image/*" onchange="previewImage()" /><br>
+            <img id="image_preview" src="#" alt="Image Preview" style="max-width: 20%; display: none;" />
+            <button id="cancel_image" style="display: none;" onclick="cancelImage(event)">이미지 취소</button>
+        </div>
 
-    <label for="password">Password</label>
-    <input th:field="*{password}" id="password"/><br>
 
-    <div style="color:red;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></div>
+        <div class="right-side-edit">
+            <div>Nickname</div>
+            <div class="bordered"><span th:text="${userInfo.nickname}"></span><span class="right-align">수정불가</span></div>
 
-    <label for="phoneNumber">Phone Number</label>
-    <input type="text" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}" /> <br>
+            <div>E-mail</div>
+            <div class="bordered"><span th:text="${userInfo.email}"></span><span class="right-align">수정불가</span></div>
 
-    <div style="color:red;" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="error"></div>
+            <label for="password">Password</label>
+            <div class="bordered"><input type="password" th:field="*{password}"/><br></div>
 
-    <label for="audio">오디오(저장테스트)</label>
-    <input type="file" name="audio" id="audio" accept="audio/*" /><br>
+            <div style="color:red;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></div>
 
-    <input type="submit" value="Submit">
+            <label for="phoneNumber">Phone Number</label>
+            <div class="bordered"><input type="text" th:field="*{phoneNumber}" /></div>
+
+            <div style="color:red;" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="error"></div>
+
+            <label for="audio">오디오(저장테스트)</label>
+            <input type="file" name="audio" id="audio" accept="audio/*" /><br>
+
+            <div class="inner-divider"></div>
+
+            <div>
+                <input type="submit" value="Submit">
+                <button class="delete-button" th:attr="data-userid=${userInfo.id}">회원삭제</button>
+            </div>
+        </div>
+    </div>
 </form>
 
-<a th:href="@{/mypage/userdelete(userId=${userInfo.id})}">회원삭제</a>
+
 </body>
 </html>

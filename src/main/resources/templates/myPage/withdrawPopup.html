@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>출금</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/hwet_mypage.css}">
 
     <!-- jQuery 및 SweetAlert2 스타일시트, 스크립트 로드 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -12,12 +13,17 @@
 <body>
 <h2>출금</h2>
 
-<form id="withdrawForm">
-    <input type="hidden" id="userId" th:value="${userInfo.id}">
-    <label for="withdrawAmount">출금 금액:</label>
-    <input type="number" id="withdrawAmount" required>
-    <button type="button" onclick="submitWithdraw()">출금</button>
-</form>
+
+<div class="transaction-container">
+    <form id="withdrawForm">
+        <input type="hidden" id="userId" th:value="${userInfo.id}">
+        <label for="withdrawAmount">출금 금액:</label>
+        <div class="bordered"><input type="number" id="withdrawAmount" placeholder="출금할 금액을 설정해주세요." required></div>
+        <button type="button" onclick="submitWithdraw()">출금</button>
+        <button type="button" onclick="closeWindow()">취소</button>
+    </form>
+</div>
+
 
 <script th:inline="javascript">
     function submitWithdraw() {
@@ -53,6 +59,10 @@
                 });
             }
         });
+    }
+
+    function closeWindow() {
+        window.close();
     }
 </script>
 </body>

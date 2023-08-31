@@ -4,10 +4,12 @@ package com.pits.auction.auctionBoard.service;
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO2;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
-import com.pits.auction.auctionBoard.repository.MusicAuctionRepository;
+import com.pits.auction.auctionBoard.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.time.ZoneId;
 import java.util.List;
 import com.pits.auction.auctionBoard.entity.BiddingPeriod;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
@@ -32,6 +34,7 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
     private final MusicGenreRepository musicGenreRepository;
     private final BiddingPeriodRepository biddingPeriodRepository;
     private final MemberRepository memberRepository;
+    private final BiddingRepository biddingRepository;
     private final ModelMapper modelMapper;
 
     @Override
@@ -60,7 +63,7 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
     }
   
   
-  @Override
+    @Override
     public MusicAuctionDTO getMusicAuctionById(Long id) {
         Optional<MusicAuction> optionalMusicAuction = musicAuctionRepository.findById(id);
 
@@ -82,8 +85,36 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
         return musicAuctionRepository.findById(id);
     }
 
+    @Override
+    public Long remainingTime(LocalDateTime endTime){
+        long currentTimeMillis = System.currentTimeMillis();
+
+        long specificTimeMillis = endTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+
+        return (specificTimeMillis - currentTimeMillis) / 1000;
+    }
 
 
+    @Override
+    public MusicAuctionDTO getLastBiddingAuction(String nickname){
+
+        Long auctionId = biddingRepository.findLastAuctionIdByNickname(nickname);
+        if (auctionId == null){
+            return null;
+        }
+
+        Optional<MusicAuction> musicAuction = musicAuctionRepository.findById(auctionId);
+
+        if (musicAuction.isPresent()){
+            return MusicAuctionDTO.fromEntity(musicAuction.get());
+        }
+        return null;
+    }
+
+    @Override
+    public Long findLastBidPriceByNickname(String nickname){
+        return biddingRepository.findLastBidPriceByNickname(nickname);
+    }
 
 
 }

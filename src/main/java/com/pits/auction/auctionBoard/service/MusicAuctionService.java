@@ -25,4 +25,6 @@ public interface MusicAuctionService {
     Long findLastBidPriceByNickname(String nickname);
 
     Page<MusicAuction> getMusicByOrderByIdDesc(int page, int size);
+
+    List<MusicAuction> findAllByOrderByEndTime();
 }

@@ -125,5 +125,11 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
         return musicAuctionRepository.findAllByOrderByIdDesc(pageable);
     }
+
+    @Override
+    public List<MusicAuction> findAllByOrderByEndTime() {
+        List<MusicAuction> musicAuctions=musicAuctionRepository.findAllByOrderByEndTime();
+        return musicAuctions;
+    }
 }
 

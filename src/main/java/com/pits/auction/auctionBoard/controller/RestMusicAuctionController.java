@@ -10,7 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/testing")
@@ -28,6 +30,15 @@ public class RestMusicAuctionController {
         Page<MusicAuction> musicAuctions = musicAuctionService.getMusicByOrderByIdDesc(page, 16);
         modelAndView.addObject("musicAuctions", musicAuctions);
         modelAndView.setViewName("/auction/read");
+        List<MusicAuction> musicAuctionList = musicAuctionService.findAllByOrderByEndTime();
+
+        List<Long> remainingTimes = new ArrayList<>();
+        for(MusicAuction musicAuction : musicAuctionList){
+            Long remainingTime = musicAuctionService.remainingTime(musicAuction.getEndTime());
+            remainingTimes.add(remainingTime);
+        }
+        modelAndView.addObject("musicAuctionList",musicAuctionList);
+        modelAndView.addObject("remainingTimes", remainingTimes);
         return modelAndView;
     }
 

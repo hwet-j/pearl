@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,17 +15,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RequiredArgsConstructor
 @Controller
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminMemberController {
 
     private final MemberService memberService;
-    
+
     //회원목록
     @GetMapping("/member/list")
     public String memberList(Model model,@PageableDefault(size = 10) Pageable pageable) throws Exception {
         Page<Member> memberList = memberService.getMemberList(pageable);
        int nowPage=memberList.getPageable().getPageNumber()+1;
-       int startPage=Math.max(nowPage-4,1);
-       int endPage=Math.min(nowPage+4,memberList.getTotalPages());
+       int startPage=Math.max(nowPage-3,1);
+       int endPage=Math.min(nowPage+3,memberList.getTotalPages());
        int firstPage=Math.max(0,0);
        int lastPage=memberList.getTotalPages()-1;
 
@@ -37,14 +39,14 @@ public class AdminMemberController {
 
         return "/admin/plAdminMemberList";
     }
-    
+
     //탈퇴회원 리스트
     @GetMapping("/member/Ylist")
     public String memberYList(Model model,@PageableDefault(size = 10) Pageable pageable) throws Exception {
        Page<Member> memberYList = memberService.getMemberYList(pageable);
         int nowPage=memberYList.getPageable().getPageNumber()+1;
-        int startPage=Math.max(nowPage-4,1);
-        int endPage=Math.min(nowPage+4,memberYList.getTotalPages());
+        int startPage=Math.max(nowPage-3,1);
+        int endPage=Math.min(nowPage+3,memberYList.getTotalPages());
         int firstPage=Math.max(0,0);
         int lastPage=memberYList.getTotalPages()-1;
         model.addAttribute("memberYList",memberYList);
@@ -71,7 +73,7 @@ public class AdminMemberController {
         memberService.AdminEditMember(memberDTO,id);
         return "redirect:/member/edit/"+id;
     }
-    
+
     //회원 상세페이지 멤버삭제
     @GetMapping("/member/delete")
     public String memberDelete(@RequestParam("id")Long id) throws Exception {
@@ -79,7 +81,7 @@ public class AdminMemberController {
         memberService.deleteMember(id);
         return "redirect:/member/list";
     }
-    
+
     //체크박스 회원 삭제
     @PostMapping("/member/delete")
     public String deleteMembers(@RequestParam("selectedMembers")List<Long> ids) throws Exception {

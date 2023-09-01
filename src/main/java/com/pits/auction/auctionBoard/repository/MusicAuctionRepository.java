@@ -17,4 +17,7 @@ public interface MusicAuctionRepository extends JpaRepository<MusicAuction, Long
     List<MusicAuction> findAllActiveAuctions();
 
     Page<MusicAuction> findAllByOrderByIdDesc(Pageable pageable);
+
+    @Query("SELECT ma FROM MusicAuction ma ORDER BY ma.endTime DESC limit 5")
+    List<MusicAuction> findAllByOrderByEndTime();
 }

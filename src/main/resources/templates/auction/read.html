@@ -3,17 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <title>목록페이지</title>
-<link href="/css/scroll.css" rel="stylesheet" type="text/css">
-
+    <link href="/css/scroll.css" rel="stylesheet" type="text/css">
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 </head>
 <body>
-    <div class="wrap">
+    <div class="container">
+        <div class="left">
+            Today's<br>
+            Top<br>
+            Price<br>
+            Musics
+        </div>
+        <div class="right">
+            <!-- Slider main container -->
+            <div class="swiper">
+                <!-- Additional required wrapper -->
+                <div class="swiper-wrapper">
+                    <!-- Slides -->
+                    <div class="swiper-slide" th:each="musicAuctionList, iterStat :${musicAuctionList}">
+                        <div class="item-content">
+                            <div class="item-image">
+                                <img th:src="@{/images/{filename}(filename=${musicAuctionList.albumImage})}">
+                            </div>
+                            <div class="item-text">
+                                <div th:text="${musicAuctionList.title}"></div>
+                                <div th:text="${musicAuctionList.content}"></div>
+                                <h1 th:id="'timeDifference' + ${iterStat.index}"></h1>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- 스크롤 필요시 추가 -->
+                <div class="swiper-scrollbar"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="scroller">
         <div class="card" th:each="musicAuctions : ${musicAuctions}">
             <div class="albumImage">
-                <img th:src="@{/images/{filename}(filename=${musicAuctions.albumImage})}" height="" width="">
+                <img th:src="@{/images/{filename}(filename=${musicAuctions.albumImage})}">
             </div>
             <div class="top">
                 <div th:text="${musicAuctions.id}"></div>
+            </div>
+            <div class="top">
+                <div th:text="${musicAuctions.title}"></div>
             </div>
             <div class="bottom">
                 <div th:text="${musicAuctions.content}"></div>
@@ -21,6 +61,52 @@
         </div>
     </div>
     <div id="loadingIndicator" class="loading">Now Loading...</div>
-<script src="/js/infiniteScroll.js"></script>
+    <script src="/js/infiniteScroll.js"></script>
+    <script>
+        new Swiper('.swiper', {
+     direction: 'vertical',
+    // autoplay: true 도 가능하지만 객체 데이터로 할당하면 추가적인 옵션 설정 가능
+  autoplay: {
+    // 자동재생 여부
+    delay: 5000, // 시작시간 설정
+  },
+  loop: true, // 반복재생 여부
+  slidesPerView: 1, // 한번에 보여줄 슬라이드 개수
+  spaceBetween: 10, // 슬라이드 사이 여백
+  centeredSlides: true // 1번 슬라이드가 가운데 보이기
+
+});
+    </script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var remainingTimes = /*[[${remainingTimes}]]*/;
+        var intervalIDs = [];
+
+        function startCountdown(index) {
+            var timeDifference = remainingTimes[index];
+            var timeDifferenceElement = document.getElementById("timeDifference" + index);
+
+            function updateTime() {
+                var days = Math.floor(timeDifference / (60 * 60 * 24));
+                var hours = Math.floor((timeDifference % (60 * 60 * 24)) / (60 * 60));
+                var minutes = Math.floor((timeDifference % (60 * 60)) / 60);
+                var seconds = timeDifference % 60;
+
+                var timeString = days + " 일 " + hours + " 시간 " + minutes + " 분 " + seconds + " 초";
+                timeDifferenceElement.textContent = "입찰 마감: " + timeString;
+
+                timeDifference--; // 시간 차이를 1초씩 감소
+            }
+
+            updateTime();  // 처음 실행
+            console.log("Starting countdown for index " + index);
+            intervalIDs[index] = setInterval(updateTime, 1000);
+        }
+
+        for (var i = 0; i < remainingTimes.length; i++) {
+            startCountdown(i);
+        }
+        /*]]>*/
+    </script>
 </body>
 </html>

@@ -1,10 +1,16 @@
 package com.pits.auction.auctionBoard.service;
 
-
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO2;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
-import com.pits.auction.auctionBoard.repository.*;
+import com.pits.auction.auctionBoard.repository.BiddingPeriodRepository;
+import com.pits.auction.auctionBoard.repository.BiddingRepository;
+import com.pits.auction.auctionBoard.repository.MusicAuctionRepository;
+import com.pits.auction.auctionBoard.repository.MusicGenreRepository;
+import com.pits.auction.auctionBoard.service.MusicAuctionService;
+import com.pits.auction.auth.entity.Member;
+import com.pits.auction.auth.repository.MemberRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -13,22 +19,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
-import com.pits.auction.auctionBoard.entity.BiddingPeriod;
-import com.pits.auction.auctionBoard.entity.MusicAuction;
-import com.pits.auction.auctionBoard.entity.MusicGenre;
-import com.pits.auction.auctionBoard.repository.BiddingPeriodRepository;
-import com.pits.auction.auctionBoard.repository.MusicAuctionRepository;
-import com.pits.auction.auctionBoard.repository.MusicGenreRepository;
-import com.pits.auction.auth.entity.Member;
-import com.pits.auction.auth.repository.MemberRepository;
-import com.pits.auction.auctionBoard.entity.MusicAuction;
-import com.pits.auction.auctionBoard.repository.MusicAuctionRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -65,8 +58,8 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
         // DB에 저장
         return true;
     }
-  
-  
+
+
     @Override
     public MusicAuctionDTO getMusicAuctionById(Long id) {
         Optional<MusicAuction> optionalMusicAuction = musicAuctionRepository.findById(id);
@@ -78,7 +71,7 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
 
         return null;
     }
-  
+
     @Override
     public List<MusicAuction> findAll() {
         return musicAuctionRepository.findAll();
@@ -120,10 +113,45 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
         return biddingRepository.findLastBidPriceByNickname(nickname);
     }
 
+
     @Override
     public Page<MusicAuction> getMusicByOrderByIdDesc(int page, int size){
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
         return musicAuctionRepository.findAllByOrderByIdDesc(pageable);
     }
+
+
+    @Override
+    public List<MusicAuction> findAllByOrderByEndTime() {
+        List<MusicAuction> musicAuctions=musicAuctionRepository.findAllByOrderByEndTime();
+        return musicAuctions;
+    }
 }
 
+    @Override
+    public MusicAuctionDTO2 findDetailById(Long id) {
+        Optional<MusicAuction> optionalAuction = musicAuctionRepository.findById(id);
+        if(!optionalAuction.isPresent()) {
+            throw new EntityNotFoundException("Auction not found with id: " + id);
+        }
+
+        MusicAuction auction = optionalAuction.get();
+        MusicAuctionDTO2 dto = new MusicAuctionDTO2();
+
+        dto.setGenre(auction.getGenre().getId()); // Genre의 ID를 가져옵니다.
+        dto.setTitle(auction.getTitle());
+        dto.setAlbumImagePath(auction.getAlbumImage());
+        dto.setAlbumMusicPath(auction.getAlbumMusic());
+        dto.setContent(auction.getContent());
+        dto.setAuthorNickname(auction.getAuthorNickname().getNickname()); // Nickname 가져오는 메서드가 필요
+        dto.setStartingBid(auction.getStartingBid());
+        dto.setBiddingPeriod(auction.getBiddingPeriod().getId());
+
+        // 장르 이름 설정
+        if (auction.getGenre() != null) {
+            dto.setGenreName(auction.getGenre().getName());
+        }
+
+        return dto;
+    }
+}

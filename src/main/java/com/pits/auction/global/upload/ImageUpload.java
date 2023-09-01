@@ -48,10 +48,6 @@ public class ImageUpload {
         String saveFolder = "\\uploaded_images";
         String uploadDirectory = "C:/Auction/Image" +  saveFolder;
 
-        System.out.println(uploadDirectory);
-        System.out.println(uploadDirectory);
-        System.out.println(uploadDirectory);
-
         File directory = new File(uploadDirectory);
         if (!directory.exists()) {
             directory.mkdirs(); // 폴더가 없으면 생성

@@ -74,17 +74,5 @@ public class Member {
     @OneToMany(mappedBy = "memberNickname")
     private List<WishList> wishList;
 
-    @PrePersist
-    public void setBalanceWithdrawalRequested() {
-        if (this.withdrawalRequested == null) {
-            this.withdrawalRequested = false;
-        }
-
-        if (this.balance == null) {
-            this.balance = 0L;
-        }
-
-    }
-
 
 }

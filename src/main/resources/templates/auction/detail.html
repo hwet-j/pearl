@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>상세페이지</h1>
+<div>
+<span th:text="${auctionDetail.title}"></span><br>
+<span th:text="${auctionDetail.genreName}"></span><br>
+<span th:text="${auctionDetail.authorNickname}"></span><br>
+<audio controls>
+    <source src="/NewJeans - ETA (1).mp3" type="audio/mpeg">
+</audio>
+</div>
+<p>Description<br><span th:text="${auctionDetail.content}"></span></p>
+
+</body>
+</html>
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>상세페이지</h1>-->
+<!--<audio controls id="myAudio">-->
+<!--    <source src="/NewJeans - ETA (1).mp3" type="audio/mpeg">-->
+<!--</audio>-->
+<!--<canvas id="myCanvas" width="1496" height="80" style="width: 854px; height: 80px;"></canvas>-->
+
+<!--&lt;!&ndash; JavaScript를 추가합니다 &ndash;&gt;-->
+<!--<script th:inline="javascript">-->
+<!--    document.addEventListener('DOMContentLoaded', function() {-->
+<!--        const audio = document.getElementById('myAudio');-->
+<!--        const canvas = document.getElementById('myCanvas');-->
+<!--        const ctx = canvas.getContext('2d');-->
+<!--        const audioContext = new (window.AudioContext || window.webkitAudioContext)();-->
+<!--        const analyser = audioContext.createAnalyser();-->
+
+<!--        audio.onplay = function() {-->
+<!--            if (audioContext.state === 'suspended') {-->
+<!--                audioContext.resume();-->
+<!--            }-->
+<!--        }-->
+
+<!--        const source = audioContext.createMediaElementSource(audio);-->
+<!--        source.connect(analyser);-->
+<!--        analyser.connect(audioContext.destination);-->
+
+<!--        analyser.fftSize = 256;-->
+<!--        const bufferLength = analyser.frequencyBinCount;-->
+<!--        const dataArray = new Uint8Array(bufferLength);-->
+
+<!--        function getColor(i, max) {-->
+<!--            const frequencyRatio = i / max;-->
+<!--            const hueRange = { start: 270, end: 300 };-->
+<!--            const hue = hueRange.start + (hueRange.end - hueRange.start) * frequencyRatio;-->
+<!--            return `hsl(${hue}, 100%, 50%)`;-->
+<!--        }-->
+
+
+<!--        function draw() {-->
+<!--            requestAnimationFrame(draw);-->
+
+<!--            analyser.getByteFrequencyData(dataArray);-->
+
+<!--            ctx.fillStyle = 'white';-->
+<!--            ctx.fillRect(0, 0, canvas.width, canvas.height);-->
+<!--            ctx.lineWidth = 2;-->
+
+<!--            const barWidth = (canvas.width / bufferLength);-->
+<!--            let x = 0;-->
+
+<!--            for(let i = 0; i < bufferLength; i++) {-->
+<!--                const barHeight = dataArray[i];-->
+<!--                const dynamicHeight = barHeight * (1 + 2 * Math.sin(i + audio.currentTime));-->
+
+<!--                ctx.fillStyle = getColor(i, bufferLength);-->
+<!--                ctx.fillRect(x, canvas.height - barHeight/2, barWidth, barHeight/2);-->
+<!--                x += barWidth + 5;-->
+<!--            }-->
+<!--        }-->
+
+<!--        draw();-->
+<!--    });-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->

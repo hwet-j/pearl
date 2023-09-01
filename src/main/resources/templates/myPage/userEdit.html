@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <input type="hidden" id="id" name="id" th:value="${userInfo.id}"/><br>
             <div class="image-with-text">
                 <div class="center-align">
-                    <img class="edit-image" id="image_preview" th:src="@{__${userInfo.memberImage}__}" alt="Image">
+                    <img class="edit-image profile-box" id="image_preview" th:src="@{__${userInfo.memberImage}__}" onError="this.src='/pictures/no_profile.png';" alt="Image">
                 </div>
                 <!--<img id="image_preview" src="#" alt="Image Preview" style="max-width: 20%; display: none;" />-->
 

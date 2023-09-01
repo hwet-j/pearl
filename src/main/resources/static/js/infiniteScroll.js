@@ -1,10 +1,13 @@
 const container = document.querySelector('.wrap');
 let page = 0; // 시작 페이지 번호 (3부터 시작)
 let loading = false;
+const loadingIndicator = document.getElementById('loadingIndicator');
 
 function fetchMoreData() {
     if (loading) return; // 이미 로딩 중이라면 중복 호출 방지
-        loading = true; // 로딩 시작
+    loading = true; // 로딩 시작
+    loadingIndicator.style.display = 'block'; // 로딩 중 엘리먼트 표시
+
     fetch(`/testing/getMore/${page}`)
         .then(response => response.json())
         .then(data => {
@@ -34,7 +37,11 @@ function fetchMoreData() {
                 page++; // 페이지 증가
             }
         })
-        .catch(error => console.error('Error fetching data:', error));
+        .catch(error => console.error('Error fetching data:', error))
+                .finally(() => {
+                    loading = false; // 로딩 종료
+                    loadingIndicator.style.display = 'none'; // 로딩 중 엘리먼트 숨김
+                });
 }
 
 function checkScroll() {
@@ -43,7 +50,7 @@ function checkScroll() {
     const contentHeight = container.offsetHeight;
 
     if (scrollY + windowInnerHeight >= contentHeight) {
-         setTimeout(fetchMoreData, 300); // 0.3초 후에 데이터 불러오기 시작
+         setTimeout(fetchMoreData, 500); // 0.5초 후에 데이터 불러오기 시작
     }
 }
 

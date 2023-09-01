@@ -36,14 +36,6 @@ public class BiddingServiceImpl implements BiddingService{
     public boolean biddingWrite(Bidding bidding) {
 
         // 0원 이하의 입찰 불가
-        if (bidding.getPrice() <= 0) {
-            throw new IllegalArgumentException("Invalid bidding amount: " + bidding.getPrice());
-        }
-        
-        // 현재 최고가 보다 낮은 금액 입찰 불가
-        if (getMaxBidPriceForAuction(bidding.getAuctionId().getId()) >= bidding.getPrice()) {
-            throw new InsufficientBiddingException("Insufficient bidding amount: " + bidding.getPrice());
-        }
 
         try {
             biddingRepository.save(bidding);
@@ -110,9 +102,13 @@ public class BiddingServiceImpl implements BiddingService{
     }
 
 
+    /* 경매 물품 최대 입찰가 */
     @Override
     public Long getMaxBidPriceForAuction(Long auctionId) {
         Optional<Long> maxBidPrice = biddingRepository.findMaxPriceByAuctionId(auctionId);
         return maxBidPrice.orElse(null); // 0L 또는 원하는 기본 값으로 변경
     }
+
+
+
 }

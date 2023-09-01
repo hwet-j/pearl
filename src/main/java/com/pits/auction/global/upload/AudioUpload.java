@@ -3,10 +3,9 @@ package com.pits.auction.global.upload;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.UUID;
+import java.io.IOException;
 
 
 @Component
@@ -36,9 +35,12 @@ public class AudioUpload {
         // 저장
         try {
             FileCopyUtils.copy(file.getBytes(), dest);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
         return saveFolder + "\\" + uniqueFileName;
     }
+
+
 }

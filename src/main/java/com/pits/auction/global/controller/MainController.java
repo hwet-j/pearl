@@ -17,4 +17,15 @@ public class MainController {
         return "plMain";
     }
 
+
+    @RequestMapping("/plNav")
+    public String nav(Model model){
+
+        model.addAttribute("team", "Pearl in the Soil");
+
+        return "plNav";
+    }
+
+
+
 }

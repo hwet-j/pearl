@@ -1,10 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+
 <head>
-    <meta charset="UTF-8">
-    <title>plMain</title>
+    <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <script>
+        window.Kakao.init("fbd056eb6fd1e2a0120b772cdc3a7221");
+
+
+       function kakaoLogout() {
+        if (Kakao.Auth.getAccessToken()) {
+          Kakao.API.request({
+            url: '/v1/user/unlink',
+            success: function (response) {
+                console.log(response)
+                window.location.href = "/";
+            },
+            fail: function (error) {
+              console.log(error)
+            },
+          })
+          Kakao.Auth.setAccessToken(undefined)
+        }
+      }
+
+
+    </script>
+
+
+
+
 </head>
+
+<div class="container my-3" layout:fragment="content">
+
 <body>
 <p>메인페이지입니다.</p>
+<h2> hihihi</h2>
+
+<!--<a class="loginKakao" href="javascript:kakaoLogin();">
+    <i class="fab fa-facebook-square"></i> kakao로 로그인
+</a>
+
+<a class="logoutKakao" href="javascript:kakaoLogout();">
+    <i class="fab fa-facebook-square"></i> kakao로 로그아웃
+</a>-->
+
+
+<a href="/mypage/userlist">유저리스트(마이페이지 연동)</a>
+
+<img class="profile-image profile-box" th:src="@{/images/image.png}" alt="asd"/>
+
+
+<img class="profile-image profile-box" th:src="@{/images/image2.png}" alt="asd" />
+
+
+<img class="profile-image profile-box" th:src="@{/images/image3.png}" alt="asd" />
 </body>
+</div>
 </html>

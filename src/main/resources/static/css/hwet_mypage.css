@@ -6,11 +6,16 @@ body {
 
 /* 프로필 이미지 설정 */
 .profile-image {
-    max-width: 350px; /* 최대 너비 설정 */
-    max-height: 350px; /* 최대 높이 설정 */
-    width: auto; /* 너비 자동 조절 */
-    height: auto; /* 높이 자동 조절 */
+    width: 350px;
+    height: 350px;
+    object-fit: cover;
 }
+
+.profile-box {
+    border-radius: 70%;
+    overflow: hidden;
+}
+
 
 .edit-image{
     width: 460px; /* 너비 설정 */
@@ -59,19 +64,15 @@ body {
 
 /* 찜목록 이미지 설정 */
 .wish-image {
-    max-width: 150px; /* 최대 너비 설정 */
-    max-height: 150px; /* 최대 높이 설정 */
-    width: auto; /* 너비 자동 조절 */
-    height: auto; /* 높이 자동 조절 */
+    width: 150px; /* 최대 너비 설정 */
+    height: 150px; /* 최대 높이 설정 */
     margin-right: 10px; /* 오른쪽 margin 값 */
 }
 
 /* 프로필 이미지 설정 */
 .music-image {
-    max-width: 180px; /* 최대 너비 설정 */
-    max-height: 180px; /* 최대 높이 설정 */
-    width: auto; /* 너비 자동 조절 */
-    height: auto; /* 높이 자동 조절 */
+    width: 180px; /* 최대 너비 설정 */
+    height: 180px; /* 최대 높이 설정 */
 }
 
 /* 가운데 정렬 */

@@ -22,6 +22,12 @@
 <!--            display: none;-->
 <!--        }-->
 
+        .image-upload-container {
+            position: relative;
+            display: inline-block;
+            width: 50%;
+        }
+
         /* 커스텀 버튼 스타일 */
         .custom-file-upload {
             display: inline-block;
@@ -74,10 +80,29 @@
         </div>
         <div class="right">
             <p>Album Art</p>
+            <div class="image-upload-container">
+            <img id="image_preview" src="#" alt="Image Preview" style="max-width: 100%; display: none;" />
             <p><label for="albumImage" class="custom-file-upload">Attachment</label>
-                <input type="file" id="albumImage" name="albumImage" accept="image/*" th:field="*{albumImage}" style="display: none;"></p>
+                <input type="file" id="albumImage" name="albumImage" accept="image/*" th:field="*{albumImagePath}" style="display: none;"></p>
 
             <script>
+                document.getElementById('albumImage').addEventListener('change', previewImage);
+
+                function previewImage() {
+                var image_upload = document.getElementById('albumImage');
+                var image_preview = document.getElementById('image_preview');
+
+                if (image_upload.files && image_upload.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        image_preview.src = e.target.result;
+                        image_preview.style.display = 'block';
+                    };
+
+                    reader.readAsDataURL(image_upload.files[0]);
+                }
+            }
                 document.querySelector('.custom-file-upload').addEventListener('click', function() {
                     document.getElementById('albumImage').click();
                 });
@@ -85,7 +110,7 @@
 
             <p>Music</p>
             <p>
-                <input type="file" id="albumMusic" name="albumMusic" accept="audio/*" th:field="*{albumMusic}" style="display: none;">
+                <input type="file" id="albumMusic" name="albumMusic" accept="audio/*" th:field="*{albumMusicPath}" style="display: none;">
                 <input type="text" id="albumMusicName" readonly>
                 <br>
                 <label for="albumMusic" class="custom-file-upload">Attachment</label>
@@ -98,11 +123,12 @@
                 });
             </script>
 
-
-            <!--<p><label for="authorNickname">작곡가 이름</label>
-                <input type="text" th:value="${AnyMember}" id="authorNickname" name="authorNickname" readonly></p>-->
+            <!-- 닉네임이 있어야 submit 기능이 작동됨. 로그인 기능 구현 후 로그인한 유저의 닉네임을 자동 인식하도록 고쳐야함.-->
+            <p><label for="authorNickname">작곡가 이름</label>
+                <input type="text" th:value="${AnyMember}" id="authorNickname" name="authorNickname" readonly></p>
 
             <p><button type="submit" class="submit-button">submit</button></p>
+            </div>
         </div>
     </div>
 </form>

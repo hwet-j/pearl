@@ -65,5 +65,15 @@ public class Member {
     @OneToMany(mappedBy = "authorNickname", cascade = CascadeType.REMOVE)
     private List<MusicAuction> musicAuctions;
 
+    @PrePersist
+    public void initializeDefaultsBeforePersist() {
+        if (balance == null) {
+            balance = 0L;
+        }
+        if (withdrawalRequested == null) {
+            withdrawalRequested = false;
+        }
+    }
+
 
 }

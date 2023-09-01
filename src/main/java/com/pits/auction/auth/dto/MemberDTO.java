@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class MemberDTO {
 
     private Long id;
+    private String password;
     private String memberImage;
     private String email;
     private String nickname;

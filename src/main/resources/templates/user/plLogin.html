@@ -1,0 +1,129 @@
+<html layout:decorate="~{layout}" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <meta name ="google-signin-client_id" content="586096079058-34vgr814kbss8tq4bfslna3iqmhis19j.apps.googleusercontent.com">
+
+    <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+
+<script>
+    window.Kakao.init("fbd056eb6fd1e2a0120b772cdc3a7221");
+
+    function kakaoLogin() {
+      window.Kakao.Auth.login({
+        scope: "profile_nickname, profile_image",
+        success: (authObj) => {
+          console.log("authObj : ");
+          console.log(authObj);
+
+          // 백한테 authobj 속 access토큰만 줌
+          // 그 후 authorize를 통해 확인
+          window.Kakao.API.request({
+            url: "/v2/user/me",
+            success: (res) => {
+              console.log("success: ");
+              console.log(res);
+              window.location.href = "/";
+              // 사용자 정보를 백엔드로 전송하는 로직
+                        sendUserInfoToBackend(res);
+            },
+            fail: (res) => {
+              console.log(res);
+
+            },
+          });
+        },
+      });
+    }
+
+
+
+</script>
+
+
+
+    <script type ="text/javascript">
+function onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+
+
+  }
+
+        function onLoad() {
+          gapi.load('auth2', function() {
+            gapi.auth2.init();
+            success: (res) => {
+              console.log("success: ");
+              console.log(res);
+              window.location.href = "/";
+          });
+        }
+    </script>
+
+
+
+
+
+</head>
+
+
+<body>
+<div class=" " layout:fragment="content">
+    <div class="">
+        <div>
+            <h4>로그인</h4>
+        </div>
+    </div>
+    <form method="post" th:action="@{/user/plLogin}">
+        <div th:if="${param.error}">
+            <div class="">
+                사용자ID 또는 비밀번호를 확인해주세요.
+            </div>
+        </div>
+
+        <div class="">
+            <label class="" for="username">이메일</label>
+            <input class=""  id="username" name="username" type="text"/>
+        </div>
+        <div class="">
+            <label class="" for="password">비밀번호</label>
+            <input class=""  id="password" name="password" type="password"/>
+        </div>
+
+
+        <li class="">
+            <input class="" type="submit" value="로그인"/>
+            <a class="nav-link" th:href="@{/user/plJoin}">회원가입</a>
+        </li>
+    </form>
+
+
+    <a class="loginKakao" href="javascript:kakaoLogin();">
+        kakao
+    </a>
+
+
+
+    <div class="g-signin2" data-onsuccess="onSignIn" ></div>
+
+
+
+
+    <!--<a class="logoutKakao" href="javascript:kakaoLogout();">
+        <i class="fab fa-facebook-square"></i> kakao로 로그아웃
+    </a>-->
+
+
+
+</div>
+
+
+
+</body>
+
+
+</html>

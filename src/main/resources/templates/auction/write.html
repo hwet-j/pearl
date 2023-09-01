@@ -83,7 +83,7 @@
             <div class="image-upload-container">
             <img id="image_preview" src="#" alt="Image Preview" style="max-width: 100%; display: none;" />
             <p><label for="albumImage" class="custom-file-upload">Attachment</label>
-                <input type="file" id="albumImage" name="albumImage" accept="image/*" th:field="*{albumImage}" style="display: none;"></p>
+                <input type="file" id="albumImage" name="albumImage" accept="image/*" th:field="*{albumImagePath}" style="display: none;"></p>
 
             <script>
                 document.getElementById('albumImage').addEventListener('change', previewImage);
@@ -110,7 +110,7 @@
 
             <p>Music</p>
             <p>
-                <input type="file" id="albumMusic" name="albumMusic" accept="audio/*" th:field="*{albumMusic}" style="display: none;">
+                <input type="file" id="albumMusic" name="albumMusic" accept="audio/*" th:field="*{albumMusicPath}" style="display: none;">
                 <input type="text" id="albumMusicName" readonly>
                 <br>
                 <label for="albumMusic" class="custom-file-upload">Attachment</label>

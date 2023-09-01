@@ -48,8 +48,8 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
 
         MusicAuction musicAuction = MusicAuction.builder()
                 .genre(musicGenreRepository.findById(musicAuctionDTO.getGenre()).orElse(null))
-                .albumImage(musicAuctionDTO.getAlbumImage().getOriginalFilename())
-                .albumMusic(musicAuctionDTO.getAlbumMusic().getOriginalFilename())
+                .albumImage(musicAuctionDTO.getAlbumImagePath())
+                .albumMusic(musicAuctionDTO.getAlbumMusicPath())
                 .content(musicAuctionDTO.getContent())
                 .title(musicAuctionDTO.getTitle())
                 .authorNickname(member)

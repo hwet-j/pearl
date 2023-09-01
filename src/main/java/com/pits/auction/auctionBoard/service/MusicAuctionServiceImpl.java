@@ -7,6 +7,10 @@ import com.pits.auction.auctionBoard.entity.MusicAuction;
 import com.pits.auction.auctionBoard.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneId;
@@ -116,6 +120,10 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
         return biddingRepository.findLastBidPriceByNickname(nickname);
     }
 
-
+    @Override
+    public Page<MusicAuction> getMusicByOrderByIdDesc(int page, int size){
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        return musicAuctionRepository.findAllByOrderByIdDesc(pageable);
+    }
 }
 

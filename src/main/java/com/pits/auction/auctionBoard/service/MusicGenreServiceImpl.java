@@ -19,5 +19,4 @@ public class MusicGenreServiceImpl implements MusicGenreService {
         return musicGenreRepository.findAll();
     }
 
-    // 필요한 다른 서비스 메서드 추가...
     }

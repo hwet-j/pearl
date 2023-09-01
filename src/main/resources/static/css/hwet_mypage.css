@@ -6,8 +6,8 @@ body {
 
 /* 프로필 이미지 설정 */
 .profile-image {
-    width: 350px; /* 최대 너비 설정 */
-    height: 350px; /* 최대 높이 설정 */
+    width: 350px;
+    height: 350px;
     object-fit: cover;
 }
 

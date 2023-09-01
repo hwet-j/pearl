@@ -119,6 +119,12 @@ public class MusicAuctionController {
         return  musicAuctionService.remainingTime(musicAuction.get().getEndTime());
     }
 
+    @GetMapping("/csstest")
+    public String cssDetail(Model model) {
+
+        return "/auction/detail_";
+    }
+
 
     /* 동적 시간 구현 -> 실질적인 기능은 HTML의 script에서 구현되어있고 여기서는 현재시간과 설정시간의 차이를 초단위로 변환 */
     @GetMapping("/clocktest")

@@ -26,23 +26,24 @@ public class UserSecurityService implements UserDetailsService {
 
     //사용자이름으로 (비밀번호)조회
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        Optional<Member> nickname = userRepository.findByNickname(username);
-        if(nickname.isEmpty()){
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Optional<Member> optionalMember = userRepository.findByEmail(email);
+        if(!optionalMember.isPresent()){
             throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
         }
 
-        Member siteUser1 = nickname.get();
+        Member siteUser = optionalMember.get();
         List<GrantedAuthority> authorities = new ArrayList<>();
-        //username이 "admin"이라면
-        if ("admin".equals(nickname)) {
+        //nickname "admin"을 포함하면
+        if (siteUser.getNickname().contains("admin")) {
             authorities.add(new SimpleGrantedAuthority(UserRole.ADMIN.getValue()));
+            System.out.println("UserRole.ADMIN.getValue())"+UserRole.ADMIN.getValue());
         } else {
             authorities.add(new SimpleGrantedAuthority(UserRole.USER.getValue()));
+            System.out.println("UserRole.USER.getValue())"+UserRole.USER.getValue());
         }
         //사용자User객체리턴
-        return new User(siteUser1.getNickname(), siteUser1.getPassword(), authorities);
+        return new User(email, siteUser.getPassword(), authorities);
         //스크링시큐리티는  loadUserByUsername()에 의해 리턴되는 User객체의 비밀번호가
         // 화면으로부터 입력한 비번와 일치하는지 검사하는 로직이 내부적으로 존재
     }

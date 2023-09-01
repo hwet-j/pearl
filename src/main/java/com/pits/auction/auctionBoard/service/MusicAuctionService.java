@@ -4,7 +4,6 @@ import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO2;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,9 +16,5 @@ public interface MusicAuctionService {
 
     Optional<MusicAuction> findById(long id);
 
-    Long remainingTime(LocalDateTime endTime);
-
-    MusicAuctionDTO getLastBiddingAuction(String nickname);
-
-    Long findLastBidPriceByNickname(String nickname);
+    MusicAuctionDTO2 findDetailById(Long id);
 }

@@ -56,7 +56,7 @@
         <h1 th:text="|My Page|"></h1>
 
         <div>
-            <img class="profile-image" th:src="@{__${userInfo.memberImage}__}" alt="asd"
+            <img class="profile-image profile-box" th:src="@{__${userInfo.memberImage}__}" alt="asd"
                  onerror="this.src='/pictures/no_profile.png'" />
         </div>
 
@@ -119,7 +119,8 @@
 
             <div class="inner-split-container ">
                 <div class="inner-left">
-                    <img class=".music-image" th:src="@{/pictures/auction.jpg}" alt="Image">
+                    <img class="music-image" th:src="@{/pictures/auction.jpg}" alt="Image">
+                    <div class="inner-divider"></div>
                 </div>
 
 
@@ -138,23 +139,23 @@
             <h1 th:text="|Wish List|"></h1>
             <div class="image-container">
                 <div class="image-with-text">
-                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" alt="Image">
+                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" onError="this.src='/pictures/auction.jpg';" alt="Image">
                     <p>Title for Image 1</p>
                 </div>
                 <div class="image-with-text">
-                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" alt="Image">
+                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" onError="this.src='/pictures/auction.jpg';" alt="Image">
                     <p>Title for Image 2</p>
                 </div>
                 <div class="image-with-text">
-                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" alt="Image">
+                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" onError="this.src='/pictures/auction.jpg';" alt="Image">
                     <p>Title for Image 3</p>
                 </div>
                 <div class="image-with-text">
-                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" alt="Image">
+                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" onError="this.src='/pictures/auction.jpg';" alt="Image">
                     <p>Title for Image 4</p>
                 </div>
                 <div class="image-with-text">
-                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" alt="Image">
+                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" onError="this.src='/pictures/auction.jpg';" alt="Image">
                     <p>Title for Image 5</p>
                 </div>
             </div>

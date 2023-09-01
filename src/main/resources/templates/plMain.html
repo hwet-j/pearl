@@ -1,10 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>plMain</title>
 </head>
 <body>
 <p>메인페이지입니다.</p>
+
+<a href="/mypage/userlist">유저리스트(마이페이지 연동)</a>
+
+<img class="profile-image profile-box" th:src="@{/images/image.png}" alt="asd"/>
+
+
+<img class="profile-image profile-box" th:src="@{/images/image2.png}" alt="asd" />
+
+
+<img class="profile-image profile-box" th:src="@{/images/image3.png}" alt="asd" />
 </body>
 </html>

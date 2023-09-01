@@ -126,7 +126,7 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
         List<MusicAuction> musicAuctions=musicAuctionRepository.findAllByOrderByEndTime();
         return musicAuctions;
     }
-}
+
 
     @Override
     public MusicAuctionDTO2 findDetailById(Long id) {

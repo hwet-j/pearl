@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+        var audio = document.getElementById('audioPlayer');
+
+        audio.addEventListener('timeupdate', function() {
+            if (audio.currentTime >= 60) {      // 60초(1분) 지나면 재생 중지
+                audio.pause();
+                audio.currentTime = 0;
+            }
+        });
+    });
+
+    </script>
+</head>
+<body>
+
+
+<audio controls>
+    <source th:src="@{/audios/uploaded_audios/__${audioFileName}__}" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+
+<audio volume="0.2" controls>
+    <source th:src="@{/audios/uploaded_audios/__${audioFileName}__}" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+
+
+
+<audio controls id="audioPlayer">
+    <source th:src="@{/audios/uploaded_audios/NewJeans - ETA.mp3}" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+
+<button onclick="playPreview()">1분 미리듣기</button>
+
+
+
+</body>
+</html>

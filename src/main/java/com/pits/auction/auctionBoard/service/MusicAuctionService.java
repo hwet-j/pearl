@@ -1,7 +1,20 @@
 package com.pits.auction.auctionBoard.service;
 
+import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
+import com.pits.auction.auctionBoard.dto.MusicAuctionDTO2;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
-import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface MusicAuctionService {
+    MusicAuctionDTO getMusicAuctionById(Long id);
+
+    boolean saveMusicAuction(MusicAuctionDTO2 musicAuctionDTO);
+
+    List<MusicAuction> findAll();
+
+    Optional<MusicAuction> findById(long id);
+
+    MusicAuctionDTO2 findDetailById(Long id);
 }

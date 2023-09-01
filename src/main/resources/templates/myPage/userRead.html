@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 상세 정보</title>
+</head>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/hwet_mypage.css}">
+
+<!-- jQuery 및 SweetAlert2 스타일시트, 스크립트 로드 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+
+
+<script th:inline="javascript">
+    function openPopup(action, userId) {
+        var url = '';
+        var title = '';
+        var width = 400; // 팝업창 가로
+        var height = 300; // 팝업창 세로
+
+
+        if (action === 'deposit') {
+            url = '/mypage/depositform?userId=' + userId; // Adjust URL for deposit popup
+            title = 'Transaction';
+        } else if (action === 'withdraw') {
+            url = '/mypage/withdrawform?userId=' + userId; // Adjust URL for withdraw popup
+            title = 'Transaction';
+        }
+
+        // 팝업창 위치 설정을 위해 설정
+        var left = (screen.width - width) / 2;
+        var top = (screen.height - height) / 2;
+
+        var popup = window.open(url, title, 'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top);
+
+        popup.onunload = function() {
+            location.reload(); // 서브창이 종료되면 메인창 새로고침
+        };
+
+        popup.onSubFormComplete = function() {
+            // 서브창이 종료되면 메인창 새로고침
+            location.reload();
+        };
+
+        popup.focus();
+    }
+</script>
+
+<body>
+
+<div class="split-container">
+    <!-- 좌측 프로필 영역 -->
+    <div class="left-side">
+        <h1 th:text="|My Page|"></h1>
+
+        <div>
+            <img class="profile-image profile-box" th:src="@{__${userInfo.memberImage}__}" alt="asd"
+                 onerror="this.src='/pictures/no_profile.png'" />
+        </div>
+
+        <div class="inner-divider"></div>
+
+        <div class="center-align">
+            <a class="update-button" th:href="@{/mypage/useredit(userId=${userInfo.id})}"><span class="icon">✏️</span>Update</a>
+        </div>
+
+        <div class="inner-divider"></div>
+        <div class="inner-divider"></div>
+        <div class="inner-divider"></div>
+        <div class="inner-divider"></div>
+
+        <div class="center-align money-text">My Account</div>
+        <div class="inner-divider"></div>
+        <div class="bordered center-align money-text">
+
+            <span data-th-text="${#numbers.formatInteger(userInfo.balance, 0, 'COMMA') + ' ₩'}"></span>
+        </div>
+
+        <div class="inner-divider"></div>
+
+        <div class="center-align">
+            <button  class="bordered transaction-button" th:text="|Deposit|" th:onclick="'openPopup(\'deposit\', ' + ${userInfo.id} + ')'" >Deposit</button>
+            <div class="divider"></div>
+            <button  class="bordered transaction-button" th:text="|Withdraw|" th:onclick="'openPopup(\'withdraw\', ' + ${userInfo.id} + ')'" >Withdraw</button>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+
+    <div class="right-side">
+        <!-- 우측 상단 마지막 입찰 물품 -->
+        <!-- 입찰한 내역이 있을경우 -->
+        <div class="upper-side" th:if="${auction != null}">
+            <h1 th:text="|My Bidding Music|"></h1>
+
+            <div class="inner-split-container ">
+                <div class="inner-left">
+                    <img class="music-image"  th:src="@{__${userInfo.memberImage}__}" alt="Image">
+
+                    <div th:text="${auction.albumImage}">이미지 경로</div>
+                    <div th:text="${auction.albumMusic}">오디오 경로</div>
+                </div>
+                <div class="inner-right">
+                   <div th:text="${auction.title}"></div>
+
+
+
+                   <div>내 입찰가 : <span th:text="${myPrice}"></span></div>
+                   <div>입찰 최고가 : <span th:text="${maxPrice}"></span></div>
+                </div>
+            </div>
+        </div>
+        <!-- 입찰한 내역이 없을경우 -->
+        <div class="upper-side" th:if="${auction == null}">
+            <h1 th:text="|My Bidding Music|"></h1>
+
+            <div class="inner-split-container ">
+                <div class="inner-left">
+                    <img class="music-image" th:src="@{/pictures/auction.jpg}" alt="Image">
+                    <div class="inner-divider"></div>
+                </div>
+
+
+                <div class="inner-right">
+                    <div>경매한 물품이 없습니다.</div>
+
+                    <div><a href="#">경매목록보기</a></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="inner-divider"></div>
+
+        <!-- 우측 하단 찜 목록 -->
+        <div class="lower-side">
+            <h1 th:text="|Wish List|"></h1>
+            <div class="image-container">
+                <div class="image-with-text">
+                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" onError="this.src='/pictures/auction.jpg';" alt="Image">
+                    <p>Title for Image 1</p>
+                </div>
+                <div class="image-with-text">
+                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" onError="this.src='/pictures/auction.jpg';" alt="Image">
+                    <p>Title for Image 2</p>
+                </div>
+                <div class="image-with-text">
+                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" onError="this.src='/pictures/auction.jpg';" alt="Image">
+                    <p>Title for Image 3</p>
+                </div>
+                <div class="image-with-text">
+                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" onError="this.src='/pictures/auction.jpg';" alt="Image">
+                    <p>Title for Image 4</p>
+                </div>
+                <div class="image-with-text">
+                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" onError="this.src='/pictures/auction.jpg';" alt="Image">
+                    <p>Title for Image 5</p>
+                </div>
+            </div>
+            <div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+</html>

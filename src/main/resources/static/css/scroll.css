@@ -1,0 +1,38 @@
+.card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  width: 18%; /* 4 cards in a row */
+  display: inline-block;
+  vertical-align: top;
+}
+
+.wrap{
+display:flex;
+flex-direction: row;
+flex-wrap: wrap;
+word-break:break-all;
+justify-content:space-around;
+gap:16px;
+width:80%;
+}
+
+img{
+margin:10px;
+width:90%;
+height:90%;
+text-align: center;
+}
+
+.loading {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+

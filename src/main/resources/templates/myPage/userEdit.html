@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 정보 수정</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/hwet_mypage.css}">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:inline="javascript">
+
+        var imageUrl = /*[[${userInfo.memberImage}]]*/ '';
+
+        function previewImage() {
+                var image_upload = document.getElementById('memberImage');
+                var image_preview = document.getElementById('image_preview');
+                var cancel_button = document.getElementById('cancel_image');
+
+                if (image_upload.files && image_upload.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        image_preview.src = e.target.result;
+                        image_preview.style.display = 'block';
+                        cancel_button.style.display = 'block';
+                    };
+
+                    reader.readAsDataURL(image_upload.files[0]);
+                }
+            }
+
+            function cancelImage(event) {
+                event.preventDefault(); // 버튼 클릭 시 기본 동작 (폼 제출) 막기
+
+                var image_preview = document.getElementById('image_preview');
+                var cancel_button = document.getElementById('cancel_image');
+                var image_upload = document.getElementById('memberImage');
+
+                // 이미지 미리보기 초기화
+                image_preview.src = imageUrl;
+                cancel_button.style.display = 'none';
+                image_upload.value = ''; // 파일 선택 초기화
+            }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const deleteButtons = document.querySelectorAll(".delete-button");
+
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", function (event) {
+            event.preventDefault(); // 기본 동작 취소
+
+            const userId = button.getAttribute("data-userid");
+
+            Swal.fire({
+                title: '회원 삭제',
+                text: '정말로 삭제하시겠습니까?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '삭제',
+                cancelButtonText: '취소',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const deleteForm = button.closest('form'); // 버튼이 속한 form 요소 찾기
+
+                    window.location.href = "/mypage/userdelete?userId=" + userId;
+                }
+            });
+        });
+    });
+});
+
+    </script>
+
+</head>
+<body>
+
+<h1 th:text="|${userInfo.nickname}님의 정보수정|"></h1>
+<h1 th:text="|${userInfo.email}님의 정보수정|"></h1>
+
+
+
+<form th:action="@{/mypage/useredit(userId=${userInfo.id})}" th:object="${memberEditValidator}" method="post" enctype="multipart/form-data">
+    <div class="split-container-edit">
+        <div class="left-side-edit">
+            <input type="hidden" id="id" name="id" th:value="${userInfo.id}"/><br>
+            <div class="image-with-text">
+                <div class="center-align">
+                    <img class="edit-image profile-box" id="image_preview" th:src="@{__${userInfo.memberImage}__}" onError="this.src='/pictures/no_profile.png';" alt="Image">
+                </div>
+                <!--<img id="image_preview" src="#" alt="Image Preview" style="max-width: 20%; display: none;" />-->
+
+                <div class="file-input-container">
+                    <label for="memberImage">Attachment</label>
+                    <input type="file" name="image" id="memberImage" th:value="${userInfo.memberImage}" accept="image/*" onchange="previewImage()" />
+                </div>
+                <div class="center-align">
+                    <button class="cancle-button" id="cancel_image" style="display: none;" onclick="cancelImage(event)">이미지 취소</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="right-side-edit">
+
+            <div>Nickname</div>
+            <div class="bordered"><span th:text="${userInfo.nickname}"></span><span class="right-align">수정불가</span></div>
+
+            <div class="inner-divider"></div>
+            <div class="inner-divider"></div>
+
+            <div>E-mail</div>
+            <div class="bordered"><span th:text="${userInfo.email}"></span><span class="right-align">수정불가</span></div>
+
+            <div class="inner-divider"></div>
+            <div class="inner-divider"></div>
+
+            <label for="password">Password</label>
+            <div class="bordered"><input type="password" th:field="*{password}" placeholder="수정을 원하지 않으면 빈칸"/><br></div>
+
+            <div class="inner-divider"><div style="color:red;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></div></div>
+            <div class="inner-divider"></div>
+            <label for="phoneNumber">Phone Number</label>
+            <div class="bordered"><input type="text" th:field="*{phoneNumber}" placeholder="수정을 원하지 않으면 빈칸"/></div>
+
+            <div class="inner-divider"><div style="color:red;" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="error"></div></div>
+            <div class="inner-divider"></div>
+            <label for="audio">오디오(저장테스트)</label>
+            <input type="file" name="audio" id="audio" accept="audio/*" /><br>
+
+            <div class="inner-divider"></div>
+            <div class="inner-divider"></div>
+            <div class="right-align">
+                <button class="delete-button" th:attr="data-userid=${userInfo.id}">회원탈퇴</button>
+                <input class="action-button"  type="submit" value="Submit">
+            </div>
+
+        </div>
+    </div>
+</form>
+
+
+</body>
+</html>

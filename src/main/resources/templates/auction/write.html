@@ -1,10 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>write</title>
+    <style>
+        .form-container {
+            display: flex;
+            justify-content: space-between; /* 좌우로 요소들을 분배합니다. */
+        }
+
+        .left, .right {
+            width: 45%; /* 너비를 약 45%로 설정합니다. */
+        }
+
+        .radio-item {
+            display: inline-block;
+            margin-right: 10px; /* 오른쪽 간격 추가, 필요에 따라 조절 가능 */
+        }
+
+<!--        #albumImage {-->
+<!--            display: none;-->
+<!--        }-->
+
+        .image-upload-container {
+            position: relative;
+            display: inline-block;
+            width: 50%;
+        }
+
+        /* 커스텀 버튼 스타일 */
+        .custom-file-upload {
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+            background-color: #007bff;  /* 버튼 색상 */
+            color: #ffffff;  /* 글자색 */
+            border: none;
+            border-radius: 4px;  /* 둥근 모서리 */
+            margin-left: 65px;
+        }
+
+        .submit-button {
+            background-color: #007bff;  /* 버튼 색상 */
+            color: #ffffff;  /* 글자색 */
+            border: none;
+            border-radius: 4px;  /* 둥근 모서리 */
+            padding: 6px 12px;
+            cursor: pointer;
+            margin-left: 110px;  /* 여기서 마진을 조정합니다 */
+        }
+    </style>
 </head>
 <body>
-<p>글작성페이지입니다.</p>
+<h1>음악등록 작성페이지</h1>
+<form th:action="@{/write}" th:object="${musicAuctionDTO}" method="post" enctype="multipart/form-data">
+    <div class="form-container">
+        <div class="left">
+            <p><label>Genre</label>
+            <div th:each="genre : ${genres}" class="radio-item">
+                <input type="radio" id="genre_${genre.id}" name="genre" th:value="${genre.id}" th:field="*{genre}" />
+                <label th:for="'genre_' + ${genre.id}" th:text="${genre.name}"></label>
+            </div></p>
+
+            <p><label>Period</label>
+            <div th:each="period : ${biddingPeriods}" class="radio-item">
+                <input type="radio" id="period_${period.id}" name="biddingPeriod" th:value="${period.id}" th:field="*{biddingPeriod}" />
+                <label th:for="'period_' + ${period.id}" th:text="${period.periodValue}"></label>
+            </div></p>
+
+            <p><label for="startingBid">Start Price</label><br>
+                <input type="number" id="startingBid" name="startingBid" th:field="*{startingBid}">
+                <span th:if="${startingBidError}" th:text="${startingBidError}" class="error-message"></span></p>
+
+            <p><label for="title">Music Title</label><br>
+                <input type="text" id="title" name="title" th:field="*{title}"></p>
+
+            <p><label for="content">Description</label><br>
+                <textarea id="content" name="content" rows="4" cols="50" th:field="*{content}"></textarea></p>
+        </div>
+        <div class="right">
+            <p>Album Art</p>
+            <div class="image-upload-container">
+            <img id="image_preview" src="#" alt="Image Preview" style="max-width: 100%; display: none;" />
+            <p><label for="albumImage" class="custom-file-upload">Attachment</label>
+                <input type="file" id="albumImage" name="albumImage" accept="image/*" th:field="*{albumImage}" style="display: none;"></p>
+
+            <script>
+                document.getElementById('albumImage').addEventListener('change', previewImage);
+
+                function previewImage() {
+                var image_upload = document.getElementById('albumImage');
+                var image_preview = document.getElementById('image_preview');
+
+                if (image_upload.files && image_upload.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        image_preview.src = e.target.result;
+                        image_preview.style.display = 'block';
+                    };
+
+                    reader.readAsDataURL(image_upload.files[0]);
+                }
+            }
+                document.querySelector('.custom-file-upload').addEventListener('click', function() {
+                    document.getElementById('albumImage').click();
+                });
+            </script>
+
+            <p>Music</p>
+            <p>
+                <input type="file" id="albumMusic" name="albumMusic" accept="audio/*" th:field="*{albumMusic}" style="display: none;">
+                <input type="text" id="albumMusicName" readonly>
+                <br>
+                <label for="albumMusic" class="custom-file-upload">Attachment</label>
+            </p>
+
+            <script>
+                document.getElementById('albumMusic').addEventListener('change', function() {
+                    var fileName = this.files[0].name;
+                    document.getElementById('albumMusicName').value = fileName;
+                });
+            </script>
+
+            <!-- 닉네임이 있어야 submit 기능이 작동됨. 로그인 기능 구현 후 로그인한 유저의 닉네임을 자동 인식하도록 고쳐야함.-->
+            <p><label for="authorNickname">작곡가 이름</label>
+                <input type="text" th:value="${AnyMember}" id="authorNickname" name="authorNickname" readonly></p>
+
+            <p><button type="submit" class="submit-button">submit</button></p>
+            </div>
+        </div>
+    </div>
+</form>
 </body>
 </html>

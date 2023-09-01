@@ -1,10 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>read</title>
+    <title>목록페이지</title>
+<link href="/css/scroll.css" rel="stylesheet" type="text/css">
+
 </head>
 <body>
-<p>상세페이지입니다.</p>
+    <div class="wrap">
+        <div class="card" th:each="musicAuctions : ${musicAuctions}">
+            <div class="albumImage">
+                <img th:src="@{/images/{filename}(filename=${musicAuctions.albumImage})}" height="" width="">
+            </div>
+            <div class="top">
+                <div th:text="${musicAuctions.id}"></div>
+            </div>
+            <div class="bottom">
+                <div th:text="${musicAuctions.content}"></div>
+            </div>
+        </div>
+    </div>
+    <div id="loadingIndicator" class="loading">Now Loading...</div>
+<script src="/js/infiniteScroll.js"></script>
 </body>
 </html>

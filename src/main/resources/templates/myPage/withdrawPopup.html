@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>출금</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/hwet_mypage.css}">
+
+    <!-- jQuery 및 SweetAlert2 스타일시트, 스크립트 로드 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+</head>
+<body>
+<h2>출금</h2>
+
+
+<div class="transaction-container">
+    <form id="withdrawForm">
+        <input type="hidden" id="userId" th:value="${userInfo.id}">
+        <label for="withdrawAmount">출금 금액:</label>
+        <div class="bordered"><input type="number" id="withdrawAmount" placeholder="출금할 금액을 설정해주세요." required></div>
+        <button type="button" onclick="submitWithdraw()">출금</button>
+        <button type="button" onclick="closeWindow()">취소</button>
+    </form>
+</div>
+
+
+<script th:inline="javascript">
+    function submitWithdraw() {
+        var userId = $('#userId').val();
+        var withdrawAmount = $('#withdrawAmount').val();
+
+        // AJAX 요청
+        $.ajax({
+            url: /*[[@{/mypage/balance}]]*/, // Thymeleaf URL 표현식을 사용하여 URL 설정
+            type: "POST",
+            data: {
+                userId: userId,
+                action: 'withdraw',
+                balance: withdrawAmount
+            },
+            success: function(response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: '출금 완료',
+                    text: '출금이 성공적으로 완료되었습니다.'
+                }).then(() => {
+                    // 메인 창을 새로고침하여 변경된 데이터 업데이트
+                    window.opener.location.reload();
+                    window.close();
+                });
+            },
+            error: function(xhr, status, error) {
+                console.log(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: '출금 실패',
+                    text: '출금을 처리하는 도중 오류가 발생했습니다.'
+                });
+            }
+        });
+    }
+
+    function closeWindow() {
+        window.close();
+    }
+</script>
+</body>
+</html>

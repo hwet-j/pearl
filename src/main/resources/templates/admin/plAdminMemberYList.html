@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<script>
+    function checkAll(source) {
+      var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      for(var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].checked = source.checked;
+      }
+    }
+</script>
+<link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.rtl.min.css" integrity="sha384-PRrgQVJ8NNHGieOA1grGdCTIt4h21CzJs6SnWH4YMQ6G5F5+IEzOHz67L4SQaF0o" rel="stylesheet">
+
+<style>
+    body {
+             background-color: #000000;
+          }
+     .fixed-row th, .fixed-row td {
+    min-width: 80px;}
+</style>
+<body>
+<div style="margin:150px;" >
+    <div class="container"  >
+
+<form action="/member/delete" method="post" th:object="${member}">
+<table border="1" class="table table-dark table-striped " style="text-align: center;">
+    <thead>
+    <tr class="fixed-row">
+        <th><input name="selectedMembers" onclick="checkAll(this)" type="checkbox" value="${member.id}" ></th>
+        <th>번호</th>
+        <th>이메일</th>
+        <th>비밀번호</th>
+        <th>닉네임</th>
+        <th>전화번호</th>
+        <th>잔고</th>
+        <th>탈퇴여부</th>
+        <th>수정</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="member:${memberYList}" >
+        <td><input name="selectedMembers" th:value="${member.id}" type="checkbox" ></td>
+        <td name="id" th:text="${member.id}"></td>
+        <td name="email" th:text="${member.email}"></td>
+        <td name="password" th:text="${member.password}"></td>
+        <td name="nickname" th:text="${member.nickname}"></td>
+        <td name="phoneNumber" th:text="${member.phoneNumber}"></td>
+        <td name="balance" th:text="${member.balance}"></td>
+        <td><span th:if="${member.withdrawalRequested}">Y</span>
+        <span th:unless="${member.withdrawalRequested}">N</span></td>
+        <td><a class="btn btn-light" th:href="@{|/member/edit/${member.id}|}" th:text="수정"></a></td>
+        </tr>
+    </tbody>
+</table><div style="text-align: right;">
+    <button class="btn btn-light" style="text-align:right;" type="submit">삭제</button>
+    <button class="btn btn-light" onclick="location.href='/member/list';" type="button">회원목록</button>
+</div>
+    <div style="text-align: center;">
+    <a th:href="@{/member/Ylist(page=${firstPage})}" th:if="${page!=firstPage}"  th:text="'처음'" class="btn btn-light"></a>
+    <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+        <a th:href="@{/member/Ylist(page=${page-1})}" th:if="${page != nowPage}"  th:text="${page}" class="btn btn-light"></a>
+        <strong th:if="${page == nowPage}" th:text="${page}" class="btn btn-primary" style="background-color:#5F23E5; border-color:#5F23E5;"></strong>
+    </th:block>
+    <a th:href="@{/member/Ylist(page=${lastPage})}" th:if="${page != lastPage}" th:text="'끝'" class="btn btn-light"></a>
+    </div>
+</form>
+
+</div>
+</div>
+</body>
+</html>

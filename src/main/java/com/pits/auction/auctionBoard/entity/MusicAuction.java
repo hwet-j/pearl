@@ -1,8 +1,11 @@
 package com.pits.auction.auctionBoard.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pits.auction.auth.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,23 +30,25 @@ import java.util.List;
 */
 
 @Entity
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Table(name = "music_auction")
+@EntityListeners(AuditingEntityListener.class)
 public class MusicAuction {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JsonIgnore
     @JoinColumn(name = "author_nickname",  referencedColumnName = "nickname", nullable = false)
     private Member authorNickname;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JsonIgnore
     @JoinColumn(name = "genre_id", nullable = false)
     private MusicGenre genre;
 
@@ -54,7 +59,7 @@ public class MusicAuction {
     private String albumImage;
 
     @Column(name = "album_music")
-    private String albumMusic;
+    private String albumMusic;  //작성자가 지정한 음악 이름
 
     @Column(columnDefinition = "TEXT")
     private String content;
@@ -62,10 +67,12 @@ public class MusicAuction {
     @Column(name = "starting_bid", nullable = false)
     private Long startingBid;
 
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    @CreatedDate
+    @Column(columnDefinition = "TIMESTAMP", nullable = false)
     private LocalDateTime createdAt;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JsonIgnore
     @JoinColumn(nullable = false)
     private BiddingPeriod biddingPeriod;
 
@@ -76,15 +83,33 @@ public class MusicAuction {
     private String status;
 
     // 입찰 정보
+    @JsonIgnore
     @OneToMany(mappedBy = "auctionId")
     private List<Bidding> auctionBiddings;
 
-    /*@PrePersist
-    public void prePersist() {
-        if (createdAt == null) {
-            ZoneId kst = ZoneId.of("Asia/Seoul");
-            createdAt = LocalDateTime.now(kst);
-        }
-    }*/
 
+    @PrePersist
+    public void setEndTimeUsingBiddingPeriod() {
+        if (this.createdAt == null || this.biddingPeriod == null) {
+            throw new IllegalStateException("Cannot set end time without created time or bidding period.");
+        }
+
+        String periodValue = this.biddingPeriod.getPeriodValue();
+        String[] parts = periodValue.split("");  // 예: "1 주" -> ["1", "주"]
+
+        int value = Integer.parseInt(parts[0]);
+        String unit = parts[1];
+
+        switch (unit) {
+            case "주":
+                this.endTime = this.createdAt.plusWeeks(value);
+                break;
+            case "개월":
+                this.endTime = this.createdAt.plusMonths(value);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown bidding period unit: " + unit);
+        }
+    }
+   
 }

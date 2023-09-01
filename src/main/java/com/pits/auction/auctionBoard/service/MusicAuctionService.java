@@ -3,6 +3,7 @@ package com.pits.auction.auctionBoard.service;
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO2;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,4 +23,6 @@ public interface MusicAuctionService {
     MusicAuctionDTO getLastBiddingAuction(String nickname);
 
     Long findLastBidPriceByNickname(String nickname);
+
+    Page<MusicAuction> getMusicByOrderByIdDesc(int page, int size);
 }

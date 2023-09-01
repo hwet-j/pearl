@@ -61,7 +61,7 @@ public class MusicAuctionController {
     @PostMapping("/write")
     public String insertAuction(@Valid MusicAuctionDTO2 musicAuctionDTO, Errors errors,
                                 HttpServletRequest request, Model model) {
-        if(errors.hasErrors()) {
+        if (errors.hasErrors()) {
             for (FieldError error : errors.getFieldErrors()) {
                 model.addAttribute(error.getField() + "Error", error.getDefaultMessage());
             }
@@ -79,26 +79,8 @@ public class MusicAuctionController {
 
             return "auction/write";
         }
-
-        try {
-            // MultipartFile로 받은 파일들을 저장하기 위한 로직
-            String rootPath = request.getSession().getServletContext().getRealPath("/"); // 실제 경로를 구하는 예시
-            String basePath = rootPath + "uploads/";
-
-            File albumImageFile = new File(basePath + musicAuctionDTO.getAlbumImage().getOriginalFilename());
-            musicAuctionDTO.getAlbumImage().transferTo(albumImageFile);
-
-            File albumMusicFile = new File(basePath + musicAuctionDTO.getAlbumMusic().getOriginalFilename());
-            musicAuctionDTO.getAlbumMusic().transferTo(albumMusicFile);
-
-            // 음악 경매 정보를 데이터베이스에 저장하기 위한 서비스 호출
-            musicAuctionService.saveMusicAuction(musicAuctionDTO);
-
-            return "redirect:/write"; // 성공 페이지로 리다이렉트
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "error"; // 에러 페이지로 이동
-        }
+        //이미지 구현 여기서 하세요. 음악은 알아서ㅎㅎ.
+        return "";
     }
 
     @RequestMapping("/read")

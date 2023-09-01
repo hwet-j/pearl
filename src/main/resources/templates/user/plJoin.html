@@ -1,0 +1,44 @@
+<html layout:decorate="~{layout}" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml">
+<div  layout:fragment="content" class=" ">
+    <div class=" ">
+        <div>
+            <h4>회원가입</h4>
+        </div>
+    </div>
+    <form   th:action="@{/user/plJoin}"
+            th:object="${userCreateForm}" method="post">
+        <!-- 유효성검사시 에러메세지 출력영역 -->
+
+        <div class="">
+            <label for="email" class="">이메일</label>
+            <input type="text" th:field="*{email}"  class=""/>
+            <div style="color:red;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></div>
+        </div>
+        <div class="">
+            <label for="password1" class="">비밀번호</label>
+            <input type="password" th:field="*{password1}"  class=""/>
+            <div style="color:red;" th:if="${#fields.hasErrors('password1')}" th:errors="*{password1}" class="error"></div>
+        </div>
+        <div class="">
+            <label for="password2" class="">비번확인</label>
+            <input type="password" th:field="*{password2}"  class=""/>
+            <div style="color:red;" th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}" class="error"></div>
+        </div>
+        <div class="">
+            <label for="nickname" class="">닉네임</label>
+            <input type="text" th:field="*{nickname}"  class=""/>
+            <div style="color:red;" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}" class="error"></div>
+        </div>
+        <div class="">
+            <label for="phoneNumber" class="">Phone Number</label>
+            <input type="text" th:field="*{phoneNumber}"  class=""/>
+            <div style="color:red;" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="error"></div>
+        </div>
+
+        <div style="color:red;" th:if="${#fields.hasErrors('passwordConfirmed')}" th:errors="*{passwordConfirmed}" class="error"></div>
+
+        <div style="color:red;" th:if="${joinFailed != null}" th:text="${joinFailed}" class="error"></div>
+        <input type="submit" value="회원가입" class=""/>
+    </form>
+</div>
+</html>

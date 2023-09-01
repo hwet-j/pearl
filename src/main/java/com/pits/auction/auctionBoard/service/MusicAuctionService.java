@@ -26,6 +26,7 @@ public interface MusicAuctionService {
 
     Page<MusicAuction> getMusicByOrderByIdDesc(int page, int size);
 
-
     MusicAuctionDTO2 findDetailById(Long id);
+
+    List<MusicAuction> findAllByOrderByEndTime();
 }

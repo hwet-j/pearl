@@ -120,6 +120,14 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
         return musicAuctionRepository.findAllByOrderByIdDesc(pageable);
     }
 
+
+    @Override
+    public List<MusicAuction> findAllByOrderByEndTime() {
+        List<MusicAuction> musicAuctions=musicAuctionRepository.findAllByOrderByEndTime();
+        return musicAuctions;
+    }
+}
+
     @Override
     public MusicAuctionDTO2 findDetailById(Long id) {
         Optional<MusicAuction> optionalAuction = musicAuctionRepository.findById(id);

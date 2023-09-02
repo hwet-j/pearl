@@ -98,7 +98,7 @@
 
             <div class="inner-split-container ">
                 <div class="inner-left">
-                    <img class="music-image"  th:src="@{__${userInfo.memberImage}__}" alt="Image">
+                    <img class="music-image"  th:src="@{__${userInfo.memberImage}__}" onError="this.src='/pictures/auction.jpg';" alt="Image">
 
                     <div th:text="${auction.albumImage}">이미지 경로</div>
                     <div th:text="${auction.albumMusic}">오디오 경로</div>
@@ -119,7 +119,7 @@
 
             <div class="inner-split-container ">
                 <div class="inner-left">
-                    <img class="music-image" th:src="@{/pictures/auction.jpg}" alt="Image">
+                    <img class="music-image" th:src="@{/pictures/auction.jpg}" onError="this.src='/pictures/auction.jpg';"  alt="Image">
                     <div class="inner-divider"></div>
                 </div>
 

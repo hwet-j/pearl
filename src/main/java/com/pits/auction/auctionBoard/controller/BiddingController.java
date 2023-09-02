@@ -13,9 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/bid")
@@ -69,7 +66,7 @@ public class BiddingController {
         Long balance = memberService.getBalance(biddingDTO.getBidder());
 
         if (biddingDTO.getPrice() <= 0) {
-            throw new IllegalArgumentException("Invalid bidding amount: " + biddingDTO.getPrice());
+            throw new InsufficientBiddingException("Invalid bidding amount: " + biddingDTO.getPrice());
         }
 
         if (balance < biddingDTO.getPrice()){
@@ -83,12 +80,6 @@ public class BiddingController {
         }
 
         Bidding bidding = biddingService.createBidding(biddingDTO);
-
-        if (bidding != null) {
-            biddingService.biddingWrite(bidding);
-        } else {
-            // 객체 생성 실패에 대한 처리 로직
-        }
 
         return "/myPage/bid/bidCreate";
     }

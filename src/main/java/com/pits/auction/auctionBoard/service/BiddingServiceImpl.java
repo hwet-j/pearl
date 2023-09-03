@@ -17,6 +17,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,33 +31,41 @@ public class BiddingServiceImpl implements BiddingService{
     private final ModelMapper modelMapper;
     private final BiddingMapper biddingMapper;
 
-    /* 입찰 정보 저장 */
-    @Override
-    @Transactional
-    public boolean biddingWrite(Bidding bidding) {
-
-        // 0원 이하의 입찰 불가
-
-        try {
-            biddingRepository.save(bidding);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-
-
 
     /* 입찰 DTO -> Entity 형변환 (첫 생성에만 사용 - 사실상 입찰은 변경이 불가능 / BidTime, Status null값 받아오면 초기값 지정) */
     @Override
+    @Transactional
     public Bidding createBidding(BiddingDTO biddingDTO) {
         Optional<Member> memberOptional = memberRepository.findByNickname(biddingDTO.getBidder());
         Optional<MusicAuction> musicAuctionOptional = musicAuctionRepository.findById(biddingDTO.getAuctionId());
 
+        // 입력된 데이터에 맞는 정보를 불러왔다면 기능 수행
         if (memberOptional.isPresent() && musicAuctionOptional.isPresent()) {
             Member member = memberOptional.get();
             MusicAuction musicAuction = musicAuctionOptional.get();
+
+            // 입찰가가 시작입찰가 보다 낮으면
+            if(musicAuction.getStartingBid() > biddingDTO.getPrice()){
+                throw new InsufficientBiddingException("경매하신 물품의 시작 입찰가는 " + musicAuction.getStartingBid() + "입니다.");
+            }
+
+            long currentTimeMillis = System.currentTimeMillis();
+            long specificTimeMillis = musicAuction.getEndTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+            System.out.println(specificTimeMillis-currentTimeMillis);
+            // 현재 시간이 마감 시간을 넘어간 물품에 경매를 할 경우
+            if (specificTimeMillis < currentTimeMillis){
+                throw new InsufficientBiddingException("경매하신 물품은 마감되었습니다.");
+            }
+
+            // 입찰 시 입찰 종료 시간이 10분 이내 라면 입찰 종료 시간 증가
+            if (specificTimeMillis - currentTimeMillis < 60000){
+
+                // 현재시간에 10분을 추가한 정보로 업데이트
+                LocalDateTime newDateTime = LocalDateTime.now().plusMinutes(10);
+                System.out.println(newDateTime);
+                musicAuction.setEndTime(newDateTime);
+                musicAuctionRepository.save(musicAuction);
+            }
 
             return biddingRepository.save(Bidding.builder()
                     .id(biddingDTO.getId())
@@ -67,8 +76,7 @@ public class BiddingServiceImpl implements BiddingService{
                     .status(biddingDTO.getStatus() != null ? biddingDTO.getStatus() : "진행")
                     .build());
         } else {
-            // new EntityNotFoundException("Member not found with nickname: " + biddingDTO.getBidder()));
-            return null;
+            throw new InsufficientBiddingException("경매중 오류가 발생했습니다.");
         }
     }
 
@@ -106,7 +114,7 @@ public class BiddingServiceImpl implements BiddingService{
     @Override
     public Long getMaxBidPriceForAuction(Long auctionId) {
         Optional<Long> maxBidPrice = biddingRepository.findMaxPriceByAuctionId(auctionId);
-        return maxBidPrice.orElse(null); // 0L 또는 원하는 기본 값으로 변경
+        return maxBidPrice.orElse(0L); // 0L 또는 원하는 기본 값으로 변경
     }
 
 

@@ -47,9 +47,10 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
                 .title(musicAuctionDTO.getTitle())
                 .authorNickname(member)
                 .startingBid(musicAuctionDTO.getStartingBid())
-                .biddingPeriod(biddingPeriodRepository.findById(musicAuctionDTO.getBiddingPeriod()).orElse(null)) // 여기서 findById를 사용하여 입찰 기간을 가져옵니다.
+                .biddingPeriod(biddingPeriodRepository.findById(musicAuctionDTO.getBiddingPeriod()).orElse(null))
                 .status("진행")
                 .build();
+
 
         System.out.println(musicAuction.getBiddingPeriod().getPeriodValue());
         System.out.println(musicAuction.getBiddingPeriod().getId());

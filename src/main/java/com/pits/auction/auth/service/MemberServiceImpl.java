@@ -220,10 +220,4 @@ public class MemberServiceImpl implements MemberService {
             memberRepository.save(member);
         }
     }
-
-
-    @Override
-    public Member findAnyMember() {
-        return memberRepository.findAll().stream().findFirst().orElse(null);
-    }
 }

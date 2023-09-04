@@ -1,35 +1,81 @@
+
+body {
+    background-color: black;
+    color:white;
+    background-image: url('/pictures/background.png');
+        background-position: right bottom;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-size:734px 952px;
+    font-family: 'Roboto', sans-serif;
+}
+
+/*body:lang(ko) {
+    font-family: 'Noto Sans KR', sans-serif;
+}*/
+
+.main-container {
+    display: flex;
+    justify-content: center;
+}
+
 .container{
 display:flex;
+align-items: center;
 flex-direction: row;
 flex-wrap: wrap;
-justify-content: space-between;
-align-items: center;
+justify-content: flex-start;
 gap:16px;
-width:80%;
+width:1130px;
 box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+background-color : #232328;
+margin: 20px 0;
+padding : 20px 0;
+border-radius:15px;
+}
+
+
+
+.list-container{
+width:1200px;
+display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 
 }
 
 .left {
-  width: 30%;
+  width: 250px;
   text-align: left;
-  padding:10px;
+  margin:20px;
+  margin-left:50px;
+  font-size:50px;
+  font-weight:bolder;
 }
 
 .right {
-  width: 60%;
+  width: 770px;
   height: 100%;
   text-align: left;
   padding:10px;
 }
 
 .card {
-  border: 1px solid #ccc;
+/*  border: 1px solid #ccc;
   padding: 10px;
   margin: 10px;
-  width: 18%; /* 4 cards in a row */
+  width: 18%; *//* 4 cards in a row *//*
   display: inline-block;
-  vertical-align: top;
+  vertical-align: top;*/
+  background-image: url('/pictures/CardBackground.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      width: 268px;
+      height: 413px;
+      display: inline-block;
+      vertical-align: top;
+      color:white;
 }
 
 .scroller{
@@ -39,8 +85,7 @@ flex-wrap: wrap;
 word-break:break-all;
 justify-content:space-around;
 gap:16px;
-width:80%;
-
+width:1130px;
 }
 
 img{
@@ -72,4 +117,74 @@ text-align: center;
 
 .item-text {
     margin-right: 20px; /* adjust as needed */
+}
+
+.sidebar{
+    display:flex;
+    /*align-items: center;
+    position:relative;*/
+    align-items: flex-start; /* 상단에 내용물을 정렬 */
+        flex-direction: column; /* 내용물을 수직으로 정렬 */
+        height: 100vh; /* 필요한 경우 높이를 조정 */
+}
+
+.sidebar .fixed-content {
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+}
+.block{
+align-text:left;
+background-color:#672DE8;
+border-radius:15px;
+width:500px;
+height:200px;
+margin-top:20px;
+}
+
+.block-textwrap{
+    margin-top:20px;
+    margin-bottom:20px;
+    margin-left:20px;
+    font-weight:900;
+}
+
+.block-title{
+    font-size: 45px;
+    margin: 20px 15px;
+}
+
+.block-content{
+    font-size: 19px;
+    margin: 5px 15px;
+    line-height:1.5;
+}
+
+.item-image .thumb{
+    width: 270px;
+    height: 270px;
+    margin-right:50px;
+}
+
+.item-content{
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.item-text-title{
+font-size:35px;
+font-weight:bold;
+}
+
+.item-text-nickname{
+font-size:25px;
+font-weight:bold;
+}
+
+.item-text-timelimit{
+font-size:37px;
+font-weight:bold;
+text-align:right;
 }

@@ -13,7 +13,6 @@ import com.pits.auction.auth.repository.MemberRepository;
 import com.pits.auction.auth.service.MemberService;
 import com.pits.auction.user.service.UserSecurityService;
 import jakarta.servlet.http.HttpServletRequest;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,20 +20,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import java.io.File;
-import java.io.IOException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.List;
-import java.util.Map;
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -183,5 +172,21 @@ public class MusicAuctionController {
         model.addAttribute("musicAuctions", musicAuctions);
         return ("/auction/read");
     }*/
+
+    @GetMapping("/edit/{id}")
+    public String editDetail(@PathVariable("id")Long id,Model model) throws Exception {
+        MusicAuction musicAuction=musicAuctionService.getAuctionDetail(id);
+        model.addAttribute("musicAuction",musicAuction);
+        return "/auction/edit";
+    }
+    //회원 상세페이지 수정
+    @PostMapping("/edit/{id}")
+    public String editDetail(@PathVariable("id") Long id, @ModelAttribute MusicAuctionDTO2 musicAuctionDTO2) throws Exception{
+        System.out.println("musicAuctionDTO2="+musicAuctionDTO2);
+        musicAuctionService.editDetail(musicAuctionDTO2,id);
+        return "redirect:/auction/edit/"+id;
+    }
+
+
 
 }

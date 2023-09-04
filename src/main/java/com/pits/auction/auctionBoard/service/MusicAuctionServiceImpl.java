@@ -4,6 +4,7 @@ import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO2;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
 import com.pits.auction.auctionBoard.entity.MusicAuctionProjection;
+import com.pits.auction.auctionBoard.entity.MusicGenre;
 import com.pits.auction.auctionBoard.repository.BiddingPeriodRepository;
 import com.pits.auction.auctionBoard.repository.BiddingRepository;
 import com.pits.auction.auctionBoard.repository.MusicAuctionRepository;
@@ -178,5 +179,32 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
         Pageable topFive = PageRequest.of(0,5);
         return musicAuctionRepository.findTop5ByEndTimeAfterCurrent(topFive);
     }
+
+
+    public MusicAuction getAuctionDetail(Long id){
+        Optional<MusicAuction> musicAuction=musicAuctionRepository.findById(id);
+        if(musicAuction.isPresent()){
+            return musicAuction.get();
+        }
+        return null;
+    }
+    public void editDetail(MusicAuctionDTO2 musicAuctionDTO2,Long id){
+        Optional<MusicAuction> optionalMusicAuction = musicAuctionRepository.findById(id);
+        if (optionalMusicAuction.isPresent()) {
+            MusicAuction musicAuction=optionalMusicAuction.get();
+            MusicGenre musicGenre=new MusicGenre();
+            musicGenre.setId(musicAuctionDTO2.getGenre());
+            musicGenre.setName(musicAuctionDTO2.getGenreName());
+            musicAuction.setGenre(musicGenre);
+            musicAuction.setTitle(musicAuctionDTO2.getTitle());
+            musicAuction.setAlbumImage(musicAuctionDTO2.getAlbumImagePath());
+            musicAuction.setAlbumMusic(musicAuctionDTO2.getAlbumMusicPath());
+            musicAuction.setContent(musicAuctionDTO2.getContent());
+            musicAuctionRepository.save(musicAuction);
+
+        }
+
+    }
+
 
 }

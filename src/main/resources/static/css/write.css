@@ -1,0 +1,58 @@
+.back {
+width: 1920px;
+height: 2000px;
+background-color: black;
+color: white;
+}
+
+.form-container {
+            display: flex;
+            margin-top: 200px;
+            justify-content: space-between; /* 좌우로 요소들을 분배합니다. */
+        }
+
+.left{
+    margin-left: 150px;
+}
+
+        .left, .right {
+            width: 45%; /* 너비를 약 45%로 설정합니다. */
+        }
+
+        .radio-item {
+            display: inline-block;
+            margin-right: 10px; /* 오른쪽 간격 추가, 필요에 따라 조절 가능 */
+        }
+
+<!--        #albumImage {-->
+<!--            display: none;-->
+<!--        }-->
+
+        .image-upload-container {
+            position: relative;
+            display: inline-block;
+            width: 50%;
+        }
+
+        /* 커스텀 버튼 스타일 */
+
+           .custom-file-upload {
+               display: inline-block;
+               padding: 6px 12px;
+               cursor: pointer;
+               background-color: none;
+               color: white;
+               border: 2px solid white;
+               border-radius: 4px;
+               margin-left: 65px;
+        }
+
+        .submit-button {
+            background-color: #007bff;  /* 버튼 색상 */
+            color: #ffffff;  /* 글자색 */
+            border: none;
+            border-radius: 4px;  /* 둥근 모서리 */
+            padding: 6px 12px;
+            cursor: pointer;
+            margin-left: 110px;  /* 여기서 마진을 조정합니다 */
+        }

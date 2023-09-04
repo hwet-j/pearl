@@ -195,9 +195,6 @@ public class MyPageController {
             @RequestParam Long balance,
             Model model) {
 
-        System.out.println(balance);
-        System.out.println(userId);
-        System.out.println(action);
         try {
             if ("deposit".equals(action)) {
                 memberService.addBalance(userId, balance);

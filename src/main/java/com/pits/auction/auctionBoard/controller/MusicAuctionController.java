@@ -96,7 +96,7 @@ public class MusicAuctionController {
         Long id = 2L;
         Optional<MusicAuction> musicAuction = musicAuctionService.findById(id);
 
-        return  "/auction/detail_";
+        return  "/auction/detail";
     }
 
 

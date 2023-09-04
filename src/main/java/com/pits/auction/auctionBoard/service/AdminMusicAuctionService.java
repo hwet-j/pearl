@@ -10,4 +10,6 @@ public interface AdminMusicAuctionService {
     Page<MusicAuction> getMusicAuctionList(Pageable pageable);
 
     void deleteMusicAuction(List<Long> ids);
+
+
 }

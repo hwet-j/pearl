@@ -4,6 +4,7 @@ import com.pits.auction.auctionBoard.entity.MusicAuction;
 import com.pits.auction.auctionBoard.repository.AdminMusicAuctionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +26,7 @@ public class AdminMusicAuctionServiceImpl implements AdminMusicAuctionService{
             adminMusicAuctionRepository.deleteById(id);
         }
     }
+
+
 
 }

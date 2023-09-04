@@ -7,6 +7,7 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -37,13 +38,13 @@ import java.util.List;
 @Builder
 @Table(name = "music_auction")
 @EntityListeners(AuditingEntityListener.class)
+@ToString
 public class MusicAuction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
-    @JsonIgnore
     @JoinColumn(name = "author_nickname",  referencedColumnName = "nickname", nullable = false)
     private Member authorNickname;
 
@@ -111,5 +112,8 @@ public class MusicAuction {
                 throw new IllegalArgumentException("Unknown bidding period unit: " + unit);
         }
     }
+
+    @Transient
+    private BigDecimal maxPrice;
    
 }

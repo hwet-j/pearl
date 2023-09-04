@@ -1,5 +1,5 @@
 const container = document.querySelector('.scroller');
-let page = 0; // 시작 페이지 번호 (3부터 시작)
+let page = 2; // 시작 페이지 번호 (2부터 시작)
 let loading = false;
 const loadingIndicator = document.getElementById('loadingIndicator');
 
@@ -21,6 +21,9 @@ function fetchMoreData() {
                         albumImage.classList.add('albumImage');
                         const image = document.createElement('img');
                         image.setAttribute('src', musicAuction.albumImage);
+                        image.onerror = function() {
+                            this.src = '/pictures/image_not_found.png';
+                        };
                         albumImage.appendChild(image);
 
                         const top = document.createElement('div');
@@ -31,6 +34,7 @@ function fetchMoreData() {
 
                         card.appendChild(albumImage);
                         card.appendChild(top);
+                        card.appendChild(bottom);
 
                         container.appendChild(card);
                     });

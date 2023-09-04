@@ -31,8 +31,6 @@ public interface MusicAuctionService {
 
     MusicAuctionDTO2 findDetailById(Long id);
 
-    List<MusicAuction> findAllByOrderByEndTime();
-
     boolean updateStatus(Long id);
 
     public Page<MusicAuctionProjection> findTop5ByEndTimeAfterCurrent();

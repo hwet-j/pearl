@@ -2,30 +2,46 @@
 /* 배경 색상 */
 body {
     background-color: #020202;
+    font-family: 'Noto Sans KR', 'Roboto', sans-serif;
 }
 
+
+/***************************/
+/* 전체를 묶어주는 container */
+/***************************/
 .container {
       margin-left: 150px;
       width: 1300px;
       height: 800px;
-      margin-top:150px;
+      margin-top: 450px;
       display: flex;
-        flex-direction: column;
+      flex-direction: column;
       align-items: stretch;   /* 높이를 부모 컨테이너에 맞추기 -> 좌,우의 높이가 동일하도록 */
       justify-content: center;
 }
 
-
+/***************************/
+/* 전체에서 상 container */
+/***************************/
 .container-header {
   padding: 20px;
   background-color: #f7f7f7;
 }
 
+/***************************/
+/* 전체에서 하 container */
+/***************************/
 .container-body {
   padding: 20px;
   background-color: #e1e1e1;
 }
 
+
+
+
+/***************************/
+/* 상 부분 제목 이미지와 내용을 나누기 위한 container */
+/***************************/
 .title-split-container {
     display: flex;
     align-items: stretch;   /* 높이를 부모 컨테이너에 맞추기 -> 좌,우의 높이가 동일하도록 */
@@ -40,7 +56,6 @@ body {
     box-sizing: border-box;
     color: white;
 }
-
 
 
 /* 좌측 영역 */
@@ -69,9 +84,25 @@ body {
 }
 
 .title-audio{
-    margin-top: 100px;
+    margin-top:25px;
 }
 
+.title-author {
+  font-style: italic;
+}
+
+
+
+
+
+/***************************/
+/* 하 부분 내용과 입찰내용을 분리 하기 위한 container */
+/***************************/
+
+.body-split-container {
+    display: flex;
+    justify-content: center;
+}
 
 /* 좌,우 공통 */
 .body-left-side,
@@ -85,32 +116,65 @@ body {
 
 /* 좌측 영역 */
 .body-left-side {
-    flex: 1;
+    flex: 3.5;
     background-color: #212024;
 }
 
 /* 우측 영역 */
 .body-right-side {
-    flex: 3;
+    flex: 1;
+    background-color: purple;
 }
 
 
-.container-left-side {
-  width: 60%;
-  padding: 20px;
-  background-color: #f7f7f7;
+/***************************/
+/* Comment, Entries 를 분류하는 버튼 */
+/***************************/
+.button-container {
+    display: flex;                  /* 컨테이너 안의 요소들을 가로로 배열하기 위해 Flexbox 사용 */
+    justify-content: space-between; /* 버튼 사이에 공간을 균등하게 분배 */
+    width: 100%;                    /* 전체 컨테이너의 너비를 사용 */
 }
 
-.container-right-side {
-  width: 40%;
-  padding: 20px;
-  background-color: #e1e1e1;
+.button-container button {
+    flex-grow: 1;               /* 버튼 요소가 가능한 한 너비를 확장 */
+    border-top: none;           /* 테두리 상단 제거 */
+    background-color: inherit;  /* 부모 요소의 배경색 상속 */
+    color:white;
+    font-size: 32px; /* 원하는 글자 크기로 변경하세요 */
+}
+
+.button-container button.active {
+    text-decoration: underline; /* 클릭되었을 때 밑줄 스타일을 추가합니다. */
 }
 
 
-.author {
-  font-style: italic;
+
+.body-comment textarea {
+    width: 95%; /* 부모 요소의 너비 사용 */
+    background-color: #353840;
+    color:white;
+    font-size: 20px;
+    font-family: 'Noto Sans KR', 'Roboto', sans-serif;
+    border: none; /* 테두리 없애기 */
+    outline: none; /* 포커스 시 발생하는 테두리 제거 */
+    padding: 20px;
+    border-radius: 25px; /* 둥글게(rounded) 만들기 */
+    resize: none; /* 크기 조절 핸들 비활성화 */
 }
 
 
+.comment-submit-button {
+    background-color: inherit; /* 배경색 부모 객체의 배경색 상속 */
+    color: #fff; /* 글자색 설정 */
+    border: 2px solid #fff; /* 테두리 설정 */
+    border-radius: 15px; /* 둥글게(rounded) 만들기 */
+    padding: 10px 20px; /* 내용과의 간격 설정 */
+    cursor: pointer; /* 커서 모양 변경 (포인터) */
+    float: right; /* 우측 정렬 */
+}
 
+.auction-container{
+    height: 700px;
+    overflow: auto; /* 스크롤 활성화 */
+}

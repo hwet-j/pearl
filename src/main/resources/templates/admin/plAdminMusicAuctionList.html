@@ -40,14 +40,19 @@ deleteForm.submit(); // form 제출
 });
 });
 </script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Raleway:wght@600;700;800;900&family=Roboto:wght@300;400;500;700;900&display=swap">
 <style>
-body {
-background-color: #000000;}
-a {
-  text-decoration-line: none;
-}
-.btn{
- border-color:#fff;}
+    body {
+     background-color: #000000;
+      font-family: 'Noto Sans KR', sans-serif;
+       font-family: 'Roboto', sans-serif;
+    }
+    a {
+      text-decoration-line: none;
+      color:white;
+    }
+    .btn{
+     border-color:#fff;}
 </style>
 <body>
 <div style="margin:150px;" >
@@ -68,7 +73,7 @@ a {
     <tr th:each="musicAuction:${musicAuctionList}" >
         <td><input type="checkbox" name="selectedMusicAutions" th:value="${musicAuction.id}" ></td>
         <td th:text="${musicAuction.id}" name="id"></td>
-        <td  name="title"><a href="" th:text="  ${musicAuction.title}"></a></td>
+        <td name="title"><a th:href="@{/detail/id(id=${musicAuction.id})}" th:text="${musicAuction.title}"></a></td>
         <td th:text="${musicAuction.genre.name}" name="genre"></td>
         <td th:text="${musicAuction.authorNickname.nickname}" name="authorNickname"></td>
         <td th:text="${#temporals.format(musicAuction.createdAt,'yyyy-MM-dd HH:mm')}" name="createdAt"></td>

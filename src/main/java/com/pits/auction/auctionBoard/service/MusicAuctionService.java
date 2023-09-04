@@ -29,4 +29,6 @@ public interface MusicAuctionService {
     MusicAuctionDTO2 findDetailById(Long id);
 
     List<MusicAuction> findAllByOrderByEndTime();
+
+    public void editMusicAuction(MusicAuctionDTO2 musicAuctionDTO2,Long id);
 }

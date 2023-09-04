@@ -1,5 +1,6 @@
 package com.pits.auction.auctionBoard.controller;
 
+import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO2;
 import com.pits.auction.auctionBoard.entity.BiddingPeriod;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
@@ -7,6 +8,7 @@ import com.pits.auction.auctionBoard.entity.MusicGenre;
 import com.pits.auction.auctionBoard.service.BiddingPeriodService;
 import com.pits.auction.auctionBoard.service.MusicAuctionService;
 import com.pits.auction.auctionBoard.service.MusicGenreService;
+import com.pits.auction.auth.dto.MemberDTO;
 import com.pits.auction.auth.entity.Member;
 import com.pits.auction.auth.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -130,4 +132,21 @@ public class MusicAuctionController {
         return ("/auction/read");
     }
 
+
+    //작성 상세 페이지 수정
+    @GetMapping("/edit/{id}")
+    public String editMusicAuction(@PathVariable("id")Long id,Model model)throws Exception{
+        MusicAuctionDTO MusicAuctionDTO=musicAuctionService.getMusicAuctionById(id);
+        model.addAttribute("MusicAuctionDTO",MusicAuctionDTO);
+        return "/auction/edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String modifyMusicAuction(@PathVariable("id") Long id, @ModelAttribute MusicAuctionDTO2 musicAuctionDTO2) throws Exception{
+        musicAuctionService.editMusicAuction(musicAuctionDTO2,id);
+        return "redirect:/auction/edit/%d"+id;
+    }
+
 }
+
+

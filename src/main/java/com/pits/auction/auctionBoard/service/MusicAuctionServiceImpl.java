@@ -3,6 +3,7 @@ package com.pits.auction.auctionBoard.service;
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO2;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
+import com.pits.auction.auctionBoard.entity.MusicGenre;
 import com.pits.auction.auctionBoard.repository.BiddingPeriodRepository;
 import com.pits.auction.auctionBoard.repository.BiddingRepository;
 import com.pits.auction.auctionBoard.repository.MusicAuctionRepository;
@@ -153,5 +154,21 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
         }
 
         return dto;
+    }
+
+    public void editMusicAuction(MusicAuctionDTO2 musicAuctionDTO2,Long id){
+        Optional<MusicAuction> optionalMusicAuction=musicAuctionRepository.findById(id);
+        if(optionalMusicAuction.isPresent()){
+            MusicAuction musicAuction=optionalMusicAuction.get();
+            MusicGenre musicGenre=new MusicGenre();
+            musicGenre.setId(musicAuctionDTO2.getGenre());
+            musicGenre.setName(musicAuctionDTO2.getGenreName());
+            musicAuction.setTitle(musicAuctionDTO2.getTitle());
+            musicAuction.setAlbumImage(musicAuctionDTO2.getAlbumImagePath());
+            musicAuction.setAlbumMusic(musicAuctionDTO2.getAlbumMusicPath());
+            musicAuction.setContent(musicAuctionDTO2.getContent());
+            musicAuction.setGenre(musicGenre);
+            musicAuctionRepository.save(musicAuction);
+        }
     }
 }

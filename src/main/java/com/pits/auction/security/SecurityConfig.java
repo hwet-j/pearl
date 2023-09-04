@@ -30,7 +30,7 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/"))
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/user/plLogout"))
-                        .logoutSuccessUrl("/").invalidateHttpSession(true))
+                        .logoutSuccessUrl("/").invalidateHttpSession(true)).csrf().disable()
         ;
         return http.build();
     }

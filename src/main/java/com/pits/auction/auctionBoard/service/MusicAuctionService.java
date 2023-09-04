@@ -29,4 +29,6 @@ public interface MusicAuctionService {
     MusicAuctionDTO2 findDetailById(Long id);
 
     List<MusicAuction> findAllByOrderByEndTime();
+
+    boolean updateStatus(Long id);
 }

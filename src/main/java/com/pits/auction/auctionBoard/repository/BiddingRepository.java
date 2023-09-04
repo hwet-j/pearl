@@ -31,4 +31,7 @@ public interface BiddingRepository extends JpaRepository<Bidding, Long> {
     Long findLastBidPriceByNickname(@Param("nickname") String nickname);
 
 
+
+
+
 }

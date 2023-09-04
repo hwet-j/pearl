@@ -11,6 +11,7 @@ import com.pits.auction.auctionBoard.service.MusicAuctionService;
 import com.pits.auction.auth.entity.Member;
 import com.pits.auction.auth.repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -87,6 +88,9 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
         long currentTimeMillis = System.currentTimeMillis();
 
         long specificTimeMillis = endTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        if ((specificTimeMillis - currentTimeMillis) < 0){
+            return null;
+        }
 
         return (specificTimeMillis - currentTimeMillis) / 1000;
     }
@@ -125,6 +129,23 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
     public List<MusicAuction> findAllByOrderByEndTime() {
         List<MusicAuction> musicAuctions=musicAuctionRepository.findAllByOrderByEndTime();
         return musicAuctions;
+    }
+
+    @Override
+    @Transactional
+    public boolean updateStatus(Long id) {
+        Optional<MusicAuction> optionalMusicAuction =  musicAuctionRepository.findById(id);
+
+        if(optionalMusicAuction.isPresent()){
+            MusicAuction musicAuction = optionalMusicAuction.get();
+            if(LocalDateTime.now().isAfter(musicAuction.getEndTime())){
+                musicAuctionRepository.updateStatusById(id, "종료");
+                return true;
+            }
+        }
+
+
+        return false;
     }
 
 

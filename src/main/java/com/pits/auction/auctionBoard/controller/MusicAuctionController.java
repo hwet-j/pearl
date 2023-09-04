@@ -5,6 +5,7 @@ import com.pits.auction.auctionBoard.entity.BiddingPeriod;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
 import com.pits.auction.auctionBoard.entity.MusicGenre;
 import com.pits.auction.auctionBoard.service.BiddingPeriodService;
+import com.pits.auction.auctionBoard.service.BiddingService;
 import com.pits.auction.auctionBoard.service.MusicAuctionService;
 import com.pits.auction.auctionBoard.service.MusicGenreService;
 import com.pits.auction.auth.entity.Member;
@@ -40,6 +41,7 @@ public class MusicAuctionController {
     private final MusicAuctionService musicAuctionService;
     private final MusicGenreService musicGenreService;
     private final BiddingPeriodService biddingPeriodService;
+    private final BiddingService biddingService;
     private final MemberService memberService;
 
     @GetMapping("/write")
@@ -92,10 +94,51 @@ public class MusicAuctionController {
 
     /* 글 상세보기 (auctionId) */
     @GetMapping("/detail")
-    public String auctionDedail(Long auctionId){
-        Long id = 2L;
-        Optional<MusicAuction> musicAuction = musicAuctionService.findById(id);
+    public String auctionDedail(Long auctionId, Model model){
+        Long id = 42L;
+        // 경매글 가져오기
+        Optional<MusicAuction> optionalMusicAuction = musicAuctionService.findById(id);
+        if (optionalMusicAuction.isPresent()){
+            MusicAuction musicAuction = optionalMusicAuction.get();
 
+            // 경매입찰 관련 정보는 경매가 진행되는 동안만 필요함
+            if(musicAuction.getStatus().equals("진행")){
+                // 경매 남은 시간 계산
+                Long remainingTime = musicAuctionService.remainingTime(musicAuction.getEndTime());
+
+                // remainingTime 이 음수면 null값을 반환함
+                if (remainingTime == null){
+                    musicAuctionService.updateStatus(musicAuction.getId());
+                }
+
+                model.addAttribute("remainingTime", remainingTime);
+            }
+            
+            // 입찰 기록이 존재하면
+            if (biddingService.getAuctionBiddingsById(musicAuction.getId()) != null){
+                // 경매에 대한 입찰 기록이 있을 때 최대 경매가 반환
+                model.addAttribute("maxBiddingPrice", biddingService.getMaxBidPriceForAuction(musicAuction.getId()));
+            }
+
+            model.addAttribute("genre", musicAuction.getGenre().getName());
+            model.addAttribute("musicAuction", musicAuction);
+
+            // 입찰 금액을 올리는 기능 -> % 와 같이 다른 기능을 사용할 가능성이 있어서 값 전달
+            model.addAttribute("addValue1", 1000);
+            model.addAttribute("addValue2", 5000);
+            model.addAttribute("addValue3", 10000);
+
+            // if (musicAuctionService.getLastBiddingAuction())
+
+        } else {
+            throw new RuntimeException("경매글 정보를 가져오지 못함");
+        }
+
+        // 경매글에 대한 최고가 가져오기
+
+        
+        // 댓글 기능 완성 후 - 해당 경매글에 대한 댓글 가져오기
+        
         return  "/auction/detail";
     }
 

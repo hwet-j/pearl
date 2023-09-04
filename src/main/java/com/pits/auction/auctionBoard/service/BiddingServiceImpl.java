@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -97,10 +98,13 @@ public class BiddingServiceImpl implements BiddingService{
     @Override
     /* 경매 물품(음악)에 따른 입찰 목록 */
     public List<Bidding> getAuctionBiddingsById(Long auctionId) {
-        MusicAuction musicAuction = musicAuctionRepository.findById(auctionId)
-                .orElseThrow(() -> new EntityNotFoundException("Auction not found with id: " + auctionId));
+        Optional<MusicAuction> optionalMusicAuction = musicAuctionRepository.findById(auctionId);
 
-        return musicAuction.getAuctionBiddings();
+        if(optionalMusicAuction.isPresent()){
+            return optionalMusicAuction.get().getAuctionBiddings();
+        }
+
+        return null;
     }
 
     /* 입찰 전체목록 */

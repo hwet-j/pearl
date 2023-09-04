@@ -16,4 +16,7 @@ public interface UserRepository extends JpaRepository<Member,Long> {
     //(로그인)사용자조회
     Optional<Member> findByNickname(String nickname);
 
+
+    Optional<Member> findByEmail(String email);
+
 }

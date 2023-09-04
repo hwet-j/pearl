@@ -16,7 +16,7 @@ public class CustomExceptionHandler {
     @ExceptionHandler(InsufficientBiddingException.class)
     public String handleInsufficientBiddingException(InsufficientBiddingException ex, Model model) {
         model.addAttribute("errorMessage", ex.getMessage());
-        return "error/insufficientBalance"; // 예외 페이지로 이동
+        return "error/insufficientBidding"; // 예외 페이지로 이동
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

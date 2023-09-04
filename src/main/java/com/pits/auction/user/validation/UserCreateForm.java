@@ -14,7 +14,7 @@ public class UserCreateForm {
 
 
     @NotEmpty(message = "닉네임은 필수입력입니다.")
-    @Pattern(regexp = "^(?!.*admin).*", message = "닉네임에 'admin'을 포함할 수 없습니다.")
+   // @Pattern(regexp = "^(?!.*admin).*", message = "닉네임에 'admin'을 포함할 수 없습니다.")
     private String nickname;    //회원이름.uk
 
     @NotEmpty(message = "비밀번호는 필수입력입니다.")

@@ -10,6 +10,7 @@ import com.pits.auction.global.exception.InsufficientBalanceException;
 import com.pits.auction.global.exception.PhoneNumberDuplicateException;
 import com.pits.auction.global.upload.AudioUpload;
 import com.pits.auction.global.upload.ImageUpload;
+import jakarta.annotation.security.PermitAll;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -173,7 +174,6 @@ public class MyPageController {
     /* 입금 폼 (서브창을 띄울때 사용) */
     @GetMapping("/depositform")
     public String depositFrom(@RequestParam("userId") Long userId, Model model) {
-
         model.addAttribute("userInfo", memberService.getUserInfo(userId));
         return "/myPage/depositPopup";
     }
@@ -188,11 +188,11 @@ public class MyPageController {
 
     /* 입/출금 기능 (입금인지 출금인지 action변수에 받아와 하나의 메서드에서 두 기능을 구현) */
     @PostMapping("/balance")
-    @Transactional
+    @PermitAll
     public String transactionBalance(
-            @RequestParam Long balance,
             @RequestParam Long userId,
             @RequestParam String action,
+            @RequestParam Long balance,
             Model model) {
 
         try {

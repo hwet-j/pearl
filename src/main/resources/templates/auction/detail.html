@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .left-content, .right-content {
+            display: inline-block;
+        }
+
+        /* 아래 스타일은 선택적이며 추가 스타일링을 위한 것입니다. 필요에 따라 조절하실 수 있습니다. */
+        .left-content, .right-content, [th:fragment] {
+            border: 1px solid #000;  /* 얇은 테두리 추가 */
+            padding: 10px;          /* 내부 여백 추가 */
+            margin: 10px;           /* 외부 여백 추가 */
+        }
+    </style>
+</head>
+<body>
+<h1>상세페이지</h1>
+<div class="container">
+    <div class="left-content">
+        <p><span th:text="${auctionDetail.genreName}"></span></p>
+        <p><span th:text="${auctionDetail.title}"></span></p>
+        <p><span th:text="${auctionDetail.authorNickname}"></span></p>
+        <audio controls>
+            <source src="/NewJeans - ETA (1).mp3" type="audio/mpeg">
+        </audio>
+        <div th:fragment="discription">
+            <p>Description<br><span th:text="${auctionDetail.content}"></span></p>
+        </div>
+        <div th:fragment="comment">
+            <p>Comment</p>
+        </div>
+        <div th:fragment="commentForm">
+            <p>CommentForm</p>
+        </div>
+    </div>
+    <div class="right-content">
+        <div th:fragment="submissionDeadline">
+            <p>Submission Deadline</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

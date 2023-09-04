@@ -11,6 +11,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR|Roboto">
+
 
 
 <script th:inline="javascript">
@@ -99,9 +101,7 @@
             <div class="inner-split-container ">
                 <div class="inner-left">
                     <img class="music-image"  th:src="@{__${userInfo.memberImage}__}" onError="this.src='/pictures/auction.jpg';" alt="Image">
-
-                    <div th:text="${auction.albumImage}">이미지 경로</div>
-                    <div th:text="${auction.albumMusic}">오디오 경로</div>
+                    <div class="inner-divider"></div>
                 </div>
                 <div class="inner-right">
                    <div th:text="${auction.title}"></div>
@@ -127,6 +127,7 @@
                 <div class="inner-right">
                     <div>경매한 물품이 없습니다.</div>
 
+                    <div><a href="#">경매목록보기</a></div>
                     <div><a href="#">경매목록보기</a></div>
                 </div>
             </div>

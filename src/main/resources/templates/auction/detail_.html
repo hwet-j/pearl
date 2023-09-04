@@ -4,12 +4,50 @@
     <meta charset="UTF-8">
     <title>게시글 상세정보</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/detail_.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/audiplay.css}">
     <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR|Roboto">
+
+
     <script th:src="@{/js/audiplay.js}"></script>
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        const buttons = document.querySelectorAll('.button-container button');
+        const commentContent = document.querySelector('.body-comment');
+        const authorPostContent = document.querySelector('.body-authorPost');
+
+        const commentButton = document.querySelector('.comment-button');
+
+        // 초기 설정 댓글이 선택되어있도록
+        commentContent.style.display = 'block';
+        authorPostContent.style.display = 'none';
+        commentButton.classList.add('active');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                buttons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                // 댓글 버튼을 클릭했을 때
+                if (button.classList.contains('comment-button')) {
+                    commentContent.style.display = 'block';
+                    authorPostContent.style.display = 'none';
+                }
+                // Entries 버튼을 클릭했을 때
+                else if (button.classList.contains('authorPost-button')) {
+                    commentContent.style.display = 'none';
+                    authorPostContent.style.display = 'block';
+                }
+            });
+        });
+    });
+
+    </script>
 
 </head>
 <body>
@@ -27,8 +65,8 @@
                 <h1 class="album-title">Album Title</h1>
 
                 <div>
-                <img class="title-profile-image" src="" onError="this.src='/pictures/no_profile.png';" alt="Album Cover">
-                <span class="author">Author</span>
+                    <img class="title-profile-image" src="" onError="this.src='/pictures/no_profile.png';" alt="Album Cover">
+                    <span class="title-author">Author</span>
                 </div>
 
                 <div class="title-audio">
@@ -47,10 +85,73 @@
 
     <div class="container-body">
 
-        <div class="body-left-side">글 내용, 댓글, 경매현황(참가자)?</div>
+        <div class="body-split-container">
 
-        <div class="body-right-side">경매 현황/ 남은시간, 최대입찰가, 입찰기능</div>
+            <div class="body-left-side">
 
+                <div class="body-content">
+                    <div>Description</div>
+                    <div>
+                        음악은 우리 삶의 중요한 부분 중 하나로, 다양한 형태와 스타일로 우리를 감동시키고 표현의 수단으로 사용됩니다. 음악은 역사적으로도 문화와 예술의 발전에 큰 영향을 미쳤으며, 현재에도 계속해서 진화하고 있습니다.
+
+                        음악은 언제부터인가 인간의 삶과 함께해왔습니다. 원시 시대부터 부터지는 드럼 소리, 부채와 줄로 만든 악기, 그리고 손으로 연주되는 현악기의 소리는 고대 문화에서부터 전통적인 음악의 일부로 남아 있습니다. 역사적으로 음악은 종교, 의식, 축제, 사회적 상황 등 다양한 맥락에서 사용되었습니다.
+
+                        음악은 문화와 정체성을 형성하고 나타내는데 중요한 역할을 합니다. 각 문화와 지역은 고유한 음악 스타일과 특성을 갖고 있으며, 이것이 그들의 정체성을 형성하는데 큰 역할을 합니다. 예를 들어, 블루스와 재즈는 미국의 음악적 유산을 대표하는 장르로, 아프리칸 아메리칸 문화와 연결되어 있습니다. 또한 인도의 클래식 음악은 수세기에 걸쳐 발전하며 이 지역의 예술과 정신적 가치를 반영합니다.
+
+                        음악은 또한 감정과 경험을 표현하는 강력한 수단으로 사용됩니다. 가사와 음악의 조합은 사랑, 분노, 슬픔, 희망 등 다양한 감정을 다루며, 가수와 작곡가는 자신의 경험과 이야기를 음악을 통해 전달합니다. 이로 인해 음악은 듣는 이들과 깊은 연결을 형성하며, 감정적인 호응을 일으키기도 합니다.
+
+                        음악은 또한 엔터테인먼트와 레저의 중요한 부분입니다. 콘서트, 페스티벌, 음반 발매, 음악 비디오, 라디오 등 다양한 매체와 플랫폼을 통해 음악은 대중과 소통하고 공유됩니다. 음악은 또한 영화, 텔레비전, 광고, 비디오 게임 등 다양한 매체와 예술 형태에서도 사용되며, 이를 통해 이야기를 더욱 감동적으로 만들어 줍니다.
+
+                        기술의 발전으로 음악은 더욱 쉽게 접근하고 생산할 수 있게 되었습니다. 디지털 음악 스트리밍 서비스는 음악을 언제 어디서나 감상할 수 있게 해주며, 음악 제작 소프트웨어와 하드웨어는 아티스트와 음악 프로듀서들에게 창의적인 자유를 제공합니다.
+
+                        마지막으로, 음악은 문화적 다양성을 즐기는데 중요한 역할을 합니다. 세계 각지의 음악은 다양한 스타일과 언어로 다양성을 표현하며, 이를 통해 우리는 서로 다른 문화와 관점을 이해하고 존중할 수 있습니다.
+
+                        음악은 우리의 삶을 더욱 풍요롭게 만들어 주는 예술 중 하나이며, 계속해서 진화하고 성장하고 있습니다. 그래서 음악은 우리의 문화와 삶에 끊임없는 영감을 주고 있습니다.
+                    </div>
+                </div>
+
+                <div style="margin-top:30px"> </div>
+
+                <div class="auction-container">
+                    <div class="button-container">
+                        <button class="comment-button">Comment</button>
+                        <button class="authorPost-button">Entries</button>
+                    </div>
+
+                    <div class="body-comment">
+                        <div>작성자 : 내용</div>
+                        <div>작성자 : 내용</div>
+                        <div>작성자 : 내용</div>
+                        <div>작성자 : 내용</div>
+                        <div>작성자 : 내용</div>
+                        <div>작성자 : 내용</div>
+                        <div>작성자 : 내용</div>
+                        <div>작성자 : 내용</div>
+                        <div>작성자 : 내용</div>
+                        <div>작성자 : 내용</div>
+                        <div>작성자 : 내용</div>
+                        <div>작성자 : 내용</div>
+                        <form>
+                            <input type="hidden" value="글번호" name="글번호">
+                            <input type="hidden" value="댓글 작성자" name="댓글 작성자">
+                            <textarea rows="4" cols="50" placeholder="댓글 내용을 입력해주세요."></textarea>
+                            <input type="submit" value="작성" class="comment-submit-button">
+                        </form>
+                    </div>
+
+                    <div class="body-authorPost">
+                        <div>글번호 , ~~~~~~~~~~~~~~~~~~~~~</div>
+                        <div>글번호 , ~~~~~~~~~~~~~~~~~~~~~</div>
+                        <div>글번호 , ~~~~~~~~~~~~~~~~~~~~~</div>
+                        <div>글번호 , ~~~~~~~~~~~~~~~~~~~~~</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="body-right-side">경매 현황 / 남은시간, 최대입찰가, 입찰기능</div>
+
+        </div>
     </div>
 
 </div>

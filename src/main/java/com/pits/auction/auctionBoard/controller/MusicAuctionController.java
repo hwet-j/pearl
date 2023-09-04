@@ -92,19 +92,11 @@ public class MusicAuctionController {
 
     /* 글 상세보기 (auctionId) */
     @GetMapping("/detail")
-    @ResponseBody
-    public Long auctionDedail(Long auctionId){
+    public String auctionDedail(Long auctionId){
         Long id = 2L;
         Optional<MusicAuction> musicAuction = musicAuctionService.findById(id);
 
-        // 리턴 값 남은 시간
-        return  musicAuctionService.remainingTime(musicAuction.get().getEndTime());
-    }
-
-    @GetMapping("/csstest")
-    public String cssDetail(Model model) {
-
-        return "/auction/detail_";
+        return  "/auction/detail_";
     }
 
 

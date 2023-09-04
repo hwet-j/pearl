@@ -27,11 +27,10 @@ function fetchMoreData() {
                         top.textContent = musicAuction.id;
 
                         const bottom = document.createElement('div');
-                        bottom.textContent = musicAuction.content;
+                        bottom.textContent = musicAuction.authorNickname.nickname;
 
                         card.appendChild(albumImage);
                         card.appendChild(top);
-                        card.appendChild(bottom);
 
                         container.appendChild(card);
                     });

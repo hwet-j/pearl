@@ -2,6 +2,7 @@ package com.pits.auction.auctionBoard.controller;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
+import com.pits.auction.auctionBoard.entity.MusicAuctionProjection;
 import com.pits.auction.auctionBoard.service.MusicAuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,13 +28,13 @@ public class RestMusicAuctionController {
             @RequestParam(defaultValue = "4") int size,
             ModelAndView modelAndView
     ){
-        Page<MusicAuction> musicAuctions = musicAuctionService.getMusicByOrderByIdDesc(page, 16);
+        Page<MusicAuction> musicAuctions = musicAuctionService.getMusicByOrderByIdDesc(0, 8);
         modelAndView.addObject("musicAuctions", musicAuctions);
         modelAndView.setViewName("/auction/read");
-        List<MusicAuction> musicAuctionList = musicAuctionService.findAllByOrderByEndTime();
+        Page<MusicAuctionProjection> musicAuctionList = musicAuctionService.findTop5ByEndTimeAfterCurrent();
 
         List<Long> remainingTimes = new ArrayList<>();
-        for(MusicAuction musicAuction : musicAuctionList){
+        for(MusicAuctionProjection musicAuction : musicAuctionList){
             Long remainingTime = musicAuctionService.remainingTime(musicAuction.getEndTime());
             remainingTimes.add(remainingTime);
         }
@@ -44,12 +45,15 @@ public class RestMusicAuctionController {
 
     @ResponseBody
     @RequestMapping("/getMore/{page}")
-    public ResponseEntity<List<MusicAuction>> moreMusic(@PathVariable("page") int page) {
-        Page<MusicAuction> musicAuctions = musicAuctionService.getMusicByOrderByIdDesc(page+4, 4);
-        List<MusicAuction> content = musicAuctions.getContent();
-        for (MusicAuction auction : content) {
-            auction.setAlbumImage("/images/" + auction.getAlbumImage());
+    public ResponseEntity<List<MusicAuction>> moreMusic(@PathVariable("page") int page, Model model) {
+        Page<MusicAuction> musicAuctions = musicAuctionService.getMusicByOrderByIdDesc(page, 4);
+        System.out.println(page);
+        if(musicAuctions!=null) {
+            List<MusicAuction> content = musicAuctions.getContent();
+            return ResponseEntity.ok(content);
+        } else{
+            System.out.println("null 나왔다");
+            return null;
         }
-        return ResponseEntity.ok(content);
     }
 }

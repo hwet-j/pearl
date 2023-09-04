@@ -9,8 +9,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 /*  경매정보 (경매글)
@@ -89,6 +87,7 @@ public class MusicAuction {
     @OneToMany(mappedBy = "auctionId")
     private List<Bidding> auctionBiddings;
 
+
     @PrePersist
     public void setEndTimeUsingBiddingPeriod() {
         if (this.createdAt == null || this.biddingPeriod == null) {
@@ -96,15 +95,10 @@ public class MusicAuction {
         }
 
         String periodValue = this.biddingPeriod.getPeriodValue();
-        Pattern pattern = Pattern.compile("(\\d+)\\s*(\\D+)");
-        Matcher matcher = pattern.matcher(periodValue);
+        String[] parts = periodValue.split("");  // 예: "1 주" -> ["1", "주"]
 
-        if (!matcher.find()) {
-            throw new IllegalArgumentException("Invalid bidding period format: " + periodValue);
-        }
-
-        int value = Integer.parseInt(matcher.group(1));
-        String unit = matcher.group(2);
+        int value = Integer.parseInt(parts[0]);
+        String unit = parts[1];
 
         switch (unit) {
             case "주":
@@ -117,6 +111,5 @@ public class MusicAuction {
                 throw new IllegalArgumentException("Unknown bidding period unit: " + unit);
         }
     }
-
-
+   
 }

@@ -131,12 +131,12 @@ public class MusicAuctionController {
         return "/myPage/clockTest";
     }
 
-    /* 음악 목록 페이지 가져오기 */
-    @GetMapping("/list")
+    /* 음악 목록 페이지 가져오기  > 무한 스크롤 구현하여 폐기*/
+ /*   @GetMapping("/list")
     public String showList(Model model){
         List<MusicAuction> musicAuctions = musicAuctionService.findAll();
         model.addAttribute("musicAuctions", musicAuctions);
         return ("/auction/read");
-    }
+    }*/
 
 }

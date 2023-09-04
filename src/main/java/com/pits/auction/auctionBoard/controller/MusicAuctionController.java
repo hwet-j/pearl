@@ -9,11 +9,14 @@ import com.pits.auction.auctionBoard.service.BiddingService;
 import com.pits.auction.auctionBoard.service.MusicAuctionService;
 import com.pits.auction.auctionBoard.service.MusicGenreService;
 import com.pits.auction.auth.entity.Member;
+import com.pits.auction.auth.repository.MemberRepository;
 import com.pits.auction.auth.service.MemberService;
+import com.pits.auction.user.service.UserSecurityService;
 import jakarta.servlet.http.HttpServletRequest;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -43,6 +46,9 @@ public class MusicAuctionController {
     private final BiddingPeriodService biddingPeriodService;
     private final BiddingService biddingService;
     private final MemberService memberService;
+    private final UserSecurityService userSecurityService;
+    private final MemberRepository memberRepository;
+
 
     @GetMapping("/write")
     public String writePage(Model model) {
@@ -54,15 +60,22 @@ public class MusicAuctionController {
 
         model.addAttribute("musicAuctionDTO", new MusicAuctionDTO2());
 
-        Member anyMember = memberService.findAnyMember();
-        model.addAttribute("AnyMember", anyMember.getNickname());
-
         return "auction/write";
     }
 
     @PostMapping("/write")
     public String insertAuction(@Valid MusicAuctionDTO2 musicAuctionDTO, Errors errors,
                                 HttpServletRequest request, Model model) {
+        String currentUserEmail = userSecurityService.getCurrentUserEmail();
+        Member currentUser = memberRepository.findByEmail(currentUserEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+
+        musicAuctionDTO.setAuthorNickname(currentUser.getNickname());
+
+//        if (currentUserNickname == null) {
+//            return "redirect:/login";
+//        }
+
         if (errors.hasErrors()) {
             for (FieldError error : errors.getFieldErrors()) {
                 model.addAttribute(error.getField() + "Error", error.getDefaultMessage());
@@ -76,13 +89,11 @@ public class MusicAuctionController {
 
             model.addAttribute("musicAuctionDTO", musicAuctionDTO); // 이미 전달된 DTO 객체를 사용합니다.
 
-            Member anyMember = memberService.findAnyMember();
-            model.addAttribute("AnyMember", anyMember.getNickname());
-
+            musicAuctionService.saveMusicAuction(musicAuctionDTO);
             return "auction/write";
         }
         //이미지 구현 여기서 하세요. 음악은 알아서ㅎㅎ.
-        return "";
+        return "redirect:/auction/detail";
     }
 
     @RequestMapping("/read")
@@ -165,12 +176,12 @@ public class MusicAuctionController {
         return "/myPage/clockTest";
     }
 
-    /* 음악 목록 페이지 가져오기 */
-    @GetMapping("/list")
+    /* 음악 목록 페이지 가져오기  > 무한 스크롤 구현하여 폐기*/
+ /*   @GetMapping("/list")
     public String showList(Model model){
         List<MusicAuction> musicAuctions = musicAuctionService.findAll();
         model.addAttribute("musicAuctions", musicAuctions);
         return ("/auction/read");
-    }
+    }*/
 
 }

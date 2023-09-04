@@ -3,7 +3,10 @@ package com.pits.auction.auctionBoard.service;
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO2;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
+import com.pits.auction.auctionBoard.entity.MusicAuctionProjection;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,4 +34,7 @@ public interface MusicAuctionService {
     List<MusicAuction> findAllByOrderByEndTime();
 
     boolean updateStatus(Long id);
+
+    public Page<MusicAuctionProjection> findTop5ByEndTimeAfterCurrent();
+
 }

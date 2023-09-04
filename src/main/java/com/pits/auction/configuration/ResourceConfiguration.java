@@ -12,10 +12,9 @@ public class ResourceConfiguration implements WebMvcConfigurer {
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("file:///C:/Auction/Image/"); // 로컬 경로 설정
 
-        // 오디오 리소스 핸들러 추가
+    // 오디오 리소스 핸들러 추가
         registry.addResourceHandler("/audios/**")
                 .addResourceLocations("file:///C:/Auction/Audio/");
     }
-
 
 }

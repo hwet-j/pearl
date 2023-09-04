@@ -5,8 +5,10 @@ import com.pits.auction.auth.entity.Member;
 import com.pits.auction.user.repository.UserRepository;
 import com.pits.auction.user.validation.UserRole;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -46,5 +48,14 @@ public class UserSecurityService implements UserDetailsService {
         return new User(email, siteUser.getPassword(), authorities);
         //스크링시큐리티는  loadUserByUsername()에 의해 리턴되는 User객체의 비밀번호가
         // 화면으로부터 입력한 비번와 일치하는지 검사하는 로직이 내부적으로 존재
+    }
+
+    //------------------------------------------------------------------------------
+    public String getCurrentUserEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return null;
+        }
+        return ((UserDetails) authentication.getPrincipal()).getUsername();
     }
 }

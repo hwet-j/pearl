@@ -3,11 +3,11 @@ package com.pits.auction.auctionBoard.service;
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO2;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
+import com.pits.auction.auctionBoard.entity.MusicAuctionProjection;
 import com.pits.auction.auctionBoard.repository.BiddingPeriodRepository;
 import com.pits.auction.auctionBoard.repository.BiddingRepository;
 import com.pits.auction.auctionBoard.repository.MusicAuctionRepository;
 import com.pits.auction.auctionBoard.repository.MusicGenreRepository;
-import com.pits.auction.auctionBoard.service.MusicAuctionService;
 import com.pits.auction.auth.entity.Member;
 import com.pits.auction.auth.repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -48,9 +48,10 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
                 .title(musicAuctionDTO.getTitle())
                 .authorNickname(member)
                 .startingBid(musicAuctionDTO.getStartingBid())
-                .biddingPeriod(biddingPeriodRepository.findById(musicAuctionDTO.getBiddingPeriod()).orElse(null)) // 여기서 findById를 사용하여 입찰 기간을 가져옵니다.
+                .biddingPeriod(biddingPeriodRepository.findById(musicAuctionDTO.getBiddingPeriod()).orElse(null))
                 .status("진행")
                 .build();
+
 
         System.out.println(musicAuction.getBiddingPeriod().getPeriodValue());
         System.out.println(musicAuction.getBiddingPeriod().getId());
@@ -125,11 +126,7 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
     }
 
 
-    @Override
-    public List<MusicAuction> findAllByOrderByEndTime() {
-        List<MusicAuction> musicAuctions=musicAuctionRepository.findAllByOrderByEndTime();
-        return musicAuctions;
-    }
+
 
     @Override
     @Transactional
@@ -175,4 +172,11 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
 
         return dto;
     }
+
+    @Override
+    public Page<MusicAuctionProjection> findTop5ByEndTimeAfterCurrent() {
+        Pageable topFive = PageRequest.of(0,5);
+        return musicAuctionRepository.findTop5ByEndTimeAfterCurrent(topFive);
+    }
+
 }

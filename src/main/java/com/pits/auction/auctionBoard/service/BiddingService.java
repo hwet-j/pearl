@@ -9,7 +9,7 @@ public interface BiddingService{
 
     BiddingDTO findById(Long id);
 
-    Bidding createBidding(BiddingDTO biddingDTO);
+    String createBidding(BiddingDTO biddingDTO);
 
     List<Bidding> getAuctionBiddingsById(Long auctionId);
 

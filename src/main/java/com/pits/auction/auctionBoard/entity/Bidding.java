@@ -55,4 +55,6 @@ public class Bidding {
     @Column(nullable = false)
     private String status;
 
+
+
 }

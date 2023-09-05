@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>목록페이지</title>
+    <title>Welcome to Pearl!</title>
     <link href="/css/scroll.css" rel="stylesheet" type="text/css">
     <link
             rel="stylesheet"
@@ -41,7 +41,7 @@
                                     <div class="item-text-title" th:text="${musicAuctionList.title}"></div>
                                     <div class="item-text-nickname" th:text="${musicAuctionList.nickname}"></div>
                                     <div class="item-text-timelimit" th:id="'timeDifference' + ${iterStat.index}"></div>
-                                    <div class="item-text-price" th:text="${musicAuctionList.maxPrice} + ' &#8361;'"></div>
+                                    <div class="item-text-price" th:text="${musicAuctionList.maxPrice != null} ? ${musicAuctionList.maxPrice} + ' &#8361;' : '0 &#8361;'"></div>
                                 </div>
                             </div>
                             </a>
@@ -84,13 +84,44 @@
                     </div>
                 </div>
             </div>
+            <div class="music-player">
+                <div class="current-track">
+                    <img id="currentTrackCover" src="" alt="Current Track Cover" onerror="'this.src=\'/pictures/image_not_found.png\''"/>
+                    <div class="controls-top">
+                        <div id="currentTime">00:00</div>
+                        <input type="range" min="0" max="100" value="0" class="slider" id="progressSlider" oninput="changeProgress()">
+                    </div>
+                </div>
+                <div class="controls">
+                    <div class="controls-middle">
+                        <button onclick="prevTrack()">
+                            <img class="pannel-side" src="/pictures/sidebar-audio-icon/front.png">
+                        </button>
+                        <button onclick="playPause()">
+                            <img class="pannel-main" id="playPauseIcon" src="/pictures/sidebar-audio-icon/play.png">
+                        </button>
+                        <button onclick="nextTrack()">
+                            <img class="pannel-side" src="/pictures/sidebar-audio-icon/back.png">
+                        </button>
+                        <input type="range" min="0" max="100" value="0" class="slider" id="volumeSlider" oninput="changeVolume()">
+                        </div>
+                </div>
+                <div class="controls-bottom">
+                </div>
+                <button class="droparrow" id="dropArrow">▼</button>
+                <div class="playlist" id="playlist"></div>
+                <audio id="audio" preload="metadata">
+                </audio>
+            </div>
         </div>
     </div>
 </div>
 <div id="loadingIndicator" class="loading">
     Now Loading...
 </div>
+    <script src="/js/dropdown.js"></script>
     <script src="/js/infiniteScroll.js"></script>
+    <script src="/js/sidebar-audio-player.js"></script>
     <script>
         new Swiper('.swiper', {
      direction: 'vertical',

@@ -37,7 +37,7 @@ function fetchMoreData() {
                         card.appendChild(bottom);
 
                         card.addEventListener('click', () => {
-                                window.location.href = '/detail/' + musicAuction.id;
+                                window.location.href = '/detail?id=' + musicAuction.id;
                             });
 
                         container.appendChild(card);

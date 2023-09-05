@@ -32,7 +32,7 @@
                     <div class="swiper-wrapper">
                         <!-- Slides -->
                         <div class="swiper-slide" th:each="musicAuctionList, iterStat :${musicAuctionList}">
-                            <a th:href="@{'/detail/' + ${musicAuctionList.id}}">
+                            <a th:href="@{'/detail?id=' + ${musicAuctionList.id}}">
                             <div class="item-content">
                                 <div class="item-image">
                                     <img class="thumb" th:src="${musicAuctionList.albumImage}" th:onerror="'this.src=\'/pictures/image_not_found.png\''">
@@ -57,7 +57,7 @@
         </div>
         <div class="scroller">
             <div th:each="musicAuctions : ${musicAuctions}">
-                <a th:href="@{'/detail/' + ${musicAuctions.id}}">
+                <a th:href="@{'/detail?id=' + ${musicAuctions.id}}">
                 <div class="card">
                     <div class="albumImage">
                         <img th:src="${musicAuctions.albumImage}" th:onerror="'this.src=\'/pictures/image_not_found.png\''">

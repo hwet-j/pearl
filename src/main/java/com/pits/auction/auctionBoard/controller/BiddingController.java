@@ -89,8 +89,16 @@ public class BiddingController {
             return "입찰 시작가는 " + startPrice + "원 입니다.\n입찰가를 확인해주세요.";
         }
         
-        // 현재 최고가 보다 높아야하며, 최소 입찰 간격은 10,000원
-        if (biddingService.getMaxBidPriceForAuction(auctionId) >= biddingPrice + 10000) {
+        // 현재 최고가 보다 높아야함
+        if (biddingService.getMaxBidPriceForAuction(auctionId) >= biddingPrice) {
+            return "현재 입찰 최고가는 " + biddingService.getMaxBidPriceForAuction(auctionId)
+                    + "원 입니다.\n더 큰 금액을 입력해주세요";
+            /*throw new InsufficientBiddingException("현재 입찰 최고가는 : " + biddingService.getMaxBidPriceForAuction(auctionId)
+                    + "원 입니다. 더 큰 금액을 입력해주세요");*/
+        }
+
+        // 현재 최고가 보다 높아야하며, 최소 입찰 간격 10000원
+        if (biddingService.getMaxBidPriceForAuction(auctionId) + 10000L > biddingPrice) {
             return "현재 입찰 최고가는 " + biddingService.getMaxBidPriceForAuction(auctionId)
                     + "원 이며, 최소 입찰 간격은 10,000원 입니다.\n더 큰 금액을 입력해주세요";
         }

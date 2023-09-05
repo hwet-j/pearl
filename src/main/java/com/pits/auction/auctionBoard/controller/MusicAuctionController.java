@@ -13,7 +13,10 @@ import com.pits.auction.auth.dto.MemberDTO;
 import com.pits.auction.auth.entity.Member;
 import com.pits.auction.auth.repository.MemberRepository;
 import com.pits.auction.auth.service.MemberService;
+import com.pits.auction.global.upload.AudioUpload;
+import com.pits.auction.global.upload.ImageUpload;
 import com.pits.auction.user.service.UserSecurityService;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
 
 import jakarta.validation.Valid;
@@ -28,6 +31,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.io.File;
 import java.io.IOException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -47,6 +51,8 @@ public class MusicAuctionController {
     private final MemberService memberService;
     private final UserSecurityService userSecurityService;
     private final MemberRepository memberRepository;
+    private final ImageUpload imageUpload;
+    private final AudioUpload audioUpload;
 
 
     @GetMapping("/write")
@@ -59,8 +65,7 @@ public class MusicAuctionController {
 
         model.addAttribute("musicAuctionDTO", new MusicAuctionDTO2());
 
-        Member anyMember = memberService.findAnyMember();
-        model.addAttribute("AnyMember", anyMember.getNickname());
+
 
         return "auction/write";
     }
@@ -184,23 +189,39 @@ public class MusicAuctionController {
         List<MusicAuction> musicAuctions = musicAuctionService.findAll();
         model.addAttribute("musicAuctions", musicAuctions);
         return ("/auction/read");
-    }
+    }*/
 
 
     //작성 상세 페이지 수정
     @GetMapping("/edit/{id}")
     public String editMusicAuction(@PathVariable("id")Long id,Model model)throws Exception{
-        MusicAuctionDTO MusicAuctionDTO=musicAuctionService.getMusicAuctionById(id);
-        model.addAttribute("MusicAuctionDTO",MusicAuctionDTO);
+        MusicAuction musicAuction=musicAuctionService.getAuctionDetail(id);
+        List<MusicGenre> genres = musicGenreService.findAllGenres();
+        List<BiddingPeriod> biddingPeriods = biddingPeriodService.findAllPeriods();
+
+
+        model.addAttribute("genres", genres);
+        model.addAttribute("biddingPeriods", biddingPeriods);
+        model.addAttribute("musicAuction",musicAuction);
         return "/auction/edit";
     }
 
     @PostMapping("/edit/{id}")
-    public String modifyMusicAuction(@PathVariable("id") Long id, @ModelAttribute MusicAuctionDTO2 musicAuctionDTO2) throws Exception{
+    public String modifyMusicAuction(@PathVariable("id") Long id, @ModelAttribute MusicAuctionDTO2 musicAuctionDTO2
+            , @RequestParam("albumImage") MultipartFile albumImage
+            ,@RequestParam("albumMusic")MultipartFile albumMusic ) throws Exception{
+        if (!albumImage.isEmpty()){   // 파일이 있을 경우에만 파일 업로드 진행
+            // 이미지 저장과 경로 DTO에 저장
+            musicAuctionDTO2.setAlbumImagePath(imageUpload.uploadImage(albumImage));
+        }
+        if (!albumMusic.isEmpty()){   // 파일이 있을 경우에만 파일 업로드 진행
+            // 이미지 저장과 경로 DTO에 저장
+            musicAuctionDTO2.setAlbumMusicPath(audioUpload.uploadAudio(albumMusic));
+        }
         musicAuctionService.editMusicAuction(musicAuctionDTO2,id);
-        return "redirect:/auction/edit/%d"+id;
+
+        return String.format("redirect:/edit/%d",id);
     }
 
 }
-
 

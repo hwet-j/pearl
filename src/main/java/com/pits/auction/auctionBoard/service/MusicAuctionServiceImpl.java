@@ -2,15 +2,14 @@ package com.pits.auction.auctionBoard.service;
 
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO2;
+import com.pits.auction.auctionBoard.entity.BiddingPeriod;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
 import com.pits.auction.auctionBoard.entity.MusicAuctionProjection;
-import com.pits.auction.auctionBoard.entity.MusicGenre;
 import com.pits.auction.auctionBoard.entity.MusicGenre;
 import com.pits.auction.auctionBoard.repository.BiddingPeriodRepository;
 import com.pits.auction.auctionBoard.repository.BiddingRepository;
 import com.pits.auction.auctionBoard.repository.MusicAuctionRepository;
 import com.pits.auction.auctionBoard.repository.MusicGenreRepository;
-import com.pits.auction.auctionBoard.service.MusicAuctionService;
 import com.pits.auction.auth.entity.Member;
 import com.pits.auction.auth.repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -176,18 +175,24 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
         return dto;
     }
 
-    public void editMusicAuction(MusicAuctionDTO2 musicAuctionDTO2,Long id){
+    public void editMusicAuction(MusicAuctionDTO2 musicAuctionDTO2, Long id){
         Optional<MusicAuction> optionalMusicAuction=musicAuctionRepository.findById(id);
         if(optionalMusicAuction.isPresent()){
             MusicAuction musicAuction=optionalMusicAuction.get();
-            MusicGenre musicGenre=new MusicGenre();
-            musicGenre.setId(musicAuctionDTO2.getGenre());
-            musicGenre.setName(musicAuctionDTO2.getGenreName());
+            Optional<MusicGenre> musicGenre=musicGenreRepository.findById(musicAuctionDTO2.getGenre());
             musicAuction.setTitle(musicAuctionDTO2.getTitle());
             musicAuction.setAlbumImage(musicAuctionDTO2.getAlbumImagePath());
             musicAuction.setAlbumMusic(musicAuctionDTO2.getAlbumMusicPath());
             musicAuction.setContent(musicAuctionDTO2.getContent());
-            musicAuction.setGenre(musicGenre);
+            musicAuction.setStartingBid(musicAuctionDTO2.getStartingBid());
+            BiddingPeriod biddingPeriod=new BiddingPeriod();
+            biddingPeriod.setId(musicAuctionDTO2.getBiddingPeriod());
+            musicAuction.setBiddingPeriod(biddingPeriod);
+            Optional<Member> member=memberRepository.findByNickname(musicAuctionDTO2.getAuthorNickname());
+            if(member.isPresent()){
+            musicAuction.setAuthorNickname(member.get());}
+            if(musicGenre.isPresent()){
+            musicAuction.setGenre(musicGenre.get());}
             musicAuctionRepository.save(musicAuction);
         }
     }
@@ -206,23 +211,7 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
         }
         return null;
     }
-    public void editDetail(MusicAuctionDTO2 musicAuctionDTO2,Long id){
-        Optional<MusicAuction> optionalMusicAuction = musicAuctionRepository.findById(id);
-        if (optionalMusicAuction.isPresent()) {
-            MusicAuction musicAuction=optionalMusicAuction.get();
-            MusicGenre musicGenre=new MusicGenre();
-            musicGenre.setId(musicAuctionDTO2.getGenre());
-            musicGenre.setName(musicAuctionDTO2.getGenreName());
-            musicAuction.setGenre(musicGenre);
-            musicAuction.setTitle(musicAuctionDTO2.getTitle());
-            musicAuction.setAlbumImage(musicAuctionDTO2.getAlbumImagePath());
-            musicAuction.setAlbumMusic(musicAuctionDTO2.getAlbumMusicPath());
-            musicAuction.setContent(musicAuctionDTO2.getContent());
-            musicAuctionRepository.save(musicAuction);
 
-        }
-
-    }
 
 
 }

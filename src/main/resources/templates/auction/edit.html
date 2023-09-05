@@ -3,42 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <title>write</title>
-    <style>
-        .radio-item {
-            display: inline-block;
-            margin-right: 10px; /* 오른쪽 간격 추가, 필요에 따라 조절 가능 */
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/edit.css}">
 </head>
-<body>
-<h1>음악등록 작성페이지</h1>
-<form th:action="@{/edit/{id}}" th:object="${musicAuctionDTO}" method="post" enctype="multipart/form-data">
-    <p><label>Genre</label>
-    <div th:each="genre : ${genres}" class="radio-item">
-        <input type="radio" id="genre_${genre.id}" name="genre" th:value="${genre.id}" th:field="*{genre}" />
-        <label th:for="'genre_' + ${genre.id}" th:text="${genre.name}"></label>
-    </div></p>
-    <p><label>Period</label>
-    <div th:each="period : ${biddingPeriods}" class="radio-item">
-        <input type="radio" id="period_${period.id}" name="biddingPeriod" th:value="${period.id}" th:field="*{biddingPeriod}" />
-        <label th:for="'period_' + ${period.id}" th:text="${period.periodValue}"></label>
-    </div></p>
-    <p><label for="startingBid">Start Price</label>
-        <input type="number" id="startingBid" name="startingBid" th:field="*{startingBid}"></p>
-    <!--  <span th:if="${#fields.hasErrors('startingBid')}" th:errors="*{startingBid}" class="error"></span></p>-->
 
-    <p><label for="albumImage">앨범아트</label>
-        <input type="file" id="albumImage" name="albumImage" accept="image/*" th:field="*{albumImage}"></p>
-    <p><label for="albumMusic">음악 등록</label>
-        <input type="file" id="albumMusic" name="albumMusic" accept="audio/*" th:field="*{albumMusic}"></p>
-    <p><label for="content">음악 소개</label>
-        <textarea id="content" name="content" rows="4" cols="50" th:field="*{content}" placeholder="음악 소개글"></textarea></p>
-    <p><label for="title">음악 제목</label>
-        <input type="text" id="title" name="title" th:field="*{title}" placeholder="음악 제목"></p>
-    <p><label for="authorNickname">작곡가 이름</label>
-        <input type="text" th:value="${AnyMember}" id="authorNickname" name="authorNickname" readonly></p>
 
-    <p><button type="submit">등록하기</button></p>
+<body class="back">
+<h1>음악등록 수정페이지</h1>
+<form th:action="@{/edit/__${musicAuction.id}__}" th:object="${musicAuction}" method="post" enctype="multipart/form-data">    <div class="form-container">
+        <div class="left">
+            <p><label>Genre</label>
+            <div th:each="genre : ${genres}" class="radio-item">
+                <input type="radio" id="genre_${genre.id}" name="genre" th:value="${genre.id}" th:field="*{genre}" />
+                <label th:for="'genre_' + ${genre.id}" th:text="${genre.name}"></label>
+            </div></p>
+
+            <p><label>Period</label>
+            <div th:each="period : ${biddingPeriods}" class="radio-item">
+                <input type="radio" id="period_${period.id}" name="biddingPeriod" th:value="${period.id}" th:field="*{biddingPeriod}" />
+                <label th:for="'period_' + ${period.id}" th:text="${period.periodValue}"></label>
+            </div></p>
+
+            <p><label for="startingBid">Start Price</label><br>
+                <input type="number" id="startingBid" name="startingBid" th:field="*{startingBid}">
+                <span th:if="${startingBidError}" th:text="${startingBidError}" class="error-message"></span></p>
+
+            <p><label for="title">Music Title</label><br>
+                <input type="text" id="title" name="title" th:field="*{title}"></p>
+
+            <p><label for="content">Description</label><br>
+                <textarea id="content" name="content" rows="10" cols="80" th:field="*{content}"></textarea></p>
+        </div>
+        <div class="right">
+           <p>Album Art</p>
+            <div class="image-upload-container">
+                <img id="image_preview" th:src="@{__${musicAuction.albumImage}__}" alt="Image Preview" style="max-width: 100%;" onerror="this.src='/pictures/image_not_found.png'" />
+                <p><label class="custom-file-upload">Attachment</label>
+                    <input type="file" id="albumImage" name="albumImage" accept="image/*" th:value="${musicAuction.albumImage}" style="display: none;" ></p>
+                <script>
+                    document.getElementById('albumImage').addEventListener('change', previewImage);
+
+                    function previewImage() {
+                    var image_upload = document.getElementById('albumImage');
+                    var image_preview = document.getElementById('image_preview');
+
+                    if (image_upload.files && image_upload.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            image_preview.src = e.target.result;
+                            image_preview.style.display = 'block';
+                        };
+
+                        reader.readAsDataURL(image_upload.files[0]);
+                    }
+                }
+                    document.querySelector('.custom-file-upload').addEventListener('click', function() {
+                        document.getElementById('albumImage').click();
+                    });
+                </script>
+                <p>Music</p>
+                <p>
+                    <input type="file" id="albumMusic" name="albumMusic" accept="audio/*" th:value="${musicAuction.albumMusic}" style="display: none;">
+                    <input type="text" id="albumMusicName" th:value="${musicAuction.albumMusic}" readonly>
+                    <br>
+                    <label for="albumMusic" class="custom-file-upload">Attachment</label>
+                </p>
+                <script>
+                    document.getElementById('albumMusic').addEventListener('change', function() {
+                        var fileName = this.files[0].name;
+                        document.getElementById('albumMusicName').value = fileName;
+                    });
+                </script>
+                <input type="hidden" th:value="${authorNickname}" id="authorNickname" name="authorNickname" readonly hidden>
+
+                <p><button type="submit" class="submit-button">Submit</button></p>
+            </div>
+        </div>
+    </div>
 </form>
 </body>
 </html>

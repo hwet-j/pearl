@@ -29,14 +29,11 @@ public interface MusicAuctionService {
 
     MusicAuctionDTO2 findDetailById(Long id);
 
-    List<MusicAuction> findAllByOrderByEndTime();
-
-    public void editMusicAuction(MusicAuctionDTO2 musicAuctionDTO2,Long id);
     boolean updateStatus(Long id);
 
     Page<MusicAuctionProjection> findTop5ByEndTimeAfterCurrent();
 
-    MusicAuction getAuctionDetail(Long id);
+    public void editMusicAuction(MusicAuctionDTO2 musicAuctionDTO2, Long id);
 
-    void editDetail(MusicAuctionDTO2 musicAuctionDTO2, Long id);
+    MusicAuction getAuctionDetail(Long id);
 }

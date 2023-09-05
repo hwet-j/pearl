@@ -1,5 +1,6 @@
 package com.pits.auction.auctionBoard.controller;
 
+import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO2;
 import com.pits.auction.auctionBoard.entity.BiddingPeriod;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
@@ -8,10 +9,14 @@ import com.pits.auction.auctionBoard.service.BiddingPeriodService;
 import com.pits.auction.auctionBoard.service.BiddingService;
 import com.pits.auction.auctionBoard.service.MusicAuctionService;
 import com.pits.auction.auctionBoard.service.MusicGenreService;
+import com.pits.auction.auth.dto.MemberDTO;
 import com.pits.auction.auth.entity.Member;
 import com.pits.auction.auth.repository.MemberRepository;
 import com.pits.auction.auth.service.MemberService;
+import com.pits.auction.global.upload.AudioUpload;
+import com.pits.auction.global.upload.ImageUpload;
 import com.pits.auction.user.service.UserSecurityService;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
 
 import jakarta.validation.Valid;
@@ -27,9 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -48,6 +51,8 @@ public class MusicAuctionController {
     private final MemberService memberService;
     private final UserSecurityService userSecurityService;
     private final MemberRepository memberRepository;
+    private final ImageUpload imageUpload;
+    private final AudioUpload audioUpload;
 
 
     @GetMapping("/write")
@@ -59,6 +64,8 @@ public class MusicAuctionController {
         model.addAttribute("biddingPeriods", biddingPeriods);
 
         model.addAttribute("musicAuctionDTO", new MusicAuctionDTO2());
+
+
 
         return "auction/write";
     }
@@ -106,9 +113,8 @@ public class MusicAuctionController {
     /* 글 상세보기 (auctionId) */
     @GetMapping("/detail")
     public String auctionDedail(@RequestParam("id") Long auctionId, Model model){
-        Long id = 42L;
         // 경매글 가져오기
-        Optional<MusicAuction> optionalMusicAuction = musicAuctionService.findById(id);
+        Optional<MusicAuction> optionalMusicAuction = musicAuctionService.findById(auctionId);
         if (optionalMusicAuction.isPresent()){
             MusicAuction musicAuction = optionalMusicAuction.get();
 
@@ -184,4 +190,45 @@ public class MusicAuctionController {
         return ("/auction/read");
     }*/
 
+
+    //작성 상세 페이지 수정
+    @GetMapping("/edit/{id}")
+    public String editMusicAuction(@PathVariable("id")Long id,Model model)throws Exception{
+        MusicAuction musicAuction=musicAuctionService.getAuctionDetail(id);
+        List<MusicGenre> genres = musicGenreService.findAllGenres();
+        List<BiddingPeriod> biddingPeriods = biddingPeriodService.findAllPeriods();
+
+
+        model.addAttribute("genres", genres);
+        model.addAttribute("biddingPeriods", biddingPeriods);
+        model.addAttribute("musicAuction",musicAuction);
+        return "/auction/edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String modifyMusicAuction(@PathVariable("id") Long id, @ModelAttribute MusicAuctionDTO2 musicAuctionDTO2
+            , @RequestParam("albumImage") MultipartFile albumImage
+            ,@RequestParam("albumMusic")MultipartFile albumMusic ) throws Exception{
+        MusicAuctionDTO2 existingAuction = musicAuctionService.findDetailById(id);
+
+        if (!albumImage.isEmpty()){   // 파일이 있을 경우에만 파일 업로드 진행
+            // 이미지 저장과 경로 DTO에 저장
+            musicAuctionDTO2.setAlbumImagePath(imageUpload.uploadImage(albumImage));
+        }else {
+            // 이미지 파일이 제출되지 않은 경우, 이전 이미지 경로를 그대로 사용
+            musicAuctionDTO2.setAlbumImagePath(existingAuction.getAlbumImagePath());
+        }
+        if (!albumMusic.isEmpty()){   // 파일이 있을 경우에만 파일 업로드 진행
+            // 이미지 저장과 경로 DTO에 저장
+            musicAuctionDTO2.setAlbumMusicPath(audioUpload.uploadAudio(albumMusic));
+        }else {
+            // 오디오 파일이 제출되지 않은 경우, 이전 오디오 경로를 그대로 사용
+            musicAuctionDTO2.setAlbumMusicPath(existingAuction.getAlbumMusicPath());
+        }
+        musicAuctionService.editMusicAuction(musicAuctionDTO2,id);
+
+        return String.format("redirect:/edit/%d",id);
+    }
+
 }
+

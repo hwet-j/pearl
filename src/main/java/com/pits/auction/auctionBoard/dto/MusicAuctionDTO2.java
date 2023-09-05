@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Setter
 public class MusicAuctionDTO2 {
+    private Long id;
     private Long genre;  // 장르의 ID. 프론트에서 genre 값을 선택할 때 해당 장르의 ID 값을 함께 전달합니다.
     private String genreName;
     private String title;

@@ -31,8 +31,11 @@
                 <input type="text" id="title" name="title" th:field="*{title}"></p>
 
             <p><label for="content">Description</label><br>
-                <textarea id="content" name="content" rows="10" cols="80" th:field="*{content}"></textarea></p>
+                <textarea id="content" class="scroll" name="content" rows="10" cols="80" th:field="*{content}" style="height: 225px;width: 500px; border: none; resize:none;"></textarea></p>
         </div>
+    <div class="verticalLine">
+
+    </div>
         <div class="right">
            <p>Album Art</p>
             <div class="image-upload-container">

@@ -210,13 +210,21 @@ public class MusicAuctionController {
     public String modifyMusicAuction(@PathVariable("id") Long id, @ModelAttribute MusicAuctionDTO2 musicAuctionDTO2
             , @RequestParam("albumImage") MultipartFile albumImage
             ,@RequestParam("albumMusic")MultipartFile albumMusic ) throws Exception{
+        MusicAuctionDTO2 existingAuction = musicAuctionService.findDetailById(id);
+
         if (!albumImage.isEmpty()){   // 파일이 있을 경우에만 파일 업로드 진행
             // 이미지 저장과 경로 DTO에 저장
             musicAuctionDTO2.setAlbumImagePath(imageUpload.uploadImage(albumImage));
+        }else {
+            // 이미지 파일이 제출되지 않은 경우, 이전 이미지 경로를 그대로 사용
+            musicAuctionDTO2.setAlbumImagePath(existingAuction.getAlbumImagePath());
         }
         if (!albumMusic.isEmpty()){   // 파일이 있을 경우에만 파일 업로드 진행
             // 이미지 저장과 경로 DTO에 저장
             musicAuctionDTO2.setAlbumMusicPath(audioUpload.uploadAudio(albumMusic));
+        }else {
+            // 오디오 파일이 제출되지 않은 경우, 이전 오디오 경로를 그대로 사용
+            musicAuctionDTO2.setAlbumMusicPath(existingAuction.getAlbumMusicPath());
         }
         musicAuctionService.editMusicAuction(musicAuctionDTO2,id);
 

@@ -124,12 +124,6 @@ public class MyPageController {
 
         userInfo.setPassword(memberEditValidator.getPassword());
 
-        // 노래 업로드 테스트
-        if (!audioFile.isEmpty()) {
-            audioUpload.uploadAudio(audioFile);
-            // audioUpload.cutAndSaveAudio(audioFile);
-        }
-
         memberService.updateUserInfo(userInfo);
 
         return "redirect:/mypage/userlist";

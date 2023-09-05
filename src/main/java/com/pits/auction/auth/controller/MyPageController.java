@@ -87,10 +87,11 @@ public class MyPageController {
     public String funcUserEdit(@ModelAttribute @Valid MemberEditValidator memberEditValidator,
                                BindingResult bindingResult,
                                @RequestParam("image") MultipartFile imageFile,
-                               @RequestParam("audio") MultipartFile audioFile,
                                @RequestParam("userId") Long userId,
                                Model model) {
 
+
+        System.out.println(imageFile);
         // 비밀번호 유효성 검사 에러가 있는지 확인
         if (bindingResult.hasErrors()) {
 
@@ -111,6 +112,7 @@ public class MyPageController {
         MemberDTO userInfo = memberService.getUserInfo(memberEditValidator.getId());
 
         if (!imageFile.isEmpty()){   // 파일이 있을 경우에만 파일 업로드 진행
+            System.out.println("dddd");
             // 이미지 저장과 경로 DTO에 저장
             userInfo.setMemberImage(imageUpload.uploadImage(imageFile));
         }

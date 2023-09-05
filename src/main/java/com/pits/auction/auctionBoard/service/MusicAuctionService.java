@@ -5,8 +5,6 @@ import com.pits.auction.auctionBoard.dto.MusicAuctionDTO2;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
 import com.pits.auction.auctionBoard.entity.MusicAuctionProjection;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,6 +31,9 @@ public interface MusicAuctionService {
 
     boolean updateStatus(Long id);
 
-    public Page<MusicAuctionProjection> findTop5ByEndTimeAfterCurrent();
+    Page<MusicAuctionProjection> findTop5ByEndTimeAfterCurrent();
 
+    public void editMusicAuction(MusicAuctionDTO2 musicAuctionDTO2, Long id);
+
+    MusicAuction getAuctionDetail(Long id);
 }

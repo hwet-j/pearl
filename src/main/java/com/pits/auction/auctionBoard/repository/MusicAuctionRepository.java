@@ -6,7 +6,9 @@ import com.pits.auction.auth.entity.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,6 +20,13 @@ public interface MusicAuctionRepository extends JpaRepository<MusicAuction, Long
     List<MusicAuction> findAllActiveAuctions();
 
     Page<MusicAuction> findAllByOrderByIdDesc(Pageable pageable);
+
+    @Query("SELECT ma FROM MusicAuction ma ORDER BY ma.endTime DESC limit 5")
+    List<MusicAuction> findAllByOrderByEndTime();
+
+    @Modifying
+    @Query("UPDATE MusicAuction ma SET ma.status = :status WHERE ma.id = :id")
+    void updateStatusById(@Param("id") Long id, @Param("status") String status);
 
     
     /*경매가 아직 안끝난것중에 가격 최상위 5개 */

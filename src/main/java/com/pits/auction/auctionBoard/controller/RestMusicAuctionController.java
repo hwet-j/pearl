@@ -47,7 +47,6 @@ public class RestMusicAuctionController {
     @RequestMapping("/getMore/{page}")
     public ResponseEntity<List<MusicAuction>> moreMusic(@PathVariable("page") int page, Model model) {
         Page<MusicAuction> musicAuctions = musicAuctionService.getMusicByOrderByIdDesc(page, 4);
-        System.out.println(page);
         if(musicAuctions!=null) {
             List<MusicAuction> content = musicAuctions.getContent();
             return ResponseEntity.ok(content);

@@ -133,6 +133,57 @@ text-align: center;
     margin-right: 20px; /* adjust as needed */
 }
 
+.item-image .thumb{
+    width: 270px;
+    height: 270px;
+    margin-right:20px;
+}
+
+.item-content{
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    transition: background-color 0.3s ease;
+}
+.item-text{
+width:100%;
+}
+
+.item-text-title{
+font-size:40px;
+font-weight:bolder;
+margin-top:15px;
+margin-bottom:15px;
+}
+
+.item-text-nickname{
+font-size:25px;
+font-weight:;
+margin-top:10px;
+margin-bottom:10px;
+}
+
+.item-text-timelimit{
+font-size:50px;
+font-weight:bolder;
+text-align:right;
+}
+
+.item-text-price{
+font-size:37px;
+font-weight:bold;
+text-align:right;
+margin-top:15px;
+}
+
+
+
+a, a:visited {
+    text-decoration: none;
+    color: inherit; /* or set to any other color */
+}
+
+
 .sidebar {
     position: sticky;
     top: 0;
@@ -206,47 +257,6 @@ margin-top:20px;
 }
 
 
-.item-image .thumb{
-    width: 270px;
-    height: 270px;
-    margin-right:20px;
-}
-
-.item-content{
-    display: flex;
-    align-items: center;
-    margin-top: 5px;
-}
-.item-text{
-width:100%;
-}
-
-.item-text-title{
-font-size:40px;
-font-weight:bolder;
-margin-top:15px;
-margin-bottom:15px;
-}
-
-.item-text-nickname{
-font-size:25px;
-font-weight:;
-margin-top:10px;
-margin-bottom:10px;
-}
-
-.item-text-timelimit{
-font-size:50px;
-font-weight:bolder;
-text-align:right;
-}
-
-.item-text-price{
-font-size:37px;
-font-weight:bold;
-text-align:right;
-margin-top:15px;
-}
 .scroller-head-text{
 margin: 20px;
 content-justify:left;

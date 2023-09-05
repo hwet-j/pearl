@@ -14,60 +14,45 @@
             <div th:each="genre : ${genres}" class="radio-item">
                 <input type="radio" id="genre_${genre.id}" name="genre" th:value="${genre.id}" th:field="*{genre}" />
                 <label th:for="'genre_' + ${genre.id}" th:text="${genre.name}"></label>
-            </div></p>
+            </div></p><br>
 
             <p><label>Period</label>
             <div th:each="period : ${biddingPeriods}" class="radio-item">
                 <input type="radio" id="period_${period.id}" name="biddingPeriod" th:value="${period.id}" th:field="*{biddingPeriod}" />
                 <label th:for="'period_' + ${period.id}" th:text="${period.periodValue}"></label>
-            </div></p>
+            </div></p><br>
 
             <p><label for="startingBid">Start Price</label><br>
                 <input type="number" id="startingBid" name="startingBid" th:field="*{startingBid}">
-                <span th:if="${startingBidError}" th:text="${startingBidError}" class="error-message"></span></p>
+                <span th:if="${startingBidError}" th:text="${startingBidError}" class="error-message"></span></p><br>
 
             <p><label for="title">Music Title</label><br>
-                <input type="text" id="title" name="title" th:field="*{title}"></p>
+                <input type="text" id="title" name="title" th:field="*{title}"></p><br>
 
             <p><label for="content">Description</label><br>
-                <textarea id="content" name="content" rows="10" cols="80" th:field="*{content}"></textarea></p>
+                <textarea id="content" name="content" rows="10" cols="80" th:field="*{content}"></textarea></p><br>
+        </div>
+
+        <div class="verticalLine">
+
         </div>
         <div class="right">
             <p>Album Art</p>
             <div class="image-upload-container">
-            <img id="image_preview" src="#" alt="Image Preview" style="max-width: 100%; display: none;" />
+            <img id="image_preview" src="#" alt="Image Preview" onerror="this.src='/pictures/image_not_found.png'"/>
             <p><label class="custom-file-upload">Attachment</label>
-                <input type="file" id="albumImage" name="albumImage" accept="image/*" th:field="*{albumImagePath}" style="display: none;"></p>
-
-            <script>
-                document.getElementById('albumImage').addEventListener('change', previewImage);
-
-                function previewImage() {
-                var image_upload = document.getElementById('albumImage');
-                var image_preview = document.getElementById('image_preview');
-
-                if (image_upload.files && image_upload.files[0]) {
-                    var reader = new FileReader();
-
-                    reader.onload = function(e) {
-                        image_preview.src = e.target.result;
-                        image_preview.style.display = 'block';
-                    };
-
-                    reader.readAsDataURL(image_upload.files[0]);
-                }
-            }
-                document.querySelector('.custom-file-upload').addEventListener('click', function() {
-                    document.getElementById('albumImage').click();
-                });
-            </script>
+                <input type="file" id="albumImage" name="albumImage" accept="image/*" style="display: none;" required></p>
+                <span id="imageErrorMsg" style="color:red; display:none;"></span>
+                <span th:text="${imageError}" style="color:red;"></span>
 
             <p>Music</p>
             <p>
-                <input type="file" id="albumMusic" name="albumMusic" accept="audio/*" th:field="*{albumMusicPath}" style="display: none;">
+                <input type="file" id="albumMusic" name="albumMusic" accept="audio/*" style="display: none;" required>
                 <input type="text" id="albumMusicName" readonly>
                 <br>
                 <label for="albumMusic" class="custom-file-upload">Attachment</label>
+                <span id="musicErrorMsg" style="color:red; display:none;"></span>
+                <span th:text="${musicError}" style="color:red;"></span>
             </p>
 
             <script>
@@ -84,5 +69,57 @@
         </div>
     </div>
 </form>
+<script>
+    document.getElementById('albumImage').addEventListener('change', previewImage);
+
+    function previewImage() {
+        var image_upload = document.getElementById('albumImage');
+        var image_preview = document.getElementById('image_preview');
+
+        if (image_upload.files && image_upload.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                image_preview.src = e.target.result;
+                image_preview.style.display = 'block';
+            };
+
+            reader.readAsDataURL(image_upload.files[0]);
+        }
+    }
+
+    document.querySelector('.custom-file-upload').addEventListener('click', function() {
+        document.getElementById('albumImage').click();
+    });
+
+    document.getElementById('albumImage').addEventListener('invalid', function(event) {
+        event.preventDefault();
+        // 오류 메시지 표시
+        document.getElementById('imageErrorMsg').style.display = 'block';
+        document.getElementById('imageErrorMsg').textContent = "이미지 파일을 반드시 업로드해야 합니다.";
+    });
+
+    // 에러 메시지를 숨기기 위한 이벤트 리스너 추가
+    document.getElementById('albumImage').addEventListener('change', function() {
+        // 에러 메시지 숨기기
+        document.getElementById('imageErrorMsg').style.display = 'none';
+    });
+
+    document.getElementById('albumMusic').addEventListener('change', function() {
+        var fileName = this.files[0].name;
+        document.getElementById('albumMusicName').value = fileName;
+
+        // 에러 메시지 숨기기
+        document.getElementById('musicErrorMsg').style.display = 'none'; // 이 부분 추가
+    });
+
+    document.getElementById('albumMusic').addEventListener('invalid', function(event) {
+        event.preventDefault();
+        // 오류 메시지 표시
+        document.getElementById('musicErrorMsg').style.display = 'block';
+        document.getElementById('musicErrorMsg').textContent = "음악 파일을 반드시 업로드해야 합니다.";
+    });
+
+</script>
 </body>
 </html>

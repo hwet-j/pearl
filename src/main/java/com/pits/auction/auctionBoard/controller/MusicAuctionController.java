@@ -24,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,9 @@ import java.io.File;
 import java.io.IOException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -71,21 +74,19 @@ public class MusicAuctionController {
     }
 
     @PostMapping("/write")
-    public String insertAuction(@Valid MusicAuctionDTO2 musicAuctionDTO, Errors errors,
-                                HttpServletRequest request, Model model) {
+    public String insertAuction(@Valid MusicAuctionDTO2 musicAuctionDTO, BindingResult bindingResult, Model model,
+                                @RequestParam("albumImage") MultipartFile image,
+                                @RequestParam("albumMusic") MultipartFile music) {
         String currentUserEmail = userSecurityService.getCurrentUserEmail();
         Member currentUser = memberRepository.findByEmail(currentUserEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
 
         musicAuctionDTO.setAuthorNickname(currentUser.getNickname());
 
-//        if (currentUserNickname == null) {
-//            return "redirect:/login";
-//        }
-
-        if (errors.hasErrors()) {
-            for (FieldError error : errors.getFieldErrors()) {
+        if (bindingResult.hasErrors()) {
+            for (FieldError error : bindingResult.getFieldErrors()) {
                 model.addAttribute(error.getField() + "Error", error.getDefaultMessage());
+                System.out.println("Field: " + error.getField() + ", Message: " + error.getDefaultMessage());
             }
 
             List<MusicGenre> genres = musicGenreService.findAllGenres();
@@ -96,11 +97,26 @@ public class MusicAuctionController {
 
             model.addAttribute("musicAuctionDTO", musicAuctionDTO); // 이미 전달된 DTO 객체를 사용합니다.
 
-            musicAuctionService.saveMusicAuction(musicAuctionDTO);
             return "auction/write";
         }
-        //이미지 구현 여기서 하세요. 음악은 알아서ㅎㅎ.
-        return "redirect:/auction/detail";
+
+        if (!image.isEmpty()){
+            musicAuctionDTO.setAlbumImagePath(imageUpload.uploadImage(image));
+        } else {
+            model.addAttribute("imageError", "이미지를 반드시 업로드해야 합니다.");
+            return "auction/write";
+        }
+
+        if (!music.isEmpty()){
+            musicAuctionDTO.setAlbumMusicPath(audioUpload.uploadAudio(music));
+        } else {
+            model.addAttribute("musicError", "음악 파일을 반드시 업로드해야 합니다.");
+            return "auction/write";
+        }
+
+        Long savedAuctionId = musicAuctionService.saveMusicAuction(musicAuctionDTO);
+
+        return "redirect:/detail?id=" + savedAuctionId;
     }
 
     @RequestMapping("/read")
@@ -113,6 +129,7 @@ public class MusicAuctionController {
     /* 글 상세보기 (auctionId) */
     @GetMapping("/detail")
     public String auctionDedail(@RequestParam("id") Long auctionId, Model model){
+        Long id = 42L;
         // 경매글 가져오기
         Optional<MusicAuction> optionalMusicAuction = musicAuctionService.findById(auctionId);
         if (optionalMusicAuction.isPresent()){

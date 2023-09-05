@@ -32,6 +32,7 @@
                     <div class="swiper-wrapper">
                         <!-- Slides -->
                         <div class="swiper-slide" th:each="musicAuctionList, iterStat :${musicAuctionList}">
+                            <a th:href="@{'/detail/' + ${musicAuctionList.id}}">
                             <div class="item-content">
                                 <div class="item-image">
                                     <img class="thumb" th:src="${musicAuctionList.albumImage}" th:onerror="'this.src=\'/pictures/image_not_found.png\''">
@@ -43,8 +44,8 @@
                                     <div class="item-text-price" th:text="${musicAuctionList.maxPrice} + ' &#8361;'"></div>
                                 </div>
                             </div>
+                            </a>
                         </div>
-
                     </div>
                     <!-- 스크롤 필요시 추가 -->
                     <div class="swiper-scrollbar"></div>
@@ -55,16 +56,20 @@
             <div class="scroller-head-text">New Musics</div>
         </div>
         <div class="scroller">
-            <div class="card" th:each="musicAuctions : ${musicAuctions}">
-                <div class="albumImage">
-                    <img th:src="${musicAuctions.albumImage}" th:onerror="'this.src=\'/pictures/image_not_found.png\''">
+            <div th:each="musicAuctions : ${musicAuctions}">
+                <a th:href="@{'/detail/' + ${musicAuctions.id}}">
+                <div class="card">
+                    <div class="albumImage">
+                        <img th:src="${musicAuctions.albumImage}" th:onerror="'this.src=\'/pictures/image_not_found.png\''">
+                    </div>
+                    <div class="top">
+                        <div th:text="${musicAuctions.title}"></div>
+                    </div>
+                    <div class="bottom">
+                        <div th:text="${musicAuctions.authorNickname.nickname}"></div>
+                    </div>
                 </div>
-                <div class="top">
-                    <div th:text="${musicAuctions.title}"></div>
-                </div>
-                <div class="bottom">
-                    <div th:text="${musicAuctions.authorNickname.nickname}"></div>
-                </div>
+                </a>
             </div>
         </div>
     </div>

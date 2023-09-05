@@ -101,7 +101,7 @@ public class MusicAuctionController {
 
     /* 글 상세보기 (auctionId) */
     @GetMapping("/detail")
-    public String auctionDedail(Long auctionId){
+    public String auctionDedail(@RequestParam("id") Long auctionId){
         Long id = 2L;
         Optional<MusicAuction> musicAuction = musicAuctionService.findById(id);
 

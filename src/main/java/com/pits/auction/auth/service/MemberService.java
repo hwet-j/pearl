@@ -21,6 +21,8 @@ public interface MemberService {
 
     Long getBalance(String nickname);
 
+    Long getBalanceByEmail(String email);
+
     void addBalance(Long userId, Long amount);
 
     void minusBalance(Long userId, Long amount);

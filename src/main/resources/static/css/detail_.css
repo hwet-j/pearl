@@ -21,6 +21,7 @@ body {
       flex-direction: column;
 }
 
+
 /***************************/
 /* 전체에서 상 container */
 /***************************/
@@ -73,8 +74,8 @@ body {
 }
 
 .title-image{
-    width: 280px;
-    height: 280px;
+    width: 320px;
+    height: 320px;
     object-fit: cover;
 }
 

@@ -381,7 +381,7 @@
             appearance: none;
             height: 20px;
             width: 0;
-            box-shadow: -450px 0 0 450px #ffffff38;
+            box-shadow: -900px 0 0 900px #ffffff38;
         }
         
         .progress-bar::-moz-range-thumb {

@@ -37,7 +37,7 @@ public class BiddingServiceImpl implements BiddingService{
     @Override
     @Transactional
     public String createBidding(BiddingDTO biddingDTO) {
-        Optional<Member> memberOptional = memberRepository.findByNickname(biddingDTO.getBidder());
+        Optional<Member> memberOptional = memberRepository.findByEmail(biddingDTO.getBidder());
         Optional<MusicAuction> musicAuctionOptional = musicAuctionRepository.findById(biddingDTO.getAuctionId());
 
         // 입력된 데이터에 맞는 정보를 불러왔다면 기능 수행

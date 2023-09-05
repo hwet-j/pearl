@@ -184,10 +184,10 @@
 
                     <form id="biddingForm" action="" method="post">
                         <div>
-
-                            <input type="hidden" name="auctionId" th:value="${musicAuction.id}">
-                            <input type="hidden" name="bidder" th:value="|qwert|">
-                            <input type="number" id="bidding_price" name="bidding_price" value="0">
+                            <input type="hidden" name="startPrice" th:value="${musicAuction.startingBid}"/>
+                            <input type="hidden" name="auctionId" th:value="${musicAuction.id}"/>
+                            <input type="hidden" name="bidder" th:value="|qwert|"/>
+                            <input type="number" id="bidding_price" name="bidding_price" th:value="${maxBiddingPrice}"/>
 
                         </div>
 
@@ -196,9 +196,6 @@
                         </div>
                     </form>
                 </div>
-
-
-
 
 
             </div>
@@ -224,20 +221,30 @@
             });
         } else {
             var formData = $("#biddingForm").serialize();
-            $.post("/bidding/create", formData)
+            $.post("/bid/create", formData)
                 .done(function (response) {
+                if(response === "Success"){
                     Swal.fire({
                         icon: 'success',
                         title: '입찰 성공',
-                        text: response
+                        text: biddingPrice + '원에 입찰되었습니다.'
+                    }).then(() => {
+                        window.location.reload();
                     });
+                } else {
+                    Swal.fire({
+                            icon: 'error',
+                            title: '입찰 실패',
+                            text: response
+                        });
+                }
                 })
                 .fail(function (xhr, status, error) {
                     var errorMessage = xhr.responseText;
                     Swal.fire({
                         icon: 'error',
                         title: '입찰 실패',
-                        text: errorMessage // Display the error message
+                        text: errorMessage // 에러메시지를 출력함
                     });
                 });
         }
@@ -280,6 +287,9 @@
         timeDifferenceElement.textContent = "입찰 마감: " + timeString;
 
         timeDifference--; // 시간 차이를 1초씩 감소
+        if (timeDifference == -2){      // 남은 시간이 음수가 되면 경매는 종료 (0, -1 로설정하니 오차 때문에 잘못작동할때가 있음)
+            window.location.reload();
+        }
     }
 
     updateTimeDifference();

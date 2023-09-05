@@ -36,6 +36,10 @@ function fetchMoreData() {
                         card.appendChild(top);
                         card.appendChild(bottom);
 
+                        card.addEventListener('click', () => {
+                                window.location.href = '/detail?id=' + musicAuction.id;
+                            });
+
                         container.appendChild(card);
                     });
                     page++; // 페이지 증가
@@ -55,7 +59,7 @@ function checkScroll() {
     const contentHeight = container.offsetHeight;
 
     if (scrollY + windowInnerHeight >= contentHeight) {
-        fetchMoreData(); // 로딩 시간 0.5초 후에 데이터 불러오기 시작
+        fetchMoreData();
     }
 }
 

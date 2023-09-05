@@ -3,13 +3,18 @@ let page = 2; // 시작 페이지 번호 (2부터 시작)
 let loading = false;
 const loadingIndicator = document.getElementById('loadingIndicator');
 
+function adjustSidebarHeight() {
+    var mainContentHeight = document.querySelector('.main-container').offsetHeight;
+    document.querySelector('.sidebar').style.height = mainContentHeight + 'px';
+}
+
 function fetchMoreData() {
     if (loading) return; // 이미 로딩 중이라면 중복 호출 방지
     loading = true; // 로딩 시작
     loadingIndicator.style.display = 'block'; // 로딩 중 엘리먼트 표시
 
     setTimeout(() => {
-        fetch(`/testing/getMore/${page}`)
+        fetch(`/main/getMore/${page}`)
             .then(response => response.json())
             .then(data => {
                 if (data.length > 0) {
@@ -27,9 +32,11 @@ function fetchMoreData() {
                         albumImage.appendChild(image);
 
                         const top = document.createElement('div');
-                        top.textContent = musicAuction.id;
+                        top.classList.add('top');
+                        top.textContent = musicAuction.title;
 
                         const bottom = document.createElement('div');
+                        bottom.classList.add('bottom');
                         bottom.textContent = musicAuction.authorNickname.nickname;
 
                         card.appendChild(albumImage);
@@ -49,6 +56,8 @@ function fetchMoreData() {
             .finally(() => {
                 loading = false; // 로딩 종료
                 loadingIndicator.style.display = 'none'; // 로딩 중 엘리먼트 숨김
+
+                adjustSidebarHeight();//사이드바 연장
             });
     }, 500); // 로딩 시간 0.5초 설정
 }

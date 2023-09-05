@@ -16,18 +16,14 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/testing")
+@RequestMapping("/main")
 public class RestMusicAuctionController {
 
     @Autowired
     private MusicAuctionService musicAuctionService;
 
-    @GetMapping("/paging")
-    public ModelAndView getMusic(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "4") int size,
-            ModelAndView modelAndView
-    ){
+    @GetMapping("/list")
+    public ModelAndView getMusic(ModelAndView modelAndView){
         Page<MusicAuction> musicAuctions = musicAuctionService.getMusicByOrderByIdDesc(0, 8);
         modelAndView.addObject("musicAuctions", musicAuctions);
         modelAndView.setViewName("/auction/read");
@@ -52,6 +48,18 @@ public class RestMusicAuctionController {
             return ResponseEntity.ok(content);
         } else{
             System.out.println("null 나왔다");
+            return null;
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("/top5Music")
+    public ResponseEntity<List<MusicAuctionProjection>> top5Music(){
+        Page<MusicAuctionProjection> top5Musics = musicAuctionService.findTop5ByEndTimeAfterCurrent();
+        if(top5Musics!=null){
+            List<MusicAuctionProjection> top5MusicList = top5Musics.getContent();
+            return ResponseEntity.ok(top5MusicList);
+        }else{
             return null;
         }
     }

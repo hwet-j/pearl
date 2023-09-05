@@ -38,7 +38,7 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
     private final ModelMapper modelMapper;
 
     @Override
-    public boolean saveMusicAuction(MusicAuctionDTO2 musicAuctionDTO) {
+    public Long saveMusicAuction(MusicAuctionDTO2 musicAuctionDTO) {
         Member member = memberRepository.findByNickname(musicAuctionDTO.getAuthorNickname())
                 .orElseThrow(() -> new IllegalArgumentException("No member with nickname: " + musicAuctionDTO.getAuthorNickname()));
 
@@ -54,13 +54,9 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
                 .status("진행")
                 .build();
 
+        MusicAuction savedAuction = musicAuctionRepository.save(musicAuction);
 
-        System.out.println(musicAuction.getBiddingPeriod().getPeriodValue());
-        System.out.println(musicAuction.getBiddingPeriod().getId());
-        System.out.println(musicAuction.getStatus());
-        musicAuctionRepository.save(musicAuction);
-        // DB에 저장
-        return true;
+        return savedAuction.getId();
     }
 
 

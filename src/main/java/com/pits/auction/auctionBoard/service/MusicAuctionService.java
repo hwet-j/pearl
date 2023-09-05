@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface MusicAuctionService {
     MusicAuctionDTO getMusicAuctionById(Long id);
 
-    boolean saveMusicAuction(MusicAuctionDTO2 musicAuctionDTO);
+    Long saveMusicAuction(MusicAuctionDTO2 musicAuctionDTO);
 
     List<MusicAuction> findAll();
 

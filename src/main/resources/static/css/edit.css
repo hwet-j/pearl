@@ -1,0 +1,108 @@
+        .back {
+            width: 1920px;
+            height: 2000px;
+            background-image: url('/pictures/writeBackground.png');
+            background-color: black;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;      /* 세로 중앙 정렬 */
+            margin: 0;
+            overflow: auto;
+        }
+
+        .form-container {
+           display: flex;
+           margin-top: 46px;
+           width: 1920px;
+           justify-content: center;
+        }
+
+        .left{
+            margin-left: 400px;
+            position: relative;
+        }
+
+        .verticalLine {
+           border-left: 3px solid white;
+           height: 510px
+           margin-left: 10px;
+           margin-right: 10px;
+           margin: 50px 50px;
+        }
+
+        .right {
+            margin-right: 600px;
+        }
+
+        .radio-item {
+            display: inline-block;
+            margin-right: 10px; /* 오른쪽 간격 추가, 필요에 따라 조절 가능 */
+        }
+
+        .image-upload-container {
+            position: relative;
+            display: inline-block;
+        }
+
+       .custom-file-upload {
+           display: inline-block;
+           padding: 6px 12px;
+           cursor: pointer;
+           background-color: none;
+           color: white;
+           border: 2px solid white;
+           border-radius: 4px;
+           margin-left: 140px;
+           margin-top: 15px;
+        }
+
+        .submit-button {
+            background-color: transparent;
+            border-radius: 5px;
+            border: 3px solid white;
+            color: white;
+            margin-left: 180px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+            margin-top: 32px;
+            margin-bottom: 34px;
+        }
+
+        #startingBid, #title {
+            color: white;
+            background-color: transparent;
+            border: 3px solid white;
+            border-radius: 5px;
+            width: 250px;
+            height: 30px;
+            margin-top: 8px;
+        }
+
+        #content {
+            color: white;
+            background-color: transparent;
+            border: 3px solid white;
+            border-radius: 5px;
+            margin-top: 8px;
+        }
+
+        #albumMusicName {
+           color: white;
+           background-color: transparent;
+           border: 3px solid white;
+           border-radius: 5px;
+           width: 240px;
+           height: 30px;
+           margin-top: 8px;
+        }
+
+        img {
+            width: 250px;
+            height: 250px;
+        }
+        .scroll::-webkit-scrollbar {
+           display: none;
+        }

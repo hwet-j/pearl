@@ -25,4 +25,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("SELECT m FROM Member m WHERE m.withdrawalRequested = true")
     Page<Member> findByWithdrawalRequestedTrue(Pageable pageable);
     Page<Member> findAll(Pageable pageable);
+
+    Optional<Member> findByEmail(String currentUserEmail);
 }

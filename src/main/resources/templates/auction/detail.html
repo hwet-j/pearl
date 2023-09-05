@@ -49,6 +49,8 @@
 
     </script>
 
+
+
 </head>
 <body>
 
@@ -57,24 +59,24 @@
     <div class="container-header">
         <div class="title-split-container">
             <div class="title-left-side">
-                <img class="title-image" src="" onError="this.src='/pictures/no_profile.png';" alt="Album Cover">
+                <img class="title-image" th:src="@{__${musicAuction.albumImage}__}" onError="this.src='/pictures/no_profile.png';" alt="Album Cover">
             </div>
 
             <div class="title-right-side">
-                <div>장르</div>
-                <h1 class="album-title">Album Title</h1>
+                <div th:text="${genre}">장르</div>
+                <h1 class="album-title" th:text="${musicAuction.title}">Album Title</h1>
 
                 <div>
-                    <img class="title-profile-image" src="" onError="this.src='/pictures/no_profile.png';" alt="Album Cover">
-                    <span class="title-author">Author</span>
+                    <img class="title-profile-image" th:src="@{__${musicAuction.authorNickname.memberImage}__}" onError="this.src='/pictures/no_profile.png';" alt="Album Cover">
+                    <span class="title-author" th:text="${musicAuction.authorNickname.nickname}" >Author</span>
                 </div>
 
+                <!-- th:src="${audioPath}" 테스트 완료 후 경로 설정 시 -->
                 <div class="title-audio">
-                    <audio-player title="My cool super long named audio sound"
-                                  src="/AKMU-Love Lee.m4a"
-                                  bar-width="5"
-                                  bar-gap="2"
-                                  preload autoplay></audio-player>
+                    <audio-player th:attr="title='Audio Music',
+                    src='/AKMU-Love Lee.m4a',
+                    bar-width='3', bar-gap='0.3',
+                    preload='preload'"></audio-player>
                 </div>
                 <script src="/js/audio-player.js"></script>
 
@@ -91,6 +93,7 @@
 
                 <div class="body-content">
                     <div>Description</div>
+
                     <div>
                         음악은 우리 삶의 중요한 부분 중 하나로, 다양한 형태와 스타일로 우리를 감동시키고 표현의 수단으로 사용됩니다. 음악은 역사적으로도 문화와 예술의 발전에 큰 영향을 미쳤으며, 현재에도 계속해서 진화하고 있습니다.
 
@@ -149,13 +152,140 @@
                 </div>
             </div>
 
-            <div class="body-right-side">경매 현황 / 남은시간, 최대입찰가, 입찰기능</div>
+            <div class="body-right-side">
+                <div th:if="${remainingTime != null}">
+                    <div id="timeDifference"></div>
+                </div>
+                <div th:if="${remainingTime == null}">
+                    <div>해당 경매는 종료되었습니다.</div>
+                </div>
+
+                <div th:if="${maxBiddingPrice != 0}">
+                    <div>Top Price</div>
+                    <div data-th-text="${#numbers.formatInteger(maxBiddingPrice, 0, 'COMMA') + ' ₩'}"></div>
+                </div>
+
+                <div th:unless="${maxBiddingPrice != 0}">
+                    <div>경매 시작가(경매 내역이 없습니다)</div>
+                    <div th:text="${#numbers.formatInteger(musicAuction.startingBid, 0, 'COMMA') + ' ₩'}"></div>
+                </div>
+
+                <div class="bidding">
+
+                    <div class="bidding-addPrice">
+
+                        <span>
+                            <button th:attr="onclick='addPrice(' + ${addValue1} + ') '" data-th-text="|+${addValue1}|"></button>
+                            <button th:attr="onclick='addPrice(' + ${addValue2} + ') '" data-th-text="|+${addValue2}|"></button>
+                            <button th:attr="onclick='addPrice(' + ${addValue3} + ') '" data-th-text="|+${addValue3}|"></button>
+                        </span>
+
+                    </div>
+
+                    <form id="biddingForm" action="" method="post">
+                        <div>
+
+                            <input type="hidden" name="auctionId" th:value="${musicAuction.id}">
+                            <input type="hidden" name="bidder" th:value="|qwert|">
+                            <input type="number" id="bidding_price" name="bidding_price" value="0">
+
+                        </div>
+
+                        <div>
+                            <input type="submit" value="입찰하기"/>
+                        </div>
+                    </form>
+                </div>
+
+
+
+
+
+            </div>
 
         </div>
     </div>
 
 </div>
 
+
+
+<script>
+    $("#biddingForm").submit(function (event) {
+        event.preventDefault();
+
+        var biddingPrice = $("#bidding_price").val();
+
+        if (biddingPrice <= 0) {
+            Swal.fire({
+                icon: 'error',
+                title: '유효하지 않은 입찰 가격입니다.',
+                text: '입찰 가격을 확인해주세요.'
+            });
+        } else {
+            var formData = $("#biddingForm").serialize();
+            $.post("/bidding/create", formData)
+                .done(function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '입찰 성공',
+                        text: response
+                    });
+                })
+                .fail(function (xhr, status, error) {
+                    var errorMessage = xhr.responseText;
+                    Swal.fire({
+                        icon: 'error',
+                        title: '입찰 실패',
+                        text: errorMessage // Display the error message
+                    });
+                });
+        }
+    });
+</script>
+
+
+
+
+
+
+<script>
+    function addPrice(amount) {
+        // 현재 input 태그의 값을 가져옴
+        var inputElement = document.getElementById("bidding_price");
+        var currentValue = parseInt(inputElement.value);
+
+        // 버튼에 해당하는 금액을 더해서 input 태그의 값을 업데이트
+        var newValue = currentValue + amount;
+        inputElement.value = newValue;
+    }
+</script>
+
+
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var initialTimeDifference = /*[[${remainingTime}]]*/;
+    var timeDifference = initialTimeDifference;
+
+    function updateTimeDifference() {
+        var timeDifferenceElement = document.getElementById("timeDifference");
+
+        var days = Math.floor(timeDifference / (60 * 60 * 24));
+        var hours = Math.floor((timeDifference % (60 * 60 * 24)) / (60 * 60));
+        var minutes = Math.floor((timeDifference % (60 * 60)) / 60);
+        var seconds = timeDifference % 60;
+
+        var timeString = days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초";
+        timeDifferenceElement.textContent = "입찰 마감: " + timeString;
+
+        timeDifference--; // 시간 차이를 1초씩 감소
+    }
+
+    updateTimeDifference();
+    setInterval(updateTimeDifference, 1000);
+    /*]]>*/
+</script>
 
 
 

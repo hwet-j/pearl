@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import java.util.List;
 
 public interface MemberService {
-    Member findAnyMember();
+//    Member findAnyMember();
 
     List<MemberDTO> getUserList();
 

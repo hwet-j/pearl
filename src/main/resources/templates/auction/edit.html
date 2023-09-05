@@ -12,7 +12,7 @@
 </head>
 <body>
 <h1>음악등록 작성페이지</h1>
-<form th:action="@{/write}" th:object="${musicAuctionDTO}" method="post" enctype="multipart/form-data">
+<form th:action="@{/edit/{id}}" th:object="${musicAuctionDTO}" method="post" enctype="multipart/form-data">
     <p><label>Genre</label>
     <div th:each="genre : ${genres}" class="radio-item">
         <input type="radio" id="genre_${genre.id}" name="genre" th:value="${genre.id}" th:field="*{genre}" />

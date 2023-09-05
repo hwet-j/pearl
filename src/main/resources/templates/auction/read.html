@@ -8,59 +8,83 @@
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"
     />
+    <!--스와이퍼 CDN-->
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/amplitudejs@5.2.0/dist/amplitude.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/amplitudejs@5.2.0/dist/amplitude.min.js"></script>
+    <!--구글웹폰트 CDN-->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div class="left">
-            Today's<br>
-            Top<br>
-            Price<br>
-            Musics
-        </div>
-        <div class="right">
-            <!-- Slider main container -->
-            <div class="swiper">
-                <!-- Additional required wrapper -->
-                <div class="swiper-wrapper">
-                    <!-- Slides -->
-                    <div class="swiper-slide" th:each="musicAuctionList, iterStat :${musicAuctionList}">
-                        <div class="item-content">
-                            <div class="item-image">
-                                <img th:src="@{/images/{filename}(filename=${musicAuctionList.albumImage})}">
-                            </div>
-                            <div class="item-text">
-                                <div th:text="${musicAuctionList.title}"></div>
-                                <div th:text="${musicAuctionList.content}"></div>
-                                <h1 th:id="'timeDifference' + ${iterStat.index}"></h1>
+<div class="main-container">
+    <div class="list-container">
+        <div class="container">
+            <div class="left">
+                Today's<br>
+                Top<br>
+                Price<br>
+                Musics
+            </div>
+            <div class="right">
+                <!-- Slider main container -->
+                <div class="swiper">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper">
+                        <!-- Slides -->
+                        <div class="swiper-slide" th:each="musicAuctionList, iterStat :${musicAuctionList}">
+                            <div class="item-content">
+                                <div class="item-image">
+                                    <img class="thumb" th:src="${musicAuctionList.albumImage}" th:onerror="'this.src=\'/pictures/image_not_found.png\''">
+                                </div>
+                                <div class="item-text">
+                                    <div class="item-text-title" th:text="${musicAuctionList.title}"></div>
+                                    <div class="item-text-nickname" th:text="${musicAuctionList.nickname}"></div>
+                                    <div class="item-text-timelimit" th:id="'timeDifference' + ${iterStat.index}"></div>
+                                    <div class="item-text-price" th:text="${musicAuctionList.maxPrice} + ' &#8361;'"></div>
+                                </div>
                             </div>
                         </div>
+
                     </div>
-
+                    <!-- 스크롤 필요시 추가 -->
+                    <div class="swiper-scrollbar"></div>
                 </div>
-                <!-- 스크롤 필요시 추가 -->
-                <div class="swiper-scrollbar"></div>
+            </div>
+        </div>
+        <div class="scroller-head">
+            <div class="scroller-head-text">New Musics</div>
+        </div>
+        <div class="scroller">
+            <div class="card" th:each="musicAuctions : ${musicAuctions}">
+                <div class="albumImage">
+                    <img th:src="${musicAuctions.albumImage}" th:onerror="'this.src=\'/pictures/image_not_found.png\''">
+                </div>
+                <div class="top">
+                    <div th:text="${musicAuctions.title}"></div>
+                </div>
+                <div class="bottom">
+                    <div th:text="${musicAuctions.authorNickname.nickname}"></div>
+                </div>
             </div>
         </div>
     </div>
-
-    <div class="scroller">
-        <div class="card" th:each="musicAuctions : ${musicAuctions}">
-            <div class="albumImage">
-                <img th:src="@{/images/{filename}(filename=${musicAuctions.albumImage})}">
-            </div>
-            <div class="top">
-                <div th:text="${musicAuctions.id}"></div>
-            </div>
-            <div class="top">
-                <div th:text="${musicAuctions.title}"></div>
-            </div>
-            <div class="bottom">
-                <div th:text="${musicAuctions.content}"></div>
+    <div class="sidebar">
+        <div class="fixed-content">
+            <div class="block">
+                <div class="block-textwrap">
+                    <div class="block-title">Pearl in the soil</div>
+                    <div class="block-content">아직 빛을 보지 못한채 묻혀있는 당신의 음악, <br>Pits에서라면 명반이 될 수 있습니다.<br>당신의 꿈을 펼쳐보세요!</div>
+                    <div class="block-regist">
+                        <a href="/write" class="block-registbtn">REGIST</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div id="loadingIndicator" class="loading">Now Loading...</div>
+</div>
+<div id="loadingIndicator" class="loading">
+    Now Loading...
+</div>
     <script src="/js/infiniteScroll.js"></script>
     <script>
         new Swiper('.swiper', {
@@ -92,8 +116,8 @@
                 var minutes = Math.floor((timeDifference % (60 * 60)) / 60);
                 var seconds = timeDifference % 60;
 
-                var timeString = days + " 일 " + hours + " 시간 " + minutes + " 분 " + seconds + " 초";
-                timeDifferenceElement.textContent = "입찰 마감: " + timeString;
+                var timeString = "D - "+ days + " &nbsp;&nbsp;&nbsp; " + hours + " : " + minutes + " : " + seconds;
+                timeDifferenceElement.innerHTML  = timeString;
 
                 timeDifference--; // 시간 차이를 1초씩 감소
             }

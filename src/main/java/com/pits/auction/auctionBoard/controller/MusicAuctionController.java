@@ -6,15 +6,19 @@ import com.pits.auction.auctionBoard.entity.BiddingPeriod;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
 import com.pits.auction.auctionBoard.entity.MusicGenre;
 import com.pits.auction.auctionBoard.service.BiddingPeriodService;
+import com.pits.auction.auctionBoard.service.BiddingService;
 import com.pits.auction.auctionBoard.service.MusicAuctionService;
 import com.pits.auction.auctionBoard.service.MusicGenreService;
 import com.pits.auction.auth.dto.MemberDTO;
 import com.pits.auction.auth.entity.Member;
+import com.pits.auction.auth.repository.MemberRepository;
 import com.pits.auction.auth.service.MemberService;
+import com.pits.auction.user.service.UserSecurityService;
 import jakarta.servlet.http.HttpServletRequest;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -24,10 +28,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.io.File;
 import java.io.IOException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -42,7 +43,11 @@ public class MusicAuctionController {
     private final MusicAuctionService musicAuctionService;
     private final MusicGenreService musicGenreService;
     private final BiddingPeriodService biddingPeriodService;
+    private final BiddingService biddingService;
     private final MemberService memberService;
+    private final UserSecurityService userSecurityService;
+    private final MemberRepository memberRepository;
+
 
     @GetMapping("/write")
     public String writePage(Model model) {
@@ -63,6 +68,16 @@ public class MusicAuctionController {
     @PostMapping("/write")
     public String insertAuction(@Valid MusicAuctionDTO2 musicAuctionDTO, Errors errors,
                                 HttpServletRequest request, Model model) {
+        String currentUserEmail = userSecurityService.getCurrentUserEmail();
+        Member currentUser = memberRepository.findByEmail(currentUserEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+
+        musicAuctionDTO.setAuthorNickname(currentUser.getNickname());
+
+//        if (currentUserNickname == null) {
+//            return "redirect:/login";
+//        }
+
         if (errors.hasErrors()) {
             for (FieldError error : errors.getFieldErrors()) {
                 model.addAttribute(error.getField() + "Error", error.getDefaultMessage());
@@ -76,13 +91,11 @@ public class MusicAuctionController {
 
             model.addAttribute("musicAuctionDTO", musicAuctionDTO); // 이미 전달된 DTO 객체를 사용합니다.
 
-            Member anyMember = memberService.findAnyMember();
-            model.addAttribute("AnyMember", anyMember.getNickname());
-
+            musicAuctionService.saveMusicAuction(musicAuctionDTO);
             return "auction/write";
         }
         //이미지 구현 여기서 하세요. 음악은 알아서ㅎㅎ.
-        return "";
+        return "redirect:/auction/detail";
     }
 
     @RequestMapping("/read")
@@ -94,10 +107,51 @@ public class MusicAuctionController {
 
     /* 글 상세보기 (auctionId) */
     @GetMapping("/detail")
-    public String auctionDedail(Long auctionId){
-        Long id = 2L;
-        Optional<MusicAuction> musicAuction = musicAuctionService.findById(id);
+    public String auctionDedail(Long auctionId, Model model){
+        Long id = 42L;
+        // 경매글 가져오기
+        Optional<MusicAuction> optionalMusicAuction = musicAuctionService.findById(id);
+        if (optionalMusicAuction.isPresent()){
+            MusicAuction musicAuction = optionalMusicAuction.get();
 
+            // 경매입찰 관련 정보는 경매가 진행되는 동안만 필요함
+            if(musicAuction.getStatus().equals("진행")){
+                // 경매 남은 시간 계산
+                Long remainingTime = musicAuctionService.remainingTime(musicAuction.getEndTime());
+
+                // remainingTime 이 음수면 null값을 반환함
+                if (remainingTime == null){
+                    musicAuctionService.updateStatus(musicAuction.getId());
+                }
+
+                model.addAttribute("remainingTime", remainingTime);
+            }
+            
+            // 입찰 기록이 존재하면
+            if (biddingService.getAuctionBiddingsById(musicAuction.getId()) != null){
+                // 경매에 대한 입찰 기록이 있을 때 최대 경매가 반환
+                model.addAttribute("maxBiddingPrice", biddingService.getMaxBidPriceForAuction(musicAuction.getId()));
+            }
+
+            model.addAttribute("genre", musicAuction.getGenre().getName());
+            model.addAttribute("musicAuction", musicAuction);
+
+            // 입찰 금액을 올리는 기능 -> % 와 같이 다른 기능을 사용할 가능성이 있어서 값 전달
+            model.addAttribute("addValue1", 1000);
+            model.addAttribute("addValue2", 5000);
+            model.addAttribute("addValue3", 10000);
+
+            // if (musicAuctionService.getLastBiddingAuction())
+
+        } else {
+            throw new RuntimeException("경매글 정보를 가져오지 못함");
+        }
+
+        // 경매글에 대한 최고가 가져오기
+
+        
+        // 댓글 기능 완성 후 - 해당 경매글에 대한 댓글 가져오기
+        
         return  "/auction/detail";
     }
 
@@ -124,8 +178,8 @@ public class MusicAuctionController {
         return "/myPage/clockTest";
     }
 
-    /* 음악 목록 페이지 가져오기 */
-    @GetMapping("/list")
+    /* 음악 목록 페이지 가져오기  > 무한 스크롤 구현하여 폐기*/
+ /*   @GetMapping("/list")
     public String showList(Model model){
         List<MusicAuction> musicAuctions = musicAuctionService.findAll();
         model.addAttribute("musicAuctions", musicAuctions);

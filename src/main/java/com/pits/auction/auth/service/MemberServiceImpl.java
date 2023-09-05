@@ -136,9 +136,19 @@ public class MemberServiceImpl implements MemberService {
             return memberOptional.get().getBalance();
         }
 
-        return null;
+        return 0L;
     }
 
+    @Override
+    public Long getBalanceByEmail(String email) {
+        Optional<Member> memberOptional = memberRepository.findByEmail(email);
+
+        if (memberOptional.isPresent()) {
+            return memberOptional.get().getBalance();
+        }
+
+        return 0L;
+    }
 
     /* 입금 Deposit */
     @Override

@@ -150,34 +150,44 @@
                     </div>
 
                 </div>
+
             </div>
 
-            <div class="body-right-side">
+        <div class="body-right-side">
+            <div class="bidding-box">
                 <div th:if="${remainingTime != null}">
-                    <div id="timeDifference"></div>
+                    <div>Submission Deadline</div>
+                    <div class="deadline" id="timeDifference"></div>
                 </div>
+
                 <div th:if="${remainingTime == null}">
                     <div>해당 경매는 종료되었습니다.</div>
                 </div>
 
                 <div th:if="${maxBiddingPrice != 0}">
                     <div>Top Price</div>
-                    <div data-th-text="${#numbers.formatInteger(maxBiddingPrice, 0, 'COMMA') + ' ₩'}"></div>
+                    <div class="money" data-th-text="${#numbers.formatInteger(maxBiddingPrice, 0, 'COMMA') + ' ₩'}"></div>
                 </div>
 
                 <div th:unless="${maxBiddingPrice != 0}">
                     <div>경매 시작가(경매 내역이 없습니다)</div>
-                    <div th:text="${#numbers.formatInteger(musicAuction.startingBid, 0, 'COMMA') + ' ₩'}"></div>
+                    <div class="money" th:text="${#numbers.formatInteger(musicAuction.startingBid, 0, 'COMMA') + ' ₩'}"></div>
                 </div>
 
                 <div class="bidding">
 
                     <div class="bidding-addPrice">
 
-                        <span>
-                            <button th:attr="onclick='addPrice(' + ${addValue1} + ') '" data-th-text="|+${addValue1}|"></button>
-                            <button th:attr="onclick='addPrice(' + ${addValue2} + ') '" data-th-text="|+${addValue2}|"></button>
-                            <button th:attr="onclick='addPrice(' + ${addValue3} + ') '" data-th-text="|+${addValue3}|"></button>
+                        <span class="bidding-button">
+                            <span class="left-align-button">
+                                <button th:attr="onclick='addPrice(' + ${addValue1} + ') '" data-th-text="|+${addValue1}|"></button>
+                            </span>
+                            <span class="center-align-button">
+                                <button th:attr="onclick='addPrice(' + ${addValue2} + ') '" data-th-text="|+${addValue2}|"></button>
+                            </span>
+                            <span class="right-align-button">
+                                <button th:attr="onclick='addPrice(' + ${addValue3} + ') '" data-th-text="|+${addValue3}|"></button>
+                            </span>
                         </span>
 
                     </div>
@@ -194,11 +204,12 @@
                         <div>
                             <input type="submit" value="입찰하기"/>
                         </div>
+
                     </form>
                 </div>
-
-
             </div>
+
+        </div>
 
         </div>
     </div>
@@ -284,7 +295,7 @@
         var seconds = timeDifference % 60;
 
         var timeString = days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초";
-        timeDifferenceElement.textContent = "입찰 마감: " + timeString;
+        timeDifferenceElement.textContent = timeString;
 
         timeDifference--; // 시간 차이를 1초씩 감소
         if (timeDifference == -2){      // 남은 시간이 음수가 되면 경매는 종료 (0, -1 로설정하니 오차 때문에 잘못작동할때가 있음)

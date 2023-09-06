@@ -300,13 +300,13 @@ $(document).ready(function () {
                 <!-- Signup Form -->
                 <div class="signup form-peice switched">
                     <form class="signup-form"
-                          th:action="@{/user/plJoin}"
+                          th:action="@{/user/plJoin2}"
                           th:object="${userCreateForm}" method="post">
 
                         <div class="form-group">
                             <label for="email" class="">이메일</label>
                             <input type="text" th:field="*{email}"  class=""/>
-                            <!--<div style="color:red;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></div>-->
+                            <div style="color:red;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></div>
                         </div>
 
                         <div class="form-group">

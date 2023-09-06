@@ -54,13 +54,9 @@ public class UserController {
         return "/user/plLogin";
     }
 
-/*
 
-    @GetMapping("/plJoin")
-    public String join(){
-        return "/user/plJoin";
-    }
-*/
+
+
 
 
 
@@ -84,7 +80,7 @@ public class UserController {
 
 
 
-    @PostMapping("/plJoin")
+    @PostMapping("/plJoin2")
     public String join2(@Valid UserCreateForm userCreateForm,
                         BindingResult bindingResult, Model model) {
 

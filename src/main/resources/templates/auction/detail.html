@@ -64,24 +64,39 @@
                     <span th:text="${genre}"></span>
                     <span class="align-right">
 
+                        <span th:if="${#authorization.expression('isAuthenticated() and hasRole(''ROLE_ADMIN'')')}">
+                            <a class="button-edit" th:if="${#authentication.principal.username eq musicAuction.authorNickname.email}" th:href="@{/edit/{id}(id=${musicAuction.id})}">수정</a>
+                        </span>
+
+                            <a class="button-edit" th:href="@{/edit/{id}(id=${musicAuction.id})}">수정(로그인 X 테스트용)</a>
+
                         <span th:if="${#authorization.expression('isAuthenticated()')}">
-                            <a th:if="${#authentication.principal.username eq musicAuction.authorNickname.email}" th:href="@{/edit/{id}(id=${musicAuction.id})}">수정</a>
+
+                            <span th:if="${wish != 0}">
+                                <a th:href="@{/detail/click-wishbutton(auctionId=${musicAuction.id})}">
+                                    <button class="heart-button">
+                                         <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="red" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                             <path d="M12 21.35l-1.45-1.32C5.4 16.25 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 7.75-8.55 11.54L12 21.35z" />
+                                         </svg>
+                                    </button>
+                                </a>
+                            </span>
+
+                            <span th:if="${wish == 0}">
+                                <a th:href="@{/detail/click-wishbutton(auctionId=${musicAuction.id})}">
+                                    <button class="heart-button">
+                                         <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                             <path d="M12 21.35l-1.45-1.32C5.4 16.25 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 7.75-8.55 11.54L12 21.35z" />
+                                         </svg>
+                                    </button>
+                                </a>
+                            </span>
+
                         </span>
 
-                            <a th:href="@{/edit/{id}(id=${musicAuction.id})}">수정(--)</a>
-
-
-                        <span th:if="${wish == 1}">
-                            <button class="heart-button">
-                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="red" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                     <path d="M12 21.35l-1.45-1.32C5.4 16.25 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 7.75-8.55 11.54L12 21.35z" />
-                                 </svg>
-                            </button>
-                        </span>
-
-                        <span th:if="${wish == 1}">
-                            <button class="heart-button">
-                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <span th:unless="${#authorization.expression('isAuthenticated()')}">
+                            <button class="heart-button" onclick="showLoginAlert()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                      <path d="M12 21.35l-1.45-1.32C5.4 16.25 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 7.75-8.55 11.54L12 21.35z" />
                                  </svg>
                             </button>
@@ -245,6 +260,26 @@
     </div>
 
 </div>
+
+
+<script th:inline="javascript">
+    function showLoginAlert() {
+        Swal.fire({
+            title: '로그인이 필요합니다.',
+            text: '로그인 페이지로 이동하시겠습니까?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '확인',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/user/plLogin';
+            }
+        });
+    }
+</script>
+
+
 
 <!--/* 입찰 버튼 - 비로그인 시에 작동할 기능 */-->
 <script>

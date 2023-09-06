@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.time.LocalTime.now;
+
 
 /*  경매정보 (경매글)
 테이블 : music_auction
@@ -45,7 +47,7 @@ public class MusicAuction {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "author_nickname", referencedColumnName = "nickname", nullable = false)
+    @JoinColumn(name = "author_nickname",  referencedColumnName = "nickname", nullable = false)
     private Member authorNickname;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
@@ -77,7 +79,7 @@ public class MusicAuction {
     @JoinColumn(nullable = false)
     private BiddingPeriod biddingPeriod;
 
-    @Column(name = "end_time", nullable = false)
+    @Column(name = "end_time" , nullable = false)
     private LocalDateTime endTime;
 
     @Column(nullable = false)
@@ -88,32 +90,67 @@ public class MusicAuction {
     @OneToMany(mappedBy = "auctionId")
     private List<Bidding> auctionBiddings;
 
+
     @PrePersist
     public void setEndTimeUsingBiddingPeriod() {
         if (this.createdAt == null || this.biddingPeriod == null) {
             throw new IllegalStateException("Cannot set end time without created time or bidding period.");
         }
-
         String periodValue = this.biddingPeriod.getPeriodValue();
         Pattern pattern = Pattern.compile("(\\d+)\\s*(\\D+)");
         Matcher matcher = pattern.matcher(periodValue);
 
-        if (!matcher.find()) {
+             if (matcher.find()) {
+            int value = Integer.parseInt(matcher.group(1));
+            String unit = matcher.group(2);
+
+            switch (unit) {
+                case "주":
+                    this.endTime = this.createdAt.plusWeeks(value);
+                    break;
+                case "개월":
+                    this.endTime = this.createdAt.plusMonths(value);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown bidding period unit: " + unit);
+            }
+        } else {
             throw new IllegalArgumentException("Invalid bidding period format: " + periodValue);
         }
+    }
 
-        int value = Integer.parseInt(matcher.group(1));
-        String unit = matcher.group(2);
 
-        switch (unit) {
-            case "주":
-                this.endTime = this.createdAt.plusWeeks(value);
-                break;
-            case "개월":
-                this.endTime = this.createdAt.plusMonths(value);
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown bidding period unit: " + unit);
+   @PreUpdate
+    public void updateEndTimeUsingBiddingPeriod() {
+        if (biddingPeriod == null) {
+            throw new IllegalStateException("Cannot set end time without created time or bidding period.");
         }
+        String periodValue = this.biddingPeriod.getPeriodValue();
+        Pattern pattern = Pattern.compile("(\\d+)\\s*(\\D+)");
+        Matcher matcher = pattern.matcher(periodValue);
+       System.out.println("periodValue="+periodValue);
+       System.out.println("pattern="+pattern);
+       System.out.println("matcher"+matcher);
+
+        if(this.biddingPeriod != null){
+
+        if (matcher.find()) {
+            int value = Integer.parseInt(matcher.group(1));
+            String unit = matcher.group(2);
+
+            switch (unit) {
+                case "주":
+                    this.endTime = LocalDateTime.now().plusWeeks(value);
+                    break;
+                case "개월":
+                    this.endTime =  LocalDateTime.now().plusMonths(value);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown bidding period unit: " + unit);
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid bidding period format: " + periodValue);
+        }
+    }
     }
 }

@@ -15,6 +15,7 @@ public class MusicAuctionDTO {
 
     private Long id;
     private String authorNickname;
+    private String authorEmail;
     private Long genreId;
     private String title;
     private String albumImage;
@@ -30,6 +31,7 @@ public class MusicAuctionDTO {
         return MusicAuctionDTO.builder()
                 .id(musicAuction.getId())
                 .authorNickname(musicAuction.getAuthorNickname().getNickname())
+                .authorNickname(musicAuction.getAuthorNickname().getEmail())
                 .genreId(musicAuction.getGenre().getId())
                 .title(musicAuction.getTitle())
                 .albumImage(musicAuction.getAlbumImage())

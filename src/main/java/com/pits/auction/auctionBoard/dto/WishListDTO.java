@@ -14,7 +14,7 @@ public class WishListDTO {
 
     private Long id;
 
-    private String memberNickname;  // 회원 닉네임
+    private String memberEmail;  // 회원 닉네임
 
     private Long auctionId;         // 경매 ID
 

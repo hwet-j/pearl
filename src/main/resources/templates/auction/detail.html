@@ -10,11 +10,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR|Roboto">
 
-
     <script th:src="@{/js/audiplay.js}"></script>
 
-
-
+    <!--/* 두 개로 나뉜 Comment, Entries에 대한 기능 구현을 위한 스크립트 */-->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
         const buttons = document.querySelectorAll('.button-container button');
@@ -49,9 +47,8 @@
 
     </script>
 
-
-
 </head>
+
 <body>
 
 <div class="container">
@@ -63,7 +60,36 @@
             </div>
 
             <div class="title-right-side">
-                <div th:text="${genre}">장르</div>
+                <div class="flex-container">
+                    <span th:text="${genre}"></span>
+                    <span class="align-right">
+
+                        <span th:if="${#authorization.expression('isAuthenticated()')}">
+                            <a th:if="${#authentication.principal.username eq musicAuction.authorNickname.email}" th:href="@{/edit/{id}(id=${musicAuction.id})}">수정</a>
+                        </span>
+
+                            <a th:href="@{/edit/{id}(id=${musicAuction.id})}">수정(--)</a>
+
+
+                        <span th:if="${wish == 1}">
+                            <button class="heart-button">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="red" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                     <path d="M12 21.35l-1.45-1.32C5.4 16.25 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 7.75-8.55 11.54L12 21.35z" />
+                                 </svg>
+                            </button>
+                        </span>
+
+                        <span th:if="${wish == 1}">
+                            <button class="heart-button">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                     <path d="M12 21.35l-1.45-1.32C5.4 16.25 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 7.75-8.55 11.54L12 21.35z" />
+                                 </svg>
+                            </button>
+                        </span>
+
+                    </span>
+                </div>
+
                 <h1 class="album-title" th:text="${musicAuction.title}">Album Title</h1>
 
                 <div>
@@ -71,7 +97,6 @@
                     <span class="title-author" th:text="${musicAuction.authorNickname.nickname}" >Author</span>
                 </div>
 
-                <!-- th:src="${audioPath}" 테스트 완료 후 경로 설정 시 -->
                 <div class="title-audio">
                     <audio-player th:attr="title='Audio Music',
                     src=${musicAuction.albumMusic},
@@ -178,22 +203,40 @@
 
                     </div>
 
-                    <form id="biddingForm" action="" method="post">
+
+                    <div th:if="${#authorization.expression('isAuthenticated()')}">
+                        <form id="biddingForm" action="" method="post">
+
+                            <div>
+                                <input type="hidden" name="startPrice" th:value="${musicAuction.startingBid}"/>
+                                <input type="hidden" name="auctionId" th:value="${musicAuction.id}"/>
+                                <input type="hidden" name="bidder" th:value="${#authentication.principal.username}"/>
+                                <input type="number" id="bidding_price" name="bidding_price" th:value="${maxBiddingPrice}"/>
+
+                            </div>
+
+                            <div>
+                                <input type="submit" value="입찰하기"/>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+                <div th:unless  ="${#authorization.expression('isAuthenticated()')}">
+                    <form id="biddingForm-logout" action="" method="post">
 
                         <div>
-                            <input type="hidden" name="startPrice" th:value="${musicAuction.startingBid}"/>
-                            <input type="hidden" name="auctionId" th:value="${musicAuction.id}"/>
-                            <input type="hidden" name="bidder" th:value="${#authentication.principal.username}"/>
-                            <input type="number" id="bidding_price" name="bidding_price" th:value="${maxBiddingPrice}"/>
-
+                            <input type="number" placeholder="비회원은 입찰이 불가합니다." readonly/>
                         </div>
 
                         <div>
-                            <input type="submit" value="입찰하기"/>
+                            <input type="submit" id="submitButton" value="입찰하기"/>
                         </div>
 
                     </form>
                 </div>
+
             </div>
 
         </div>
@@ -203,8 +246,30 @@
 
 </div>
 
+<!--/* 입찰 버튼 - 비로그인 시에 작동할 기능 */-->
+<script>
+    document.getElementById("biddingForm-logout").addEventListener("submit", function(event) {
+        event.preventDefault();
 
+        Swal.fire({
+            title: '로그인 창으로 이동하시겠습니까?',
+            text: '비회원은 입찰이 불가합니다.',
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonText: '확인',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "/user/plLogin";
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                return false;
+            }
+        });
+    });
+</script>
 
+<!--/* 입찰 버튼 - 로그인 시에 작동할 기능 */-->
+<!--/* 입력된 정보에 따라 Ajax로 값을 반환받아 알림창에 메시지를 띄워준다. */-->
 <script>
     $("#biddingForm").submit(function (event) {
         event.preventDefault();
@@ -251,21 +316,23 @@
 
 
 
-
+<!--/* 금액 추가 버튼 클릭시 금액이 추가되는 기능 */-->
 <script>
     function addPrice(amount) {
-        // 현재 input 태그의 값을 가져옴
         var inputElement = document.getElementById("bidding_price");
         var currentValue = parseInt(inputElement.value);
 
-        // 버튼에 해당하는 금액을 더해서 input 태그의 값을 업데이트
         var newValue = currentValue + amount;
         inputElement.value = newValue;
     }
 </script>
 
 
-
+<!--/* 마감 남은 시간을 출력해주는 기능 */-->
+<!--/*
+남은시간이 -2초면 페이지 재시작 설정을 해주었지만, 댓글을 작성하고 있거나 다른 작업을 하고있을 수 있으므로
+함수를 종료하고 다른 메시지를 띄워주는 설정으로 바꿔주면 좋을듯함.
+*/-->
 <script th:inline="javascript">
     /*<![CDATA[*/
     var initialTimeDifference = /*[[${remainingTime}]]*/;

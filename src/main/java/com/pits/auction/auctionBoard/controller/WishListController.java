@@ -3,25 +3,39 @@ package com.pits.auction.auctionBoard.controller;
 
 import com.pits.auction.auctionBoard.service.WishListService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequestMapping("/detail")
 @RequiredArgsConstructor
 public class WishListController {
 
     private final WishListService wishListService;
 
 
-    @GetMapping("/add-wishlist")
-    public String addWishList() {
+    /* 찜버튼을 클릭하여 찜이 등록되고 삭제되는 기능 */
+    @GetMapping("/click-wishbutton")
+    public String addWishList(@RequestParam("auctionId") Long auctionId, Model model) {
 
-        String memberNickname = "qwerty";
-        Long auctionId = 2L;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        wishListService.addWishList(memberNickname, auctionId);
-        return "myPage/userRead"; // 이동할 URL을 지정해주세요.
+        String email = authentication.getName();
+
+        String message = wishListService.clickWishButton(email, auctionId);
+
+        System.out.println(message);
+        System.out.println(message);
+        System.out.println(message);
+        System.out.println(message);
+        System.out.println(message);
+
+        return "myPage/userRead";
     }
 }

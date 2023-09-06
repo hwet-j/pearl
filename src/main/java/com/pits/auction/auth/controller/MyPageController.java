@@ -30,7 +30,6 @@ public class MyPageController {
     private final BiddingService biddingService;
     private final MusicAuctionService musicAuctionService;
     private final ImageUpload imageUpload;
-    private final AudioUpload audioUpload;
 
     /* 유저 전체 리스트 - 마이페이지에서는 필요없으나 테스트를 위해 작성 */
     @GetMapping("/userlist")
@@ -112,7 +111,6 @@ public class MyPageController {
         MemberDTO userInfo = memberService.getUserInfo(memberEditValidator.getId());
 
         if (!imageFile.isEmpty()){   // 파일이 있을 경우에만 파일 업로드 진행
-            System.out.println("dddd");
             // 이미지 저장과 경로 DTO에 저장
             userInfo.setMemberImage(imageUpload.uploadImage(imageFile));
         }
@@ -140,13 +138,6 @@ public class MyPageController {
         return "redirect:/mypage/userlist";
     }
 
-    /* 음악 재생 테스트를 위해 작성 -> 다른곳에서 기능 구현후 삭제 */
-    @GetMapping("/musictest")
-    public String musicTest(Model model) {
-        String audioFileName = "d6287fd2-14f9-4607-9f86-b84277771fe1_NewJeans - ETA.mp3";
-        model.addAttribute("audioFileName", audioFileName);
-        return "/myPage/musicTest";
-    }
 
     /* 입찰 내역 */
     @GetMapping("/bidding-history")

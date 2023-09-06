@@ -20,12 +20,10 @@ public class WishList {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 증가하는 PK 설정
     private Long id; // 자동 증가하는 단일 기본 키
 
-    @JsonIgnore
     @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "member_nickname", referencedColumnName = "nickname", nullable = false)
-    private Member memberNickname;
+    @JoinColumn(name = "member_email", referencedColumnName = "email", nullable = false)
+    private Member memberEmail;
 
-    @JsonIgnore
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "auction_id", nullable = false)
     private MusicAuction auctionId;

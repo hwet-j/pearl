@@ -24,8 +24,8 @@ public class WishListServiceImpl implements WishListService{
 
 
     @Override
-    public void addWishList(String memberNickname, Long auctionId) {
-        Optional<Member> optionalMember = memberRepository.findByNickname(memberNickname);
+    public String clickWishButton(String email, Long auctionId) {
+        Optional<Member> optionalMember = memberRepository.findByEmail(email);
 
         MusicAuction auction = musicAuctionRepository.findById(auctionId)
                 .orElseThrow(() -> new EntityNotFoundException("Auction not found"));
@@ -33,20 +33,29 @@ public class WishListServiceImpl implements WishListService{
         WishList wishList = new WishList();
 
         if(optionalMember.isPresent()){
-            wishList.setMemberNickname(optionalMember.get());
+            Member member = optionalMember.get();
+
+            if (countByMemberNicknameAndAuctionId(member,auction) == 0){ // 해당 회원이 특정 경매글에 대한 찜 정보가 없으면 기능 찜 등록 수행
+                wishList.setMemberEmail(member);
+                wishList.setAuctionId(auction);
+                wishList.setAddedAt(LocalDateTime.now());
+                wishListRepository.save(wishList);
+                return "Add";
+            } else if (countByMemberNicknameAndAuctionId(member,auction) == 1){ // 찜 등록되어있으면 삭제 
+                wishListRepository.deleteByMemberEmailAndAuctionId(member,auction);
+                return "Delete";
+            } else {
+                return "Fail";
+            }
+
         }
+        return "Error";
 
-        wishList.setAuctionId(auction);
-        wishList.setAddedAt(LocalDateTime.now());
-
-
-        wishListRepository.save(wishList);
     }
 
     @Override
-    public Long countByMemberNicknameAndAuctionId(Member member, MusicAuction auction){
-        wishListRepository.countByMemberNicknameAndAuctionId(member, auction);
-        return null;
+    public long countByMemberNicknameAndAuctionId(Member member, MusicAuction auction){
+        return wishListRepository.countByMemberEmailAndAuctionId(member, auction);
     }
 
 }

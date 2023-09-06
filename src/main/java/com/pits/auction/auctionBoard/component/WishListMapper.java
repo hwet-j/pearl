@@ -13,7 +13,7 @@ public class WishListMapper {
     public WishListDTO entityToDto(WishList wishList) {
         return WishListDTO.builder()
                 .id(wishList.getId())
-                .memberNickname(wishList.getMemberNickname().getNickname())
+                .memberEmail(wishList.getMemberEmail().getEmail())
                 .auctionId(wishList.getAuctionId().getId())
                 .addedAt(wishList.getAddedAt())
                 .build();
@@ -21,7 +21,7 @@ public class WishListMapper {
 
     public WishList dtoToEntity(WishListDTO wishListDTO) {
         Member member = Member.builder()
-                .nickname(wishListDTO.getMemberNickname())
+                .nickname(wishListDTO.getMemberEmail())
                 .build();
 
         MusicAuction musicAuction = MusicAuction.builder()
@@ -30,7 +30,7 @@ public class WishListMapper {
 
         return WishList.builder()
                 .id(wishListDTO.getId())
-                .memberNickname(member)
+                .memberEmail(member)
                 .auctionId(musicAuction)
                 .addedAt(wishListDTO.getAddedAt())
                 .build();

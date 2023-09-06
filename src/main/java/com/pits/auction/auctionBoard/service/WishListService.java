@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface WishListService {
 
-    void addWishList(String memberNickname, Long auctionId);
+    String clickWishButton(String email, Long auctionId);
 
-    Long countByMemberNicknameAndAuctionId(Member member, MusicAuction auction);
+    long countByMemberNicknameAndAuctionId(Member member, MusicAuction auction);
 
 
 }

@@ -81,7 +81,7 @@ public class Member {
 
     // 찜목록
     @JsonIgnore
-    @OneToMany(mappedBy = "memberNickname")
+    @OneToMany(mappedBy = "memberEmail")
     private List<WishList> wishList;
 
 

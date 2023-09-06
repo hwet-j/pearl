@@ -94,9 +94,22 @@ body {
   font-style: italic;
 }
 
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap; /* 줄바꿈 없이 한 줄에 요소 표시 */
+}
 
+.heart-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
 
-
+.align-right {
+    display: flex;
+    justify-content: flex-end;
+}
 
 /***************************/
 /* 하 부분 내용과 입찰내용을 분리 하기 위한 container */

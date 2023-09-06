@@ -5,10 +5,7 @@ import com.pits.auction.auctionBoard.dto.MusicAuctionDTO2;
 import com.pits.auction.auctionBoard.entity.BiddingPeriod;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
 import com.pits.auction.auctionBoard.entity.MusicGenre;
-import com.pits.auction.auctionBoard.service.BiddingPeriodService;
-import com.pits.auction.auctionBoard.service.BiddingService;
-import com.pits.auction.auctionBoard.service.MusicAuctionService;
-import com.pits.auction.auctionBoard.service.MusicGenreService;
+import com.pits.auction.auctionBoard.service.*;
 import com.pits.auction.auth.dto.MemberDTO;
 import com.pits.auction.auth.entity.Member;
 import com.pits.auction.auth.repository.MemberRepository;
@@ -48,7 +45,7 @@ public class MusicAuctionController {
     private final MusicGenreService musicGenreService;
     private final BiddingPeriodService biddingPeriodService;
     private final BiddingService biddingService;
-    private final MemberService memberService;
+    private final WishListService wishListService;
     private final UserSecurityService userSecurityService;
     private final MemberRepository memberRepository;
     private final ImageUpload imageUpload;
@@ -118,14 +115,12 @@ public class MusicAuctionController {
         if (optionalMusicAuction.isPresent()){
             MusicAuction musicAuction = optionalMusicAuction.get();
 
-            // 경매입찰 관련 정보는 경매가 진행되는 동안만 필요함
-            if(musicAuction.getStatus().equals("진행")){
+            if(musicAuction.getStatus().equals("진행")){      // 경매입찰 관련 정보는 경매가 진행되는 동안만 필요함
                 // 경매 남은 시간 계산
                 Long remainingTime = musicAuctionService.remainingTime(musicAuction.getEndTime());
 
-                // remainingTime 이 음수면 null값을 반환함
-                if (remainingTime == null){
-                    musicAuctionService.updateStatus(musicAuction.getId());
+                if (remainingTime == null){     // remainingTime 이 음수면 null값을 반환함
+                    musicAuctionService.updateStatus(musicAuction.getId());     // 상태 "종료"로 변경
                 }
 
                 model.addAttribute("remainingTime", remainingTime);
@@ -136,6 +131,8 @@ public class MusicAuctionController {
                 // 경매에 대한 입찰 기록이 있을 때 최대 경매가 반환
                 model.addAttribute("maxBiddingPrice", biddingService.getMaxBidPriceForAuction(musicAuction.getId()));
             }
+
+            model.addAttribute("wish",wishListService.countByMemberNicknameAndAuctionId(musicAuction.getAuthorNickname(),musicAuction));
 
             model.addAttribute("genre", musicAuction.getGenre().getName());
             model.addAttribute("musicAuction", musicAuction);

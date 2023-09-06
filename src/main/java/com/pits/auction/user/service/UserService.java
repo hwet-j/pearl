@@ -50,7 +50,42 @@ public class UserService {
         }
 
     }
+    public Member findByEmail(String email){
+        Optional<Member> optionalMember = userRepository.findByEmail(email);
+        if(optionalMember.isPresent()){
+            return optionalMember.get();
+        }
+        return userRepository.findByEmail(email).orElse(null);
+    }
 
+
+
+
+    public void saveOrUpdate(Member member) {
+        userRepository.save(member);
+    }
+
+
+
+
+    public boolean updatePassword(String email, String newPassword1) {
+        Optional<Member> userOptional = userRepository.findByEmail(email);
+
+        if (userOptional.isPresent()) {
+            Member member = userOptional.get();
+
+            // 여기서 새 비밀번호를 해시화하거나 다른 보안 절차를 수행해야 합니다.
+            // 이 예제에서는 간단히 새 비밀번호를 저장합니다.
+            member.setPassword(newPassword1);
+
+            // 변경된 비밀번호를 데이터베이스에 저장
+            userRepository.save(member);
+
+            return true; // 비밀번호 업데이트 성공
+        }
+
+        return false; // 사용자를 찾을 수 없는 경우 또는 업데이트 실패
+    }
 }
 
 

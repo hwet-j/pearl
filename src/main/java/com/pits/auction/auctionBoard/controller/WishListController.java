@@ -28,6 +28,7 @@ public class WishListController {
 
         String email = authentication.getName();
 
+
         String message = wishListService.clickWishButton(email, auctionId);
 
         return "redirect:/detail?id=" + auctionId;

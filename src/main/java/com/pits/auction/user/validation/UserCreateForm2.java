@@ -9,12 +9,12 @@ import lombok.Setter;
 
 //SiteUser Entity관련
 //회원가입폼페이지에서 입력.선택사항에 적용되는 유효성검사 클래스
-public class UserCreateForm {
+public class UserCreateForm2 {
 
 
 
     @NotEmpty(message = "닉네임은 필수입력입니다.")
-   // @Pattern(regexp = "^(?!.*admin).*", message = "닉네임에 'admin'을 포함할 수 없습니다.")
+    // @Pattern(regexp = "^(?!.*admin).*", message = "닉네임에 'admin'을 포함할 수 없습니다.")
     private String nickname;    //회원이름.uk
 
     @NotEmpty(message = "비밀번호는 필수입력입니다.")
@@ -23,11 +23,11 @@ public class UserCreateForm {
     @NotEmpty(message = "비밀번호 확인은 필수입력입니다.")
     private String password2;   //(form.html문서에 존재하는 )확인용 비밀번호
 
-   /* @NotEmpty(message = "비밀번호는 필수입력입니다.")
+    @NotEmpty(message = "비밀번호는 필수입력입니다.")
     private String newPassword1;   //비밀번호
 
     @NotEmpty(message = "비밀번호 확인은 필수입력입니다.")
-    private String newPassword2;   //(form.html문서에 존재하는 )확인용 비밀번호*/
+    private String newPassword2;   //(form.html문서에 존재하는 )확인용 비밀번호
 
     @NotBlank(message = "이메일은 필수 입력입니다.")
     @Email(message = "유효한 이메일 형식이 아닙니다.")

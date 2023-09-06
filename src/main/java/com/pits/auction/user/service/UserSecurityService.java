@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +51,32 @@ public class UserSecurityService implements UserDetailsService {
         // 화면으로부터 입력한 비번와 일치하는지 검사하는 로직이 내부적으로 존재
     }
 
-    //------------------------------------------------------------------------------
+
+    @Transactional(readOnly = true)
+    public String getEmailByPhoneNumber(String phoneNumber) {
+        Optional<Member> member = userRepository.findByPhoneNumber(phoneNumber);
+
+
+        if (member.isPresent()) {
+            return member.get().getEmail();
+        }
+
+        throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
+    }
+
+
+    @Transactional(readOnly = true)
+    public String getPasswordByEmail(String email) {
+        Optional<Member> member = userRepository.findByEmail(email);
+
+
+        if (member.isPresent()) {
+            return member.get().getPassword();
+        }
+
+        throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
+    }
+
     public String getCurrentUserEmail() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
@@ -58,4 +84,5 @@ public class UserSecurityService implements UserDetailsService {
         }
         return ((UserDetails) authentication.getPrincipal()).getUsername();
     }
+
 }

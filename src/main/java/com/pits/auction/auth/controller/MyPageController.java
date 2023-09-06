@@ -10,7 +10,6 @@ import com.pits.auction.global.exception.InsufficientBalanceException;
 import com.pits.auction.global.exception.PhoneNumberDuplicateException;
 import com.pits.auction.global.upload.AudioUpload;
 import com.pits.auction.global.upload.ImageUpload;
-import jakarta.annotation.security.PermitAll;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +29,7 @@ public class MyPageController {
     private final BiddingService biddingService;
     private final MusicAuctionService musicAuctionService;
     private final ImageUpload imageUpload;
+    private final AudioUpload audioUpload;
 
     /* 유저 전체 리스트 - 마이페이지에서는 필요없으나 테스트를 위해 작성 */
     @GetMapping("/userlist")
@@ -86,11 +86,10 @@ public class MyPageController {
     public String funcUserEdit(@ModelAttribute @Valid MemberEditValidator memberEditValidator,
                                BindingResult bindingResult,
                                @RequestParam("image") MultipartFile imageFile,
+                               @RequestParam("audio") MultipartFile audioFile,
                                @RequestParam("userId") Long userId,
                                Model model) {
 
-
-        System.out.println(imageFile);
         // 비밀번호 유효성 검사 에러가 있는지 확인
         if (bindingResult.hasErrors()) {
 
@@ -124,6 +123,12 @@ public class MyPageController {
 
         userInfo.setPassword(memberEditValidator.getPassword());
 
+        // 노래 업로드 테스트
+        if (!audioFile.isEmpty()) {
+            audioUpload.uploadAudio(audioFile);
+            // audioUpload.cutAndSaveAudio(audioFile);
+        }
+
         memberService.updateUserInfo(userInfo);
 
         return "redirect:/mypage/userlist";
@@ -138,6 +143,13 @@ public class MyPageController {
         return "redirect:/mypage/userlist";
     }
 
+    /* 음악 재생 테스트를 위해 작성 -> 다른곳에서 기능 구현후 삭제 */
+    @GetMapping("/musictest")
+    public String musicTest(Model model) {
+        String audioFileName = "d6287fd2-14f9-4607-9f86-b84277771fe1_NewJeans - ETA.mp3";
+        model.addAttribute("audioFileName", audioFileName);
+        return "/myPage/musicTest";
+    }
 
     /* 입찰 내역 */
     @GetMapping("/bidding-history")
@@ -161,6 +173,7 @@ public class MyPageController {
     /* 입금 폼 (서브창을 띄울때 사용) */
     @GetMapping("/depositform")
     public String depositFrom(@RequestParam("userId") Long userId, Model model) {
+
         model.addAttribute("userInfo", memberService.getUserInfo(userId));
         return "/myPage/depositPopup";
     }
@@ -175,11 +188,11 @@ public class MyPageController {
 
     /* 입/출금 기능 (입금인지 출금인지 action변수에 받아와 하나의 메서드에서 두 기능을 구현) */
     @PostMapping("/balance")
-    @PermitAll
+    @Transactional
     public String transactionBalance(
+            @RequestParam Long balance,
             @RequestParam Long userId,
             @RequestParam String action,
-            @RequestParam Long balance,
             Model model) {
 
         try {

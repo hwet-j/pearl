@@ -4,12 +4,14 @@ package com.pits.auction.auth.service;
 import com.pits.auction.auth.dto.MemberDTO;
 import com.pits.auction.auth.entity.Member;
 import com.pits.auction.auth.repository.MemberRepository;
+import com.pits.auction.global.exception.InsufficientBalanceException;
+import com.pits.auction.global.exception.PhoneNumberDuplicateException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +26,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final ModelMapper modelMapper;
 
-    @Override
+
     public Page<Member> getMemberList(Pageable pageable){
         Page<Member> memberList=memberRepository.findAll(pageable);
         return memberList;
@@ -37,7 +39,6 @@ public class MemberServiceImpl implements MemberService {
         return memberYList;
     }
 
-    @Override
     public Member getMemberDetail(Long id){
         Optional<Member> member=memberRepository.findById(id);
         if(member.isPresent()){
@@ -45,8 +46,6 @@ public class MemberServiceImpl implements MemberService {
         }
         return null;
     }
-
-    @Override
     public void deleteMember(Long id){
         Optional<Member> member=memberRepository.findById(id);
         System.out.println("id="+id);
@@ -55,7 +54,6 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
-    @Override
     public void deleteMembers(List<Long> ids) {
         for (Long id : ids) {
             memberRepository.deleteById(id);
@@ -136,19 +134,9 @@ public class MemberServiceImpl implements MemberService {
             return memberOptional.get().getBalance();
         }
 
-        return 0L;
+        return null;
     }
 
-    @Override
-    public Long getBalanceByEmail(String email) {
-        Optional<Member> memberOptional = memberRepository.findByEmail(email);
-
-        if (memberOptional.isPresent()) {
-            return memberOptional.get().getBalance();
-        }
-
-        return 0L;
-    }
 
     /* 입금 Deposit */
     @Override
@@ -229,5 +217,11 @@ public class MemberServiceImpl implements MemberService {
             member.setWithdrawalRequested(memberDTO.getWithdrawalRequested());
             memberRepository.save(member);
         }
+    }
+
+
+    @Override
+    public Member findAnyMember() {
+        return memberRepository.findAll().stream().findFirst().orElse(null);
     }
 }

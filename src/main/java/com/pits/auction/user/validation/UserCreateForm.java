@@ -23,6 +23,12 @@ public class UserCreateForm {
     @NotEmpty(message = "비밀번호 확인은 필수입력입니다.")
     private String password2;   //(form.html문서에 존재하는 )확인용 비밀번호
 
+   /* @NotEmpty(message = "비밀번호는 필수입력입니다.")
+    private String newPassword1;   //비밀번호
+
+    @NotEmpty(message = "비밀번호 확인은 필수입력입니다.")
+    private String newPassword2;   //(form.html문서에 존재하는 )확인용 비밀번호*/
+
     @NotBlank(message = "이메일은 필수 입력입니다.")
     @Email(message = "유효한 이메일 형식이 아닙니다.")
     private String email;   //이메일.uk

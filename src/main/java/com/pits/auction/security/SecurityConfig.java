@@ -1,5 +1,6 @@
 package com.pits.auction.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,14 +11,70 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+
+
+
+
+
+
+
+@RequiredArgsConstructor
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @Configuration
 @EnableWebSecurity
 
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
+
+
+
+
+
+
+
+
+
+    @Bean
+    public AuthenticationSuccessHandler successHandler() {
+        return ((request, response, authentication) -> {
+
+            String redirectUrl = "/main";
+            response.sendRedirect(redirectUrl);
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     @Bean
@@ -30,8 +87,11 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/"))
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/user/plLogout"))
-                        .logoutSuccessUrl("/").invalidateHttpSession(true)).csrf().disable()
-        ;
+                        .logoutSuccessUrl("/").invalidateHttpSession(true)).csrf().disable();
+
+
+
+
         return http.build();
     }
 

@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import java.util.List;
 
 public interface MemberService {
-//    Member findAnyMember();
+    Member findAnyMember();
 
     List<MemberDTO> getUserList();
 
@@ -20,8 +20,6 @@ public interface MemberService {
     boolean requestUserDelete(Long userId);
 
     Long getBalance(String nickname);
-
-    Long getBalanceByEmail(String email);
 
     void addBalance(Long userId, Long amount);
 

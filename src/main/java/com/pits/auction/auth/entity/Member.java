@@ -58,7 +58,7 @@ public class Member {
 
 
     /* 다른 테이블과 관계 설정 */
-    
+
     // 해당 회원의 입찰 정보
     @JsonIgnore
     @OneToMany(mappedBy = "bidder", cascade = CascadeType.REMOVE)
@@ -81,8 +81,24 @@ public class Member {
 
     // 찜목록
     @JsonIgnore
-    @OneToMany(mappedBy = "memberEmail")
+    @OneToMany(mappedBy = "memberNickname")
     private List<WishList> wishList;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

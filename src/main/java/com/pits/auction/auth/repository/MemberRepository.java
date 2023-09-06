@@ -1,6 +1,5 @@
 package com.pits.auction.auth.repository;
 
-import com.pits.auction.auth.dto.MemberDTO;
 import com.pits.auction.auth.entity.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
@@ -26,5 +24,16 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Page<Member> findByWithdrawalRequestedTrue(Pageable pageable);
     Page<Member> findAll(Pageable pageable);
 
-    Optional<Member> findByEmail(String currentUserEmail);
+
+
+
+
+
+
+
+
+
+
+
+
 }

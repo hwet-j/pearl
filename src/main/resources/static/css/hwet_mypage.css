@@ -302,8 +302,3 @@ body {
 .transaction-container {
     color: white; /* 기본 글자색을 흰색으로 설정 */
 }
-
-
-.playButton{
-    cursor: pointer;
-}

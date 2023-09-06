@@ -2,69 +2,233 @@
 <head>
     <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
     <meta name ="google-signin-client_id" content="586096079058-34vgr814kbss8tq4bfslna3iqmhis19j.apps.googleusercontent.com">
-
+    <link href="/css/plLogin.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
     <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if there's any visible error on the page
+            var errors = document.querySelectorAll('.error');
+            for (var i = 0; i < errors.length; i++) {
+                if (errors[i].innerText.trim() !== "") {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Log in & Sign up failed.'
+                    })
+                    break;
+                }
+            }
+        });
 
-<script>
-    window.Kakao.init("fbd056eb6fd1e2a0120b772cdc3a7221");
 
-    function kakaoLogin() {
-      window.Kakao.Auth.login({
-        scope: "profile_nickname, profile_image",
-        success: (authObj) => {
-          console.log("authObj : ");
-          console.log(authObj);
+    </script>
+    <script>
+        window.Kakao.init("fbd056eb6fd1e2a0120b772cdc3a7221");
 
-          // 백한테 authobj 속 access토큰만 줌
-          // 그 후 authorize를 통해 확인
-          window.Kakao.API.request({
-            url: "/v2/user/me",
-            success: (res) => {
-              console.log("success: ");
-              console.log(res);
-              window.location.href = "/";
-              // 사용자 정보를 백엔드로 전송하는 로직
-                        sendUserInfoToBackend(res);
+        function kakaoLogin() {
+          window.Kakao.Auth.login({
+            scope: "profile_nickname, profile_image",
+            success: (authObj) => {
+              console.log("authObj : ");
+              console.log(authObj);
+
+              // 백한테 authobj 속 access토큰만 줌
+              // 그 후 authorize를 통해 확인
+              window.Kakao.API.request({
+                url: "/v2/user/me",
+                success: (res) => {
+                  console.log("success: ");
+                  console.log(res);
+                  window.location.href = "/";
+                  // 사용자 정보를 백엔드로 전송하는 로직
+                            sendUserInfoToBackend(res);
+                },
+                fail: (res) => {
+                  console.log(res);
+
+                },
+              });
             },
-            fail: (res) => {
-              console.log(res);
-
-            },
-          });
-        },
-      });
-    }
-
-
-
-</script>
-
-
-
-    <script type ="text/javascript">
-function onSignIn(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-
-
-
-  }
-
-        function onLoad() {
-          gapi.load('auth2', function() {
-            gapi.auth2.init();
-            success: (res) => {
-              console.log("success: ");
-              console.log(res);
-              window.location.href = "/";
           });
         }
+
+
+    </script>
+    <script>
+        function findID() {
+
+          var newWindow = window.open('/user/findId', '_blank', 'width=400, height=500,top=100,left=100');
+
+          if (newWindow === null || typeof newWindow === 'undefined') {
+            alert('팝업 차단이 활성화되어 있을 수 있습니다. 팝업 차단을 해제하고 다시 시도하세요.');
+          }
+        }
+
+
+
+         function findPw() {
+
+          var newWindow = window.open('/user/findPw', '_blank', 'width=400, height=500,top=100,left=100');
+
+          if (newWindow === null || typeof newWindow === 'undefined') {
+            alert('팝업 차단이 활성화되어 있을 수 있습니다. 팝업 차단을 해제하고 다시 시도하세요.');
+          }
+        }
+
     </script>
 
 
+    <script>
+
+
+
+
+        /*global $, document, window, setTimeout, navigator, console, location*/
+    $(document).ready(function () {
+
+        'use strict';
+
+        var usernameError = true,
+            emailError    = true,
+            passwordError = true,
+            passConfirm   = true;
+
+        // Detect browser for css purpose
+        if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+            $('.form form label').addClass('fontSwitch');
+        }
+
+        // Label effect
+        $('input').focus(function () {
+
+            $(this).siblings('label').addClass('active');
+        });
+
+        // Form validation
+        $('input').blur(function () {
+
+            // User Name
+            if ($(this).hasClass('name')) {
+                if ($(this).val().length === 0) {
+                    $(this).siblings('span.error').text('Please type your full name').fadeIn().parent('.form-group').addClass('hasError');
+                    usernameError = true;
+                } else if ($(this).val().length > 1 && $(this).val().length <= 6) {
+                    $(this).siblings('span.error').text('Please type at least 6 characters').fadeIn().parent('.form-group').addClass('hasError');
+                    usernameError = true;
+                } else {
+                    $(this).siblings('.error').text('').fadeOut().parent('.form-group').removeClass('hasError');
+                    usernameError = false;
+                }
+            }
+            // Email
+            if ($(this).hasClass('email')) {
+                if ($(this).val().length == '') {
+                    $(this).siblings('span.error').text('Please type your email address').fadeIn().parent('.form-group').addClass('hasError');
+                    emailError = true;
+                } else {
+                    $(this).siblings('.error').text('').fadeOut().parent('.form-group').removeClass('hasError');
+                    emailError = false;
+                }
+            }
+
+            // PassWord
+            if ($(this).hasClass('pass')) {
+                if ($(this).val().length == 0) {
+                    $(this).siblings('span.error').text('Please type your password').fadeIn().parent('.form-group').addClass('hasError');
+                    passwordError = true;
+                } else {
+                    $(this).siblings('.error').text('').fadeOut().parent('.form-group').removeClass('hasError');
+                    passwordError = false;
+                }
+            }
+
+            // PassWord confirmation
+            if ($('.pass').val() !== $('.passConfirm').val()) {
+                $('.passConfirm').siblings('.error').text('Passwords don\'t match').fadeIn().parent('.form-group').addClass('hasError');
+                passConfirm = false;
+            } else {
+                $('.passConfirm').siblings('.error').text('').fadeOut().parent('.form-group').removeClass('hasError');
+                passConfirm = false;
+            }
+
+
+
+
+
+
+
+            // label effect
+            if ($(this).val().length > 0) {
+                $(this).siblings('label').addClass('active');
+            } else {
+                $(this).siblings('label').removeClass('active');
+            }
+        });
+
+
+        // form switch
+        $('a.switch').click(function (e) {
+            $(this).toggleClass('active');
+            e.preventDefault();
+
+            if ($('a.switch').hasClass('active')) {
+                $(this).parents('.form-peice').addClass('switched').siblings('.form-peice').removeClass('switched');
+            } else {
+                $(this).parents('.form-peice').removeClass('switched').siblings('.form-peice').addClass('switched');
+            }
+        });
+
+
+        // Form submit
+        $('form.signup-form').submit(function (event) {
+            event.preventDefault();
+
+            if (usernameError == true || emailError == true || passwordError == true || passConfirm == true) {
+                $('.name, .email, .pass, .passConfirm').blur();
+            } else {
+                $('.signup, .login').addClass('switched');
+
+                setTimeout(function () { $('.signup, .login').hide(); }, 700);
+                setTimeout(function () { $('.brand').addClass('active'); }, 300);
+                setTimeout(function () { $('.heading').addClass('active'); }, 600);
+                setTimeout(function () { $('.success-msg p').addClass('active'); }, 900);
+                setTimeout(function () { $('.success-msg a').addClass('active'); }, 1050);
+                setTimeout(function () { $('.form').hide(); }, 700);
+            }
+        });
+
+        // Reload page
+        $('a.profile').on('click', function () {
+            location.reload(true);
+        });
+
+
+    });
+    </script>
+
+
+    <script>
+        window.addEventListener('load', function () {
+
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // 페이지 로드가 완료된 후에 실행되는 코드
+            var myForm = document.getElementById('myForm');
+            if (myForm) {
+                myForm.addEventListener('submit', function (e) {
+                    // 폼 제출 이벤트 핸들러
+                    e.preventDefault();
+                    console.log(myForm);
+                    console.log(myForm);
+
+                    myForm.submit();
+                });
+            }
+        });
+    </script>
 
 
 
@@ -72,58 +236,149 @@ function onSignIn(googleUser) {
 
 
 <body>
-<div class=" " layout:fragment="content">
-    <div class="">
-        <div>
-            <h4>로그인</h4>
-        </div>
-    </div>
-    <form method="post" th:action="@{/user/plLogin}">
-        <div th:if="${param.error}">
-            <div class="">
-                사용자ID 또는 비밀번호를 확인해주세요.
+
+
+
+
+<div class="nav1" layout:fragment="content" >
+    <div class="container" >
+
+        <section id="formHolder">
+
+            <div class="row">
+
+                <!-- Brand Box -->
+                <div class="col-sm-6 brand">
+
+
+                    <div class="heading">
+                        <h2>Pearl In <br>The Soil</h2>
+                        <p>Your Right Choice</p>
+                    </div>
+
+                    <div class="success-msg">
+                        <p>Great! You are one of our members now</p>
+                        <a href="#" class="profile">Your Profile</a>
+                    </div>
+                </div>
+
+                <!-- Form Box -->
+                <div class="col-sm-6 form">
+
+                    <!-- Login Form -->
+                    <div class="login form-peice">
+                        <form class="login-form" method="post" th:action="@{/user/plLogin}">
+                            <div class="form-group">
+                                <label class="email" for="username">E-mail</label>
+                                <input class="mailbox" id="username" name="username" type="text" required/>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="password" for="password">Password</label>
+                                <input id="password" name="password" type="password" required/>
+                            </div>
+
+                            <div th:if="${param.error}" class="error">
+                                <div>
+                                    이메일 또는 비밀번호를 확인해주세요.
+                                </div>
+                            </div>
+
+                            <div class="CTA">
+                                <input type="submit" value="LogIn"/>
+
+                                <a class="switch nav-link" th:href="@{/user/plJoin}">Sign In</a>
+                            </div>
+
+                            <div style="height:100px;"></div>
+
+                            <ul>
+                                <li>
+                                    <a onclick="findID()">Find Id</a>
+                                </li>
+                                <li>
+                                    <a onclick="findPw()">Find Password</a>
+                                </li>
+                            </ul>
+
+                            <a class="loginKakao" href="javascript:kakaoLogin();">kakao</a>
+                        </form>
+                    </div>
+
+
+
+
+
+
+
+                    <!-- Signup Form -->
+                    <div class="signup form-peice switched">
+                        <form class="signup-form" id="myForm" th:object="${userCreateForm}" th:action="@{/user/plJoin2}" method="post">
+
+                            <div class="form-group">
+                                <label for="email" class="">EMAIL ADDRESS</label>
+                                <input type="email" th:field="*{email}"  name="emailAdress" id="email" class="email" required/>
+                                <div style="color:red;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></div>
+                                <span class="error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password1" class="">PASSWORD</label>
+                                <input type="password" th:field="*{password1}"  name="password" id="password" class="pass" required/>
+                                <!--<div style="color:red;" th:if="${#fields.hasErrors('password1')}" th:errors="*{password1}" class="error"></div>-->
+                                <span class="error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password2" class="">CONFIRM PASSWORD</label>
+                                <input type="password" th:field="*{password2}"  name="passwordCon" id="passwordCon" class="passConfirm" required/>
+                                <!--<div style="color:red;" th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}" class="error"></div>-->
+                                <span class="error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="nickname" class="">NICK NAME</label>
+                                <input type="text" th:field="*{nickname}"  class="" required/>
+                                <!--<div style="color:red;" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}" class="error"></div>-->
+                                <span class="error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phoneNumber" class="">PHONE NUMBER (010-0000-0000)</label>
+                                <input type="text" th:field="*{phoneNumber}"  name="phone" id="phone" required/>
+                               <div style="color:red; font-size:10px;" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="error"></div>
+                                <span class="error"></span>
+                            </div>
+
+
+                            <div style="color:red; font-size:10px;" th:if="${#fields.hasErrors('passwordConfirmed')}" th:errors="*{passwordConfirmed}" class="error"></div>
+                            <div style="color:red; font-size:10px;" th:if="${joinFailed != null}" th:text="${joinFailed}" class="error"></div>
+
+
+                            <div class="CTA">
+                                <input type="submit" value="Signup Now">
+                                <a href="#" class="switch">I have an account</a>
+                            </div>
+                        </form>
+                        <!-- End Signup Form -->
+
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div class="">
-            <label class="" for="username">이메일</label>
-            <input class=""  id="username" name="username" type="text"/>
-        </div>
-        <div class="">
-            <label class="" for="password">비밀번호</label>
-            <input class=""  id="password" name="password" type="password"/>
-        </div>
+        </section>
 
 
-        <li class="">
-            <input class="" type="submit" value="로그인"/>
-            <a class="nav-link" th:href="@{/user/plJoin}">회원가입</a>
-        </li>
-    </form>
+        <footer>
+            <p>
 
-
-    <a class="loginKakao" href="javascript:kakaoLogin();">
-        kakao
-    </a>
-
-
-
-    <div class="g-signin2" data-onsuccess="onSignIn" ></div>
-
-
-
-
-    <!--<a class="logoutKakao" href="javascript:kakaoLogout();">
-        <i class="fab fa-facebook-square"></i> kakao로 로그아웃
-    </a>-->
-
-
+            </p>
+        </footer>
+    </div>
 
 </div>
-
-
-
 </body>
+
+
 
 
 </html>

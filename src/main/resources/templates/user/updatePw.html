@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>비밀번호 업데이트</title>
+</head>
+<body>
+<h2>비밀번호 업데이트</h2>
+
+
+
+<p>이메일: <span th:text="${email}"></span></p>
+
+<form id="updateForm" th:action="@{/user/updatePw}" th:object="${userCreateForm2}" method="post">
+    <input type="hidden" name="email" th:value="${email}">
+
+    <dlv class="">
+        <label for="newPassword1">새 비밀번호</label>
+        <input type="password" th:field="*{newPassword1}" id="newPassword1" name="newPassword1" required>
+       <!-- <div style="color:red;" th:if="${#fields.hasErrors('ndwPassword1')}" th:errors="*{newPassword1}" class="error"></div>-->
+    </dlv>
+
+    <dlv class="">
+        <label for="newPassword2">새 비밀번호 확인</label>
+        <input type="password" th:field="*{newPassword2}" id="newPassword2" name="newPassword2" required>
+      <!--  <div style="color:red;" th:if="${#fields.hasErrors('newPassword2')}" th:errors="*{newPassword2}" class="error"></div>-->
+    </dlv>
+
+    <div>
+        <button type="submit">업데이트</button>
+    </div>
+</form>
+
+<div id="updateResult">
+    <!-- 업데이트 결과는 여기에 표시 -->
+</div>
+</body>
+</html>

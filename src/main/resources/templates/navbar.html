@@ -1,6 +1,9 @@
 <html>
 
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
     <script>
 
@@ -12,36 +15,41 @@
 
 
 <nav class="" th:fragment="navbarFragment"
-     xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
-    <div class="">
-        <a class="" href="/" th:href="@{/}">LOGO</a>
+     xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml" style="width:1920px;height: 100px; float: left; background-color: none;">
+    <div class="bigBox">
 
-        <div class="" id="">
-            <ul class="">
+
+
+            <ul class="" style="list-style-type:none;">
                 <li class="nav-item">
                     <!-- 타임리프의 security이용
                     sec:authorize="isAnonymous()은 로그인하지않는 경우->로그인 출력
                     sec:authorize="isAuthenticated()은 로그인한 경유->로그아웃 출력
                     -->
-                    <a class="" sec:authorize="isAnonymous()" th:href="@{/user/plLogin}">로그인</a>
-                    <a class="" sec:authorize="isAuthenticated()"  th:href="@{/user/plLogout}">로그아웃</a>
-                    <a class="" sec:authorize="isAuthenticated()" th:href="@{/plMypage}">마이페이지</a>
-                    <a class="" sec:authorize="isAuthenticated()" th:href="@{/write}">작성페이지</a>
+                    <a class="logo" href="/" th:href="@{/}"><img src="/pictures/logo.png" style="float:left; margin-left:150px; margin-top:50px;"></a>
+
+                    <a class="loginBtn" sec:authorize="isAnonymous()" th:href="@{/user/plLogin}"
+                       style="position: absolute; text-decoration:none; margin-left: 1400px; margin-top: 70px;  font-size: 25px; color:white; font-family: 'Roboto', sans-serif;">LogIn</a>
+                    <a class="" sec:authorize="isAuthenticated()" th:href="@{/plMypage}"
+                       style="text-decoration:none; float:left; margin-top: 70px; font-size: 25px; color:white; margin-left: 1260px; font-family: 'Roboto', sans-serif;">MyPage</a>
+                    <a class="" sec:authorize="isAuthenticated()"  th:href="@{/user/plLogout}"
+                       style="text-decoration:none; float:left; margin-top: 70px; font-size: 25px; color:white; margin-left: 50px; font-family: 'Roboto', sans-serif;">LogOut</a>
+
 
                     <!-- 카카오 로그인 후 로그인/로그아웃 링크 변경 -->
 
-                    <a class="logoutKakao" href="javascript:kakaoLogout();" >
+                   <!-- <a class="logoutKakao" href="javascript:kakaoLogout();" >
                         로그아웃
-                    </a>
+                    </a>-->
 
 
-                    <a href="/" onclick="signOut();">Sign out</a>
+
 
                 </li>
 
             </ul>
 
-        </div>
+
     </div>
 
 

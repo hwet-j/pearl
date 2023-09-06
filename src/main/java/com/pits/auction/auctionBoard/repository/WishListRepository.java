@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface WishListRepository extends JpaRepository<WishList, Long> {
 
@@ -19,5 +21,9 @@ public interface WishListRepository extends JpaRepository<WishList, Long> {
     @Modifying
     @Query("DELETE FROM WishList w WHERE w.memberEmail = ?1 AND w.auctionId = ?2")
     void deleteByMemberEmailAndAuctionId(Member memberEmail, MusicAuction auctionId);
+
+
+    List<WishList> findByMemberEmailEmail(String email);
+
 
 }

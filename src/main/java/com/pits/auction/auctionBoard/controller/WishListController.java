@@ -30,12 +30,6 @@ public class WishListController {
 
         String message = wishListService.clickWishButton(email, auctionId);
 
-        System.out.println(message);
-        System.out.println(message);
-        System.out.println(message);
-        System.out.println(message);
-        System.out.println(message);
-
-        return "myPage/userRead";
+        return "redirect:/detail?id=" + auctionId;
     }
 }

@@ -54,8 +54,9 @@ public class ImageUpload {
         }
 
         // 동일한 파일명이 들어올 가능성이 있기 때문에 UUID를 사용해서 고유한 파일명을 생성한다.
-        String uniqueFileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-        String filePath = uploadDirectory + File.separator + uniqueFileName;
+        //String uniqueFileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+        //String filePath = uploadDirectory + File.separator + uniqueFileName;
+        String filePath = uploadDirectory + File.separator + file.getOriginalFilename();
         File dest = new File(filePath);
 
         try {
@@ -64,6 +65,6 @@ public class ImageUpload {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "\\images"  + saveFolder + "\\" + uniqueFileName;
+        return "\\images"  + saveFolder + "\\" + file.getOriginalFilename();
     }
 }

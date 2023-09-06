@@ -239,9 +239,13 @@ public class MusicAuctionController {
             // 오디오 파일이 제출되지 않은 경우, 이전 오디오 경로를 그대로 사용
             musicAuctionDTO2.setAlbumMusicPath(existingAuction.getAlbumMusicPath());
         }
+        System.out.println("DTO2="+musicAuctionDTO2.getBiddingPeriod());
+        System.out.println("DTO2="+musicAuctionDTO2.getBiddingPeriod());
+        System.out.println("DTO2="+musicAuctionDTO2.getBiddingPeriod());
+        System.out.println("DTO2="+musicAuctionDTO2.getBiddingPeriod());
         musicAuctionService.editMusicAuction(musicAuctionDTO2,id);
 
-        return String.format("redirect:/edit/%d",id);
+        return String.format("redirect:/detail?id=%d",id);
     }
 
 }

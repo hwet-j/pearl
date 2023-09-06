@@ -171,25 +171,36 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
         return dto;
     }
 
-    public void editMusicAuction(MusicAuctionDTO2 musicAuctionDTO2, Long id){
-        Optional<MusicAuction> optionalMusicAuction=musicAuctionRepository.findById(id);
-        if(optionalMusicAuction.isPresent()){
-            MusicAuction musicAuction=optionalMusicAuction.get();
-            Optional<MusicGenre> musicGenre=musicGenreRepository.findById(musicAuctionDTO2.getGenre());
+
+
+    public void editMusicAuction(MusicAuctionDTO2 musicAuctionDTO2, Long id) {
+        Optional<MusicAuction> optionalMusicAuction = musicAuctionRepository.findById(id);
+
+        if (optionalMusicAuction.isPresent()) {
+            MusicAuction musicAuction = optionalMusicAuction.get();
+            Optional<MusicGenre> musicGenre = musicGenreRepository.findById(musicAuctionDTO2.getGenre());
+
             musicAuction.setTitle(musicAuctionDTO2.getTitle());
             musicAuction.setAlbumImage(musicAuctionDTO2.getAlbumImagePath());
             musicAuction.setAlbumMusic(musicAuctionDTO2.getAlbumMusicPath());
             musicAuction.setContent(musicAuctionDTO2.getContent());
             musicAuction.setStartingBid(musicAuctionDTO2.getStartingBid());
-            BiddingPeriod biddingPeriod=new BiddingPeriod();
-            biddingPeriod.setId(musicAuctionDTO2.getBiddingPeriod());
-            musicAuction.setBiddingPeriod(biddingPeriod);
-            Optional<Member> member=memberRepository.findByNickname(musicAuctionDTO2.getAuthorNickname());
-            if(member.isPresent()){
-            musicAuction.setAuthorNickname(member.get());}
-            if(musicGenre.isPresent()){
-            musicAuction.setGenre(musicGenre.get());}
+            // 업데이트된 biddingPeriod 설정
+            Optional<BiddingPeriod> optionalBiddingPeriod=biddingPeriodRepository.findById(musicAuctionDTO2.getBiddingPeriod());
+            if(optionalBiddingPeriod.isPresent()) {
+                musicAuction.setBiddingPeriod(optionalBiddingPeriod.get());
+            }
+
+            Optional<Member> member = memberRepository.findByNickname(musicAuctionDTO2.getAuthorNickname());
+            if (member.isPresent()) {
+                musicAuction.setAuthorNickname(member.get());
+            }
+            if (musicGenre.isPresent()) {
+                musicAuction.setGenre(musicGenre.get());
+            }
+            // 업데이트된 정보를 사용하여 endTime 업데이트
             musicAuctionRepository.save(musicAuction);
+
         }
     }
 

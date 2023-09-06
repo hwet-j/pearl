@@ -20,7 +20,7 @@
             <p><label>Period</label>
             <div th:each="period : ${biddingPeriods}" class="radio-item">
                 <input type="radio" id="period_${period.id}" name="biddingPeriod" th:value="${period.id}" th:field="*{biddingPeriod}" />
-                <label th:for="'period_' + ${period.id}" th:text="${period.periodValue}"></label>
+                <label th:for="'period_' + ${period.id}" th:text="${period.periodValue}" ></label>
             </div></p>
 
             <p><label for="startingBid">Start Price</label><br>
@@ -67,7 +67,7 @@
                 <p>Music</p>
                 <p>
                     <input type="file" id="albumMusic" name="albumMusic" accept="audio/*" th:value="${musicAuction.albumMusic}" style="display: none;">
-                    <input type="text" id="albumMusicName" th:value="${musicAuction.albumMusic}" readonly>
+                    <input type="text" id="albumMusicName" th:value="${musicAuction.albumMusic}" style="border:none; outline:none" readonly>
                     <br>
                     <label for="albumMusic" class="custom-file-upload">Attachment</label>
                 </p>

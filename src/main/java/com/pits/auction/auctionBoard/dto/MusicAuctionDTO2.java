@@ -1,6 +1,7 @@
 package com.pits.auction.auctionBoard.dto;
 
 
+import com.pits.auction.auctionBoard.entity.BiddingPeriod;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
@@ -18,10 +19,8 @@ public class MusicAuctionDTO2 {
     private String albumMusicPath;
     private String content;
     private String authorNickname;  // 사용자의 닉네임. 사용자 인증이 있을 경우, 세션에서 이 값을 가져올 수도 있습니다.
-
     @Min(value = 10000, message = "입찰 시작 최소 가격은 10000원입니다")
     private Long startingBid;
-
     private Long biddingPeriod;
 
 }

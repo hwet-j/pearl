@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,23 +27,25 @@ public class WishListServiceImpl implements WishListService{
 
     @Override
     public String clickWishButton(String email, Long auctionId) {
+
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
 
         MusicAuction auction = musicAuctionRepository.findById(auctionId)
                 .orElseThrow(() -> new EntityNotFoundException("Auction not found"));
 
+
         WishList wishList = new WishList();
 
         if(optionalMember.isPresent()){
             Member member = optionalMember.get();
-
-            if (countByMemberNicknameAndAuctionId(member,auction) == 0){ // 해당 회원이 특정 경매글에 대한 찜 정보가 없으면 기능 찜 등록 수행
+            if (countByMemberNicknameAndAuctionId(member,auction) == 0){        // 해당 회원이 특정 경매글에 대한 찜 정보가 없으면 기능 찜 등록 수행
                 wishList.setMemberEmail(member);
                 wishList.setAuctionId(auction);
                 wishList.setAddedAt(LocalDateTime.now());
                 wishListRepository.save(wishList);
+
                 return "Add";
-            } else if (countByMemberNicknameAndAuctionId(member,auction) == 1){ // 찜 등록되어있으면 삭제 
+            } else if (countByMemberNicknameAndAuctionId(member,auction) == 1){ // 찜 등록되어있으면 삭제
                 wishListRepository.deleteByMemberEmailAndAuctionId(member,auction);
                 return "Delete";
             } else {
@@ -56,6 +60,26 @@ public class WishListServiceImpl implements WishListService{
     @Override
     public long countByMemberNicknameAndAuctionId(Member member, MusicAuction auction){
         return wishListRepository.countByMemberEmailAndAuctionId(member, auction);
+    }
+
+    @Override
+    public List<WishList> findByMemberEmailEmail(String email) {
+        return wishListRepository.findByMemberEmailEmail(email);
+    }
+
+    @Override
+    public List<MusicAuction> getMusicAuctionsByEmail(String email) {
+        List<WishList> wishLists = wishListRepository.findByMemberEmailEmail(email);
+        List<MusicAuction> musicAuctions = new ArrayList<>();
+
+        for (WishList wishList : wishLists) {
+            MusicAuction musicAuction = wishList.getAuctionId();
+            if (musicAuction != null) {
+                musicAuctions.add(musicAuction);
+            }
+        }
+
+        return musicAuctions;
     }
 
 }

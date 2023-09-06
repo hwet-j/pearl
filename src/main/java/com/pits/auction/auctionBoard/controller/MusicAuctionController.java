@@ -18,6 +18,8 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -149,7 +151,17 @@ public class MusicAuctionController {
                 model.addAttribute("maxBiddingPrice", biddingService.getMaxBidPriceForAuction(musicAuction.getId()));
             }
 
-            model.addAttribute("wish",wishListService.countByMemberNicknameAndAuctionId(musicAuction.getAuthorNickname(),musicAuction));
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+            if (authentication != null && authentication.isAuthenticated()) {
+                String email = authentication.getName();
+                Optional<Member> optionalMember = memberRepository.findByEmail(email);
+
+                // 사용자 정보가 존재하는 경우에만 처리
+                if (optionalMember.isPresent()) {
+                    model.addAttribute("wish", wishListService.countByMemberNicknameAndAuctionId(optionalMember.get(), musicAuction));
+                }
+            }
 
             model.addAttribute("genre", musicAuction.getGenre().getName());
             model.addAttribute("musicAuction", musicAuction);
@@ -173,28 +185,6 @@ public class MusicAuctionController {
         return  "/auction/detail";
     }
 
-
-    /* 동적 시간 구현 -> 실질적인 기능은 HTML의 script에서 구현되어있고 여기서는 현재시간과 설정시간의 차이를 초단위로 변환 */
-    @GetMapping("/clocktest")
-    public String showClock(Model model) {
-
-        long currentTimeMillis = System.currentTimeMillis();
-        // 특정 시간을 설정
-        int specificYear = 2023;
-        int specificMonth = 8;
-        int specificDay = 30;
-        int specificHour = 12;
-        int specificMinute = 0;
-        int specificSecond = 0;
-
-        LocalDateTime specificDateTime = LocalDateTime.of(specificYear, specificMonth, specificDay, specificHour, specificMinute, specificSecond);
-        long specificTimeMillis = specificDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        long timeDifferenceSeconds = (specificTimeMillis - currentTimeMillis) / 1000; // 밀리초를 초로 변환
-
-
-        model.addAttribute("timeDifference", timeDifferenceSeconds);
-        return "/myPage/clockTest";
-    }
 
     /* 음악 목록 페이지 가져오기  > 무한 스크롤 구현하여 폐기*/
  /*   @GetMapping("/list")

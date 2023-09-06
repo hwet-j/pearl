@@ -135,8 +135,24 @@
         <div class="inner-divider"></div>
 
         <!-- 우측 하단 찜 목록 -->
-        <div class="lower-side">
+        <div class="lower-side" th:if="${!wishLists.isEmpty()}">
             <h1 th:text="|Wish List|"></h1>
+
+            <div class="image-container">
+                <div class="image-with-text" th:each="musicAuction : ${wishLists}">
+                    <img class="wish-image" th:src="@{__${musicAuction.albumImage}__}" onError="this.src='/pictures/auction.jpg';" alt="Image">
+                    <audio id="audio" controls>
+                        <source th:src="@{__${musicAuction.albumMusic}__}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p th:text="${musicAuction.title}"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="lower-side" th:if="${wishLists.isEmpty()}">
+            <h1 th:text="|Wish List|"></h1>
+
             <div class="image-container">
                 <div class="image-with-text">
                     <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" onError="this.src='/pictures/auction.jpg';" alt="Image">
@@ -158,9 +174,6 @@
                     <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" onError="this.src='/pictures/auction.jpg';" alt="Image">
                     <p>Title for Image 5</p>
                 </div>
-            </div>
-            <div>
-
             </div>
         </div>
 

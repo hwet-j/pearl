@@ -1,24 +1,32 @@
 package com.pits.auction.auth.controller;
 
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
+import com.pits.auction.auctionBoard.entity.WishList;
 import com.pits.auction.auctionBoard.service.BiddingService;
 import com.pits.auction.auctionBoard.service.MusicAuctionService;
+import com.pits.auction.auctionBoard.service.WishListService;
 import com.pits.auction.auth.dto.MemberDTO;
+import com.pits.auction.auth.entity.Member;
+import com.pits.auction.auth.repository.MemberRepository;
 import com.pits.auction.auth.service.MemberService;
 import com.pits.auction.auth.validation.MemberEditValidator;
 import com.pits.auction.global.exception.InsufficientBalanceException;
 import com.pits.auction.global.exception.PhoneNumberDuplicateException;
-import com.pits.auction.global.upload.AudioUpload;
 import com.pits.auction.global.upload.ImageUpload;
 import jakarta.annotation.security.PermitAll;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -29,6 +37,8 @@ public class MyPageController {
     private final MemberService memberService;
     private final BiddingService biddingService;
     private final MusicAuctionService musicAuctionService;
+    private final WishListService wishListService;
+    private final MemberRepository memberRepository;
     private final ImageUpload imageUpload;
 
     /* 유저 전체 리스트 - 마이페이지에서는 필요없으나 테스트를 위해 작성 */
@@ -45,8 +55,22 @@ public class MyPageController {
     @GetMapping("/userinfo")
     public String getUserInfo(@RequestParam("userId") Long userId, Model model) {
 
+        // 시큐리티 적용시 수정 해야함
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String email = null;
+        MemberDTO userInfo = null;
+        if (authentication != null && authentication.isAuthenticated()) {
+            email = authentication.getName();
+            Optional<Member> optionalMember = memberRepository.findByEmail(email);
+
+            if (optionalMember.isPresent()) {
+                userId = optionalMember.get().getId();
+            }
+        }
+
         // 회원 정보
-        MemberDTO userInfo = memberService.getUserInfo(userId);
+        userInfo = memberService.getUserInfo(userId);
         model.addAttribute("userInfo",userInfo);
 
         // 입찰중인 경매물품 - 마지막에 입찰한 물품 하나
@@ -60,10 +84,10 @@ public class MyPageController {
             // 해당 물품 입찰 최고가
             model.addAttribute("maxPrice",biddingService.getMaxBidPriceForAuction(auction.getId()));
             model.addAttribute("myPrice",musicAuctionService.findLastBidPriceByNickname(userInfo.getNickname()));
-        } else {
-            // auction 객체가 null인 경우에 수행할 로직
-            // 예: 다른 기본값 설정 또는 에러 메시지 등
         }
+
+        // 찜목록
+        model.addAttribute("wishLists", wishListService.getMusicAuctionsByEmail(userInfo.getEmail()));
 
         return "/myPage/userRead";
     }
@@ -90,7 +114,6 @@ public class MyPageController {
                                Model model) {
 
 
-        System.out.println(imageFile);
         // 비밀번호 유효성 검사 에러가 있는지 확인
         if (bindingResult.hasErrors()) {
 

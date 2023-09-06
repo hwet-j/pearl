@@ -92,7 +92,8 @@ body {
 
 
 .container {
-  max-width: 1200px;
+  margin-left: 400px;
+  max-width: 1300px;
 
 }
 
@@ -126,7 +127,7 @@ section#formHolder {
     position: relative;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
     transition: all 0.6s cubic-bezier(1, -0.375, 0.285, 0.995);
-    z-index: 9999;
+    z-index: 1;
     margin-top: 60px;
     }
 
@@ -142,12 +143,12 @@ section#formHolder {
   position: absolute;
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(115, 82, 191, 0.9);
   z-index: -1;
 }
 
 .brand a.logo {
-  color: #f95959;
+  color: #9A6DFF;
   font-size: 20px;
   font-weight: 700;
   text-decoration: none;
@@ -162,6 +163,7 @@ section#formHolder {
 }
 
 .brand .heading {
+
   position: absolute;
   top: 50%;
   left: 50%;
@@ -178,7 +180,7 @@ section#formHolder {
 
 .brand .heading h2 {
   font-size: 70px;
-
+  font-weight: 600;
   text-transform: uppercase;
   margin-bottom: 0;
 }
@@ -237,17 +239,21 @@ section#formHolder {
 
 
  .form .form-peice {
-     background: #fff;
-     min-height: 600px;
-     margin-top: 100px;
-     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+     /*background: #fff;*/
+     background-image: url("/pictures/Record.png");
+      background-size: cover; /* 이미지 크기를 컨테이너 크기에 맞게 조절 */
+          background-repeat: no-repeat; /* 이미지가 반복되지 않도록 */
+          background-position: center center; /* 이미지를 중앙에 위치시킴 */
+     min-height: 670px;
+     margin-top: 60px;
+
      color: #bbbbbb;
      padding: 30px 0 60px;
      transition: all 0.9s cubic-bezier(1, -0.375, 0.285, 0.995);
      position: absolute;
      top: 0;
-     left: -30%;
-     width: 130%;
+     left: -20%;
+     width: 100%;
      overflow: hidden;
 }
 
@@ -255,15 +261,16 @@ section#formHolder {
   transform: translateX(-100%);
   width: 100%;
   left: 0;
+
 }
 
 .form form {
   padding: 0 40px;
   margin: 0;
-  width: 70%;
+  width: 50%;
   position: absolute;
   top: 50%;
-  left: 60%;
+  left: 50%;
   transform: translate(-50%, -50%);
 }
 
@@ -273,14 +280,15 @@ section#formHolder {
 }
 
 .form form .form-group.hasError input {
-  border-color: #f95959 !important;
+  border-color: #9A6DFF !important;
 }
 
 .form form .form-group.hasError label {
-  color: #f95959 !important;
+  color: #9A6DFF !important;
 }
 
 .form form label {
+color: white;
   font-size: 12px;
   font-weight: 400;
   text-transform: uppercase;
@@ -309,18 +317,18 @@ section#formHolder {
   padding: 10px 0;
   width: 100%;
   border-bottom: 1px solid #eee;
-  color: #444;
+  color: white;
   font-size: 15px;
   font-family: 'Montserrat', sans-serif;
   z-index: 1;
 }
 
 .form form input.hasError {
-  border-color: #f95959;
+  border-color: #9A6DFF;
 }
 
 .form form span.error {
-  color: #f95959;
+  color: #9A6DFF;
   font-family: 'Montserrat', sans-serif;
   font-size: 12px;
   position: absolute;
@@ -330,7 +338,7 @@ section#formHolder {
 }
 
 .form form input[type=password] {
-  color: #f95959;
+  color: white;
 }
 
 .form form .CTA input {
@@ -338,7 +346,7 @@ section#formHolder {
   text-transform: uppercase;
   padding: 5px 30px;
   background:#9A6DFF;
-  color: #fff;
+  color: white;
   border-radius: 30px;
   margin-right: 20px;
   border: none;
@@ -350,12 +358,12 @@ section#formHolder {
   font-weight: 400;
   font-family: 'Montserrat', sans-serif;
   color: #bbbbbb;
-  text-decoration: underline;
+ text-decoration-line:none;
   transition: all 0.3s;
 }
 
 .form form .CTA a.switch:hover {
-  color: #f95959;
+  color: #9A6DFF;
 }
 
 footer {
@@ -363,9 +371,11 @@ footer {
 }
 
 footer p {
-  color: #777;
+  color: #9A6DFF;
 }
 
 footer p a,
 footer p a:focus {
-  color: #b8b09f;
+  color: #9A6DFF;
+  text-decoration-line:none;
+}

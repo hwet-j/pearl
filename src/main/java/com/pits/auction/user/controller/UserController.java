@@ -35,8 +35,8 @@ public class UserController {
 
 
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/findPassword")
     public String showFindPasswordPage() {
@@ -87,29 +87,30 @@ public class UserController {
         System.out.println(userCreateForm.getPhoneNumber());
 
         if(bindingResult.hasErrors()){
-            System.out.println("에러1");
+
+
             return "/user/plLogin";//templates폴더하위의 signup_form.html문서를 보여줘
         }
         try {
-            System.out.println("에러2");
+
             userService.create(userCreateForm.getNickname(),
                     userCreateForm.getEmail(),
                     userCreateForm.getPassword1(),
                     userCreateForm.getPhoneNumber());
         }catch (DataIntegrityViolationException e){
-            System.out.println("에러3");
+
             //여기에서는 username(회원id은 uk, email은 uk)->제약조건에 걸리면 발생
             e.printStackTrace();
             model.addAttribute("joinFailed", "이미 등록된 회원입니다.");
             return "/user/plLogin";// signup_form.html문서로 이동
         }catch (Exception e){
-            System.out.println("에러4");
+
             e.printStackTrace();
             model.addAttribute("joinFailed", "이미 등록된 회원입니다.");
 
             return "/user/plLogin";
         }
-        System.out.println("에러5");
+
         //3.Model //4.view
         return "redirect:/"; //회원가입성공시  메인화면으로 이동
     }

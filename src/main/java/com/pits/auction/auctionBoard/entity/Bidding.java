@@ -29,6 +29,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Table(name = "bidding")
+
 public class Bidding {
 
     @Id

@@ -2,15 +2,18 @@ package com.pits.auction.auctionBoard.service;
 
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO2;
+import com.pits.auction.auctionBoard.entity.BiddingPeriod;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
+import com.pits.auction.auctionBoard.entity.MusicAuctionProjection;
+import com.pits.auction.auctionBoard.entity.MusicGenre;
 import com.pits.auction.auctionBoard.repository.BiddingPeriodRepository;
 import com.pits.auction.auctionBoard.repository.BiddingRepository;
 import com.pits.auction.auctionBoard.repository.MusicAuctionRepository;
 import com.pits.auction.auctionBoard.repository.MusicGenreRepository;
-import com.pits.auction.auctionBoard.service.MusicAuctionService;
 import com.pits.auction.auth.entity.Member;
 import com.pits.auction.auth.repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -35,7 +38,7 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
     private final ModelMapper modelMapper;
 
     @Override
-    public boolean saveMusicAuction(MusicAuctionDTO2 musicAuctionDTO) {
+    public Long saveMusicAuction(MusicAuctionDTO2 musicAuctionDTO) {
         Member member = memberRepository.findByNickname(musicAuctionDTO.getAuthorNickname())
                 .orElseThrow(() -> new IllegalArgumentException("No member with nickname: " + musicAuctionDTO.getAuthorNickname()));
 
@@ -47,16 +50,13 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
                 .title(musicAuctionDTO.getTitle())
                 .authorNickname(member)
                 .startingBid(musicAuctionDTO.getStartingBid())
-                .biddingPeriod(biddingPeriodRepository.findById(musicAuctionDTO.getBiddingPeriod()).orElse(null)) // 여기서 findById를 사용하여 입찰 기간을 가져옵니다.
+                .biddingPeriod(biddingPeriodRepository.findById(musicAuctionDTO.getBiddingPeriod()).orElse(null))
                 .status("진행")
                 .build();
 
-        System.out.println(musicAuction.getBiddingPeriod().getPeriodValue());
-        System.out.println(musicAuction.getBiddingPeriod().getId());
-        System.out.println(musicAuction.getStatus());
-        musicAuctionRepository.save(musicAuction);
-        // DB에 저장
-        return true;
+        MusicAuction savedAuction = musicAuctionRepository.save(musicAuction);
+
+        return savedAuction.getId();
     }
 
 
@@ -87,6 +87,9 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
         long currentTimeMillis = System.currentTimeMillis();
 
         long specificTimeMillis = endTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        if ((specificTimeMillis - currentTimeMillis) < 0){
+            return null;
+        }
 
         return (specificTimeMillis - currentTimeMillis) / 1000;
     }
@@ -121,10 +124,23 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
     }
 
 
+
+
     @Override
-    public List<MusicAuction> findAllByOrderByEndTime() {
-        List<MusicAuction> musicAuctions=musicAuctionRepository.findAllByOrderByEndTime();
-        return musicAuctions;
+    @Transactional
+    public boolean updateStatus(Long id) {
+        Optional<MusicAuction> optionalMusicAuction =  musicAuctionRepository.findById(id);
+
+        if(optionalMusicAuction.isPresent()){
+            MusicAuction musicAuction = optionalMusicAuction.get();
+            if(LocalDateTime.now().isAfter(musicAuction.getEndTime())){
+                musicAuctionRepository.updateStatusById(id, "종료");
+                return true;
+            }
+        }
+
+
+        return false;
     }
 
 
@@ -154,4 +170,55 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
 
         return dto;
     }
+
+
+
+    public void editMusicAuction(MusicAuctionDTO2 musicAuctionDTO2, Long id) {
+        Optional<MusicAuction> optionalMusicAuction = musicAuctionRepository.findById(id);
+
+        if (optionalMusicAuction.isPresent()) {
+            MusicAuction musicAuction = optionalMusicAuction.get();
+            Optional<MusicGenre> musicGenre = musicGenreRepository.findById(musicAuctionDTO2.getGenre());
+
+            musicAuction.setTitle(musicAuctionDTO2.getTitle());
+            musicAuction.setAlbumImage(musicAuctionDTO2.getAlbumImagePath());
+            musicAuction.setAlbumMusic(musicAuctionDTO2.getAlbumMusicPath());
+            musicAuction.setContent(musicAuctionDTO2.getContent());
+            musicAuction.setStartingBid(musicAuctionDTO2.getStartingBid());
+            // 업데이트된 biddingPeriod 설정
+            Optional<BiddingPeriod> optionalBiddingPeriod=biddingPeriodRepository.findById(musicAuctionDTO2.getBiddingPeriod());
+            if(optionalBiddingPeriod.isPresent()) {
+                musicAuction.setBiddingPeriod(optionalBiddingPeriod.get());
+            }
+
+            Optional<Member> member = memberRepository.findByNickname(musicAuctionDTO2.getAuthorNickname());
+            if (member.isPresent()) {
+                musicAuction.setAuthorNickname(member.get());
+            }
+            if (musicGenre.isPresent()) {
+                musicAuction.setGenre(musicGenre.get());
+            }
+            // 업데이트된 정보를 사용하여 endTime 업데이트
+            musicAuctionRepository.save(musicAuction);
+
+        }
+    }
+
+    @Override
+    public Page<MusicAuctionProjection> findTop5ByEndTimeAfterCurrent() {
+        Pageable topFive = PageRequest.of(0,5);
+        return musicAuctionRepository.findTop5ByEndTimeAfterCurrent(topFive);
+    }
+
+
+    public MusicAuction getAuctionDetail(Long id){
+        Optional<MusicAuction> musicAuction=musicAuctionRepository.findById(id);
+        if(musicAuction.isPresent()){
+            return musicAuction.get();
+        }
+        return null;
+    }
+
+
+
 }

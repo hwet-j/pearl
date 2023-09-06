@@ -22,9 +22,20 @@
                 <label th:for="'period_' + ${period.id}" th:text="${period.periodValue}"></label>
             </div></p><br>
 
+<!--            <p><label for="startingBid">Start Price</label><br>-->
+<!--                <div class="input-error-container">-->
+<!--                    <input type="number" id="startingBid" name="startingBid" th:field="*{startingBid}">-->
+<!--                    <span id="startingBidErrorMsg" class="error-message"></span>-->
+<!--                </div>-->
+<!--                <span th:if="${startingBidError}" th:text="${startingBidError}" class="error-message"></span></p><br>-->
+
             <p><label for="startingBid">Start Price</label><br>
+            <div class="input-error-container">
                 <input type="number" id="startingBid" name="startingBid" th:field="*{startingBid}">
-                <span th:if="${startingBidError}" th:text="${startingBidError}" class="error-message"></span></p><br>
+                <span id="startingBidErrorMsg" class="error-message"></span>
+                <span th:if="${startingBidError}" th:text="${startingBidError}" class="error-message"></span>
+            </div></p><br>
+
 
             <p><label for="title">Music Title</label><br>
                 <input type="text" id="title" name="title" th:field="*{title}"></p><br>
@@ -39,28 +50,28 @@
         <div class="right">
             <p>Album Art</p>
             <div class="image-upload-container">
-            <img id="image_preview" src="#" alt="Image Preview" onerror="this.src='/pictures/image_not_found.png'"/>
-            <p><label class="custom-file-upload">Attachment</label>
-                <input type="file" id="albumImage" name="albumImage" accept="image/*" style="display: none;" required></p>
+                <img id="image_preview" src="#" alt="Image Preview" onerror="this.src='/pictures/image_not_found.png'"/>
+                <p><label class="custom-file-upload">Attachment</label>
+                    <input type="file" id="albumImage" name="albumImage" accept="image/*" style="display: none;" required></p>
                 <span id="imageErrorMsg" style="color:red; display:none;"></span>
                 <span th:text="${imageError}" style="color:red;"></span>
 
-            <p>Music</p>
-            <p>
-                <input type="file" id="albumMusic" name="albumMusic" accept="audio/*" style="display: none;" required>
-                <input type="text" id="albumMusicName" readonly>
-                <br>
-                <label for="albumMusic" class="custom-file-upload">Attachment</label>
-                <span id="musicErrorMsg" style="color:red; display:none;"></span>
-                <span th:text="${musicError}" style="color:red;"></span>
-            </p>
+                <p>Music</p>
+                <p>
+                    <input type="file" id="albumMusic" name="albumMusic" accept="audio/*" style="display: none;" required>
+                    <input type="text" id="albumMusicName" readonly>
+                    <br>
+                    <label for="albumMusic" class="custom-file-upload">Attachment</label>
+                    <span id="musicErrorMsg" style="color:red; display:none;"></span>
+                    <span th:text="${musicError}" style="color:red;"></span>
+                </p>
 
-            <script>
-                document.getElementById('albumMusic').addEventListener('change', function() {
-                    var fileName = this.files[0].name;
-                    document.getElementById('albumMusicName').value = fileName;
-                });
-            </script>
+                <script>
+                    document.getElementById('albumMusic').addEventListener('change', function() {
+                        var fileName = this.files[0].name;
+                        document.getElementById('albumMusicName').value = fileName;
+                    });
+                </script>
 
                 <input type="text" th:value="${currentNickname}" id="authorNickname" name="authorNickname" readonly hidden>
 
@@ -120,6 +131,25 @@
         document.getElementById('musicErrorMsg').textContent = "음악 파일을 반드시 업로드해야 합니다.";
     });
 
+    document.getElementById('startingBid').addEventListener('input', validateStartingBid);
+
+    function validateStartingBid() {
+        const startingBidInput = document.getElementById('startingBid');
+        const startingBidErrorMsg = document.getElementById('startingBidErrorMsg');
+        const minValue = 10000;
+
+        if (startingBidInput.value < minValue) {
+            startingBidErrorMsg.textContent = "입찰 시작 최소 가격은 10000원입니다";
+            startingBidErrorMsg.style.display = 'block';
+        } else {
+            startingBidErrorMsg.style.display = 'none';
+        }
+    }
+
+    document.querySelector("form").addEventListener("submit", function() {
+        // 프론트에서의 에러 메시지를 숨깁니다.
+        document.getElementById("startingBidErrorMsg").style.display = "none";
+    });
 </script>
 </body>
 </html>

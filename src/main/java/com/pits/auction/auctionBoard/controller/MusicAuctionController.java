@@ -5,6 +5,7 @@ import com.pits.auction.auctionBoard.dto.MusicAuctionDTO2;
 import com.pits.auction.auctionBoard.entity.BiddingPeriod;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
 import com.pits.auction.auctionBoard.entity.MusicGenre;
+import com.pits.auction.auctionBoard.repository.MusicAuctionRepository;
 import com.pits.auction.auctionBoard.service.*;
 import com.pits.auction.auth.dto.MemberDTO;
 import com.pits.auction.auth.entity.Member;
@@ -47,6 +48,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MusicAuctionController {
     private final MusicAuctionService musicAuctionService;
+    private final MusicAuctionRepository musicAuctionRepository;
     private final MusicGenreService musicGenreService;
     private final BiddingPeriodService biddingPeriodService;
     private final BiddingService biddingService;
@@ -55,6 +57,7 @@ public class MusicAuctionController {
     private final MemberRepository memberRepository;
     private final ImageUpload imageUpload;
     private final AudioUpload audioUpload;
+
 
 
     @GetMapping("/write")
@@ -107,7 +110,7 @@ public class MusicAuctionController {
         }
 
         if (!music.isEmpty()){
-            musicAuctionDTO.setAlbumMusicPath(audioUpload.uploadAudio(music));
+            musicAuctionDTO.setAlbumMusicPath(audioUpload.uploadAudio(music, musicAuctionRepository.findMaxId()+1));
         } else {
             model.addAttribute("musicError", "음악 파일을 반드시 업로드해야 합니다.");
             return "auction/write";
@@ -224,7 +227,7 @@ public class MusicAuctionController {
         }
         if (!albumMusic.isEmpty()){   // 파일이 있을 경우에만 파일 업로드 진행
             // 이미지 저장과 경로 DTO에 저장
-            musicAuctionDTO2.setAlbumMusicPath(audioUpload.uploadAudio(albumMusic));
+            musicAuctionDTO2.setAlbumMusicPath(audioUpload.uploadAudio(albumMusic, id));
         }else {
             // 오디오 파일이 제출되지 않은 경우, 이전 오디오 경로를 그대로 사용
             musicAuctionDTO2.setAlbumMusicPath(existingAuction.getAlbumMusicPath());

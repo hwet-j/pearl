@@ -22,12 +22,12 @@
                 <label th:for="'period_' + ${period.id}" th:text="${period.periodValue}"></label>
             </div></p><br>
 
-<!--            <p><label for="startingBid">Start Price</label><br>-->
-<!--                <div class="input-error-container">-->
-<!--                    <input type="number" id="startingBid" name="startingBid" th:field="*{startingBid}">-->
-<!--                    <span id="startingBidErrorMsg" class="error-message"></span>-->
-<!--                </div>-->
-<!--                <span th:if="${startingBidError}" th:text="${startingBidError}" class="error-message"></span></p><br>-->
+            <!--            <p><label for="startingBid">Start Price</label><br>-->
+            <!--                <div class="input-error-container">-->
+            <!--                    <input type="number" id="startingBid" name="startingBid" th:field="*{startingBid}">-->
+            <!--                    <span id="startingBidErrorMsg" class="error-message"></span>-->
+            <!--                </div>-->
+            <!--                <span th:if="${startingBidError}" th:text="${startingBidError}" class="error-message"></span></p><br>-->
 
             <p><label for="startingBid">Start Price</label><br>
             <div class="input-error-container">
@@ -146,10 +146,44 @@
         }
     }
 
-    document.querySelector("form").addEventListener("submit", function() {
-        // 프론트에서의 에러 메시지를 숨깁니다.
-        document.getElementById("startingBidErrorMsg").style.display = "none";
-    });
+    document.querySelector("form").addEventListener("submit", function(event) {
+    let isValid = true;
+    const startingBidInput = document.getElementById('startingBid');
+    const startingBidErrorMsg = document.getElementById('startingBidErrorMsg');
+    const minValue = 10000;
+    const imageInput = document.getElementById('albumImage');
+    const imageErrorMsg = document.getElementById('imageErrorMsg');
+    const musicInput = document.getElementById('albumMusic');
+    const musicErrorMsg = document.getElementById('musicErrorMsg');
+
+    if (startingBidInput.value < minValue) {
+        startingBidErrorMsg.textContent = "입찰 시작 최소 가격은 10000원입니다";
+        startingBidErrorMsg.style.display = 'block';
+        isValid = false;
+    } else {
+        startingBidErrorMsg.style.display = 'none';
+    }
+
+    if (!imageInput.files.length) {
+        imageErrorMsg.textContent = "이미지 파일을 반드시 업로드해야 합니다.";
+        imageErrorMsg.style.display = 'block';
+        isValid = false;
+    } else {
+        imageErrorMsg.style.display = 'none';
+    }
+
+    if (!musicInput.files.length) {
+        musicErrorMsg.textContent = "음악 파일을 반드시 업로드해야 합니다.";
+        musicErrorMsg.style.display = 'block';
+        isValid = false;
+    } else {
+        musicErrorMsg.style.display = 'none';
+    }
+
+    if (!isValid) {
+        event.preventDefault();
+    }
+});
 </script>
 </body>
 </html>

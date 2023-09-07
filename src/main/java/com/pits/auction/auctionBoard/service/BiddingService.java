@@ -17,4 +17,6 @@ public interface BiddingService{
 
     Long getMaxBidPriceForAuction(Long auctionId);
 
+    Long totalPriceProcessingLastBiddingByNickname(String nickname);
+
 }

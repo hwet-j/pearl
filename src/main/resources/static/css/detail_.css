@@ -26,8 +26,11 @@ body {
 /* 전체에서 상 container */
 /***************************/
 .container-header {
-  padding: 20px;
   background-color: inherit;
+    margin-left:-160px;
+    margin-right:-160px;
+    padding-left: 160px;
+    padding-right: 160px;
 }
 
 /***************************/
@@ -64,13 +67,11 @@ body {
 /* 좌측 영역 */
 .title-left-side {
     flex: 1;
-    background-color: #212024;
 }
 
 /* 우측 영역 */
 .title-right-side {
     flex: 3;
-    background-color: #212024;
 }
 
 .title-image{
@@ -110,6 +111,23 @@ body {
     display: flex;
     justify-content: flex-end;
 }
+
+.album-title{
+    font-size: 42px;
+    font-weight: bold;
+}
+
+.button-edit {
+    display: inline-block;      /* 요소를 인라인 블록 요소로 설정하여 텍스트와 같이 표시됩니다. */
+    padding: 5px 10px;          /* 버튼 내용 주위의 여백을 지정합니다. */
+    border: 1px solid white;    /* 1px 흰색 테두리를 설정합니다. */
+    background: inherit;        /* 부모 요소로부터 배경색을 상속합니다. */
+    color: white;
+    text-decoration: none;      /* 링크 텍스트의 밑줄을 제거합니다. */
+    cursor: pointer;            /* 커서 스타일을 포인터로 변경하여 버튼처럼 보이게 합니다. */
+    border-radius: 4px;         /* 버튼 모서리를 둥글게 만듭니다. */
+}
+
 
 /***************************/
 /* 하 부분 내용과 입찰내용을 분리 하기 위한 container */

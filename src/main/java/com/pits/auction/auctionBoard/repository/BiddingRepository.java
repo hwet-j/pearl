@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -30,8 +31,12 @@ public interface BiddingRepository extends JpaRepository<Bidding, Long> {
             "LIMIT 1")
     Long findLastBidPriceByNickname(@Param("nickname") String nickname);
 
-
-
+    @Query("SELECT MAX(b.price) " +
+            "FROM Bidding b " +
+            "WHERE b.bidder.nickname = :nickname " +
+            "AND b.status = '진행' " +
+            "GROUP BY b.auctionId.id")
+    List<Long> findProcessingMaxPriceBiddingByNickname(@Param("nickname")String nickname);
 
 
 }

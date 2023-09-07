@@ -1,0 +1,71 @@
+body {
+    background-color: #1C1C1C;
+    color: white;
+    text-align: center;
+}
+
+
+
+.box {
+    margin-top: 80px;
+}
+
+.box1 {
+    margin-top: 180px;
+     color: #9A97FF;
+}
+
+
+input {
+  outline: none !important;
+}
+
+
+.box input {
+  font-size: 12px;
+  text-transform: uppercase;
+  padding: 10px 40px;
+  background:none;
+  color: #9A97FF;
+  border-radius: 30px;
+  text-align: center;
+  margin-top: 5px;
+  border: 2px solid #9A97FF;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.blank {
+    width:400px;
+    height: 15px;
+}
+
+.findBtn {
+  font-size: 12px;
+  text-transform: uppercase;
+  padding: 10px 30px;
+  background:none;
+  color: #9A97FF;
+  border-radius: 30px;
+
+  margin-top: 20px;
+  border: 2px solid #9A97FF;
+  font-family: 'Montserrat', sans-serif;
+}
+.findBtn:hover{
+ font-size: 12px;
+   text-transform: uppercase;
+   padding: 10px 67px;
+   background:#9A97FF;
+   color: white;
+   border-radius: 30px;
+   transition: all 0.3s;
+   border: 2px solid #9A97FF;
+   font-family: 'Montserrat', sans-serif;
+}
+
+
+.result {
+    margin-top: 15px;
+    font-size: 12px;
+    color: #9A97FF;
+}

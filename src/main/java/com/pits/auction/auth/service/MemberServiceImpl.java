@@ -230,4 +230,9 @@ public class MemberServiceImpl implements MemberService {
             memberRepository.save(member);
         }
     }
+
+
+    public MemberDTO entityToDTO(Member member) {
+        return modelMapper.map(member, MemberDTO.class);
+    }
 }

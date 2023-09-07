@@ -53,11 +53,11 @@ public class MyPageController {
 
     /* 마이페이지 (id) */
     @GetMapping("/userinfo")
-    public String getUserInfo(@RequestParam("userId") Long userId, Model model) {
+    public String getUserInfo(Model model) {
 
         // 시큐리티 적용시 수정 해야함
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
+        Long userId = null;
         String email = null;
         MemberDTO userInfo = null;
         if (authentication != null && authentication.isAuthenticated()) {
@@ -95,12 +95,27 @@ public class MyPageController {
 
     /* 특정 유저 수정 폼 */
     @GetMapping("/useredit")
-    public String formUserEdit(@RequestParam("userId") Long userId, Model model,
+    public String formUserEdit(Model model,
                                MemberEditValidator memberEditValidator) {
-        MemberDTO userInfo = memberService.getUserInfo(userId);
-        model.addAttribute("userInfo", userInfo);
-    //        memberEditValidator.setPhoneNumber(userInfo.getPhoneNumber());
-    //        memberEditValidator.setPassword(userInfo.getPassword());
+
+        // 시큐리티 적용시 수정 해야함
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String email = null;
+        Member userInfo = null;
+        if (authentication != null && authentication.isAuthenticated()) {
+            email = authentication.getName();
+            Optional<Member> optionalMember = memberRepository.findByEmail(email);
+
+            if (optionalMember.isPresent()) {
+                userInfo = optionalMember.get();
+            }
+        }
+
+        MemberDTO memberDTO = memberService.entityToDTO(userInfo);
+
+        model.addAttribute("userInfo", memberDTO);
+
         return "/myPage/userEdit";
     }
 
@@ -110,14 +125,29 @@ public class MyPageController {
     public String funcUserEdit(@ModelAttribute @Valid MemberEditValidator memberEditValidator,
                                BindingResult bindingResult,
                                @RequestParam("image") MultipartFile imageFile,
-                               @RequestParam("userId") Long userId,
                                Model model) {
 
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String email = null;
+        Member member = null;
+        Long userId = null;
+        if (authentication != null && authentication.isAuthenticated()) {
+            email = authentication.getName();
+            Optional<Member> optionalMember = memberRepository.findByEmail(email);
+
+            if (optionalMember.isPresent()) {
+                member = optionalMember.get();
+                userId = member.getId();
+            }
+        }
+
+        MemberDTO userInfo = memberService.entityToDTO(member);
 
         // 비밀번호 유효성 검사 에러가 있는지 확인
         if (bindingResult.hasErrors()) {
 
-            MemberDTO userInfo = memberService.getUserInfo(userId);
             model.addAttribute("userInfo", userInfo);
             if (bindingResult.hasFieldErrors("password")) {
                 bindingResult.reject("password", bindingResult.getFieldError("password").getDefaultMessage());
@@ -127,11 +157,8 @@ public class MyPageController {
                 bindingResult.reject("phoneNumber", bindingResult.getFieldError("phoneNumber").getDefaultMessage());
             }
 
-
             return "/myPage/userEdit";      // 유효성 검사 에러가 있을 경우 수정 페이지로 다시 돌아감
         }
-
-        MemberDTO userInfo = memberService.getUserInfo(memberEditValidator.getId());
 
         if (!imageFile.isEmpty()){   // 파일이 있을 경우에만 파일 업로드 진행
             // 이미지 저장과 경로 DTO에 저장

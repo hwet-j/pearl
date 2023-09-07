@@ -36,6 +36,7 @@ public class ImageUpload {
         //String filePath = uploadDirectory + File.separator + uniqueFileName;
 
         String uniqueFileName = id + "_" + file.getOriginalFilename();
+
         String filePath = uploadDirectory + File.separator + uniqueFileName;
         File dest = new File(filePath);
 
@@ -45,6 +46,6 @@ public class ImageUpload {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "\\images"  + saveFolder + "\\" + file.getOriginalFilename();
+        return "\\images"  + saveFolder + "\\" + uniqueFileName;
     }
 }

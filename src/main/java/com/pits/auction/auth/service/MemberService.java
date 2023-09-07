@@ -41,6 +41,8 @@ public interface MemberService {
 
     public void AdminEditMember(MemberDTO memberDTO, Long id);
 
+    MemberDTO entityToDTO(Member member);
+
 
 
 }

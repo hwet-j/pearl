@@ -69,7 +69,6 @@ public class BiddingController {
                                 @RequestParam("startPrice") Long startPrice,
                                 @RequestParam("bidding_price") Long biddingPrice){
 
-
         Long balance = memberService.getBalanceByEmail(bidder);
         
         // 음수 불가

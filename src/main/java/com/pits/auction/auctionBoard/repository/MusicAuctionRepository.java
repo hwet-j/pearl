@@ -47,6 +47,7 @@ public interface MusicAuctionRepository extends JpaRepository<MusicAuction, Long
     Page<MusicAuctionProjection> findTop5ByEndTimeAfterCurrent(Pageable pageable);
 
 
-
+    @Query(value = "SELECT MAX(id) FROM MusicAuction")
+    Long findMaxId();
 
 }

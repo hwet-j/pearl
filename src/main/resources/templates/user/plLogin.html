@@ -59,7 +59,7 @@
     <script>
         function findID() {
 
-          var newWindow = window.open('/user/findId', '_blank', 'width=400, height=500,top=100,left=100');
+          var newWindow = window.open('/user/findId', '_blank', 'width=300, height=400,top=100,left=100');
 
           if (newWindow === null || typeof newWindow === 'undefined') {
             alert('팝업 차단이 활성화되어 있을 수 있습니다. 팝업 차단을 해제하고 다시 시도하세요.');
@@ -70,7 +70,7 @@
 
          function findPw() {
 
-          var newWindow = window.open('/user/findPw', '_blank', 'width=400, height=500,top=100,left=100');
+          var newWindow = window.open('/user/findPw', '_blank', 'width=300, height=400,top=100,left=100');
 
           if (newWindow === null || typeof newWindow === 'undefined') {
             alert('팝업 차단이 활성화되어 있을 수 있습니다. 팝업 차단을 해제하고 다시 시도하세요.');
@@ -267,7 +267,7 @@
 
                     <!-- Login Form -->
                     <div class="login form-peice">
-                        <form class="login-form" method="post" th:action="@{/user/plLogin}">
+                        <form autocomplete='off' class="login-form" method="post" th:action="@{/user/plLogin}">
                             <div class="form-group">
                                 <label class="email" for="username">E-mail</label>
                                 <input class="mailbox" id="username" name="username" type="text" required/>
@@ -279,29 +279,26 @@
                             </div>
 
                             <div th:if="${param.error}" class="error">
-                                <div>
+                                <div style="color:#9A97FF; font-size:10px;">
                                     이메일 또는 비밀번호를 확인해주세요.
                                 </div>
                             </div>
 
                             <div class="CTA">
                                 <input type="submit" value="LogIn"/>
-
-                                <a class="switch nav-link" th:href="@{/user/plJoin}">Sign In</a>
+                                <a class="loginKakao" href="javascript:kakaoLogin();">kakao</a>
+                                <p class="idpw">Find</p>
+                                <a class="idpw" onclick="findID()" style="cursor:pointer;">Id</a>
+                                <p class="idpw">|</p>
+                                <a class="idpw" onclick="findPw()" style="cursor:pointer;">Password</a>
+                                <a class="switch nav-link" th:href="@{/user/plJoin}" >Sign In</a>
                             </div>
 
                             <div style="height:100px;"></div>
 
-                            <ul>
-                                <li>
-                                    <a onclick="findID()">Find Id</a>
-                                </li>
-                                <li>
-                                    <a onclick="findPw()">Find Password</a>
-                                </li>
-                            </ul>
 
-                            <a class="loginKakao" href="javascript:kakaoLogin();">kakao</a>
+
+
                         </form>
                     </div>
 
@@ -313,7 +310,7 @@
 
                     <!-- Signup Form -->
                     <div class="signup form-peice switched">
-                        <form class="signup-form" id="myForm" th:object="${userCreateForm}" th:action="@{/user/plJoin2}" method="post">
+                        <form autocomplete='off' class="signup-form" id="myForm" th:object="${userCreateForm}" th:action="@{/user/plJoin2}" method="post">
 
                             <div class="form-group">
                                 <label for="email" class="">EMAIL ADDRESS</label>
@@ -351,12 +348,12 @@
                             </div>
 
 
-                            <div style="color:red; font-size:10px;" th:if="${#fields.hasErrors('passwordConfirmed')}" th:errors="*{passwordConfirmed}" class="error"></div>
-                            <div style="color:red; font-size:10px;" th:if="${joinFailed != null}" th:text="${joinFailed}" class="error"></div>
+                            <div style="color:#9A97FF; font-size:10px;" th:if="${#fields.hasErrors('passwordConfirmed')}" th:errors="*{passwordConfirmed}" class="error"></div>
+                            <div style="color:#9A97FF; font-size:10px;" th:if="${joinFailed != null}" th:text="${joinFailed}" class="error"></div>
 
 
-                            <div class="CTA">
-                                <input type="submit" value="Signup Now">
+                            <div class="Btn">
+                                <input class="signupBtn" type="submit" value="Signup Now">
                                 <a href="#" class="switch">I have an account</a>
                             </div>
                         </form>

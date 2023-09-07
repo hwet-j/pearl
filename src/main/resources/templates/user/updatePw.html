@@ -2,37 +2,48 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <link href="/css/updatePw.css" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>비밀번호 업데이트</title>
+
 </head>
 <body>
-<h2>비밀번호 업데이트</h2>
+<div class="box">
+<h1>NEW PASSWORD</h1>
 
 
 
-<p>이메일: <span th:text="${email}"></span></p>
+<!--<p>이메일: <span th:text="${email}"></span></p>-->
 
 <form id="updateForm" th:action="@{/user/updatePw}" th:object="${userCreateForm2}" method="post">
     <input type="hidden" name="email" th:value="${email}">
 
-    <dlv class="">
-        <label for="newPassword1">새 비밀번호</label>
-        <input type="password" th:field="*{newPassword1}" id="newPassword1" name="newPassword1" required>
+    <div class="form-group">
+        <label for="newPassword1">Type your New Password</label>
+        <input type="password" th:field="*{newPassword1}" id="newPassword1" name="newPassword1" class="pass" required>
+        <span class="error" style="display:none;"></span>
        <!-- <div style="color:red;" th:if="${#fields.hasErrors('ndwPassword1')}" th:errors="*{newPassword1}" class="error"></div>-->
-    </dlv>
-
-    <dlv class="">
-        <label for="newPassword2">새 비밀번호 확인</label>
-        <input type="password" th:field="*{newPassword2}" id="newPassword2" name="newPassword2" required>
-      <!--  <div style="color:red;" th:if="${#fields.hasErrors('newPassword2')}" th:errors="*{newPassword2}" class="error"></div>-->
-    </dlv>
+    </div>
+    <div class="blank"></div>
+    <div class="form-group">
+        <label for="newPassword2">Confirm New Password</label>
+        <input type="password" th:field="*{newPassword2}" id="newPassword2" name="newPassword2" class="passConfirm" required>
+        <span class="error" style="display:none;"></span>
+        <!--  <div style="color:red;" th:if="${#fields.hasErrors('newPassword2')}" th:errors="*{newPassword2}" class="error"></div>-->
+    </div>
 
     <div>
-        <button type="submit">업데이트</button>
+        <button class="findBtn" type="submit">UPDATE NOW</button>
+    </div>
+
+
+    <div class="result" id="updateResult" th:text="${updateResult}">
+        <!-- 업데이트 결과는 여기에 표시 -->>
+
     </div>
 </form>
 
-<div id="updateResult">
-    <!-- 업데이트 결과는 여기에 표시 -->
+
 </div>
 </body>
 </html>

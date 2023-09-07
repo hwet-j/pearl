@@ -2,22 +2,28 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>비밀번호찾기</title>
+    <link href="/css/findPw.css" rel="stylesheet" type="text/css" />
+    <title>Find Password</title>
 </head>
 <body>
-<h2>비밀번호찾기</h2>
 
-<form id="searchForm" action="/user/password" method="post">
-    <label for="email">Email</label>
+<div class="box">
+
+<h1>FIND PASSWORD</h1>
+
+<form id="searchForm" action="/user/password" method="post" autocomplete='off'>
+    <label for="email">Type your Email</label>
     <input type="text" id="email" name="email" required>
 
     <div>
-        <input type="submit" value="검색">
+        <input class="findBtn" type="submit" value="Find now">
     </div>
 </form>
 
-<div id="error-message" style="color: red;"></div>
+<div class="result" id="error-message" ></div>
 
+
+</div>
 <!-- JavaScript 코드는 그대로 유지됩니다 -->
 <script>
     document.getElementById("searchForm").addEventListener("submit", function (e) {
@@ -39,8 +45,8 @@
               } else {
                   // 일치하지 않을 때 오류 메시지를 생성하고 출력
                   const errorMessage = document.createElement("div");
-                  errorMessage.style.color = "red";
-                  errorMessage.textContent = '일치하는 사용자를 찾을 수 없습니다.........';
+
+                  errorMessage.textContent = '일치하는 사용자를 찾을 수 없습니다';
                   document.getElementById("error-message").innerHTML = ''; // 기존 오류 메시지 초기화
                   document.getElementById("error-message").appendChild(errorMessage);
               }

@@ -12,9 +12,18 @@ import java.util.UUID;
 public class ImageUpload {
 
     // 로컬 컴퓨터에 저장
-    public String uploadImage(MultipartFile file) {
-        // 이미지를 저장할 경로 --> 필요하다면 추가적으로 별도의 폴더를 더 생성하여 구분
-        String saveFolder = "\\uploaded_images";
+    public String uploadImage(MultipartFile file, Long id, String type) {
+        // 이미지를 저장할 경로 --> 타입별 별도의 폴더를 더 생성하여 구분
+        String saveFolder = "";
+
+        if (type.equals("member")){
+            saveFolder = "\\profile_images";
+        } else if (type.equals("auction")){
+            saveFolder = "\\auction_images";
+        }
+
+
+
         String uploadDirectory = "C:/Auction/Image" +  saveFolder;
 
         File directory = new File(uploadDirectory);
@@ -25,7 +34,9 @@ public class ImageUpload {
         // 동일한 파일명이 들어올 가능성이 있기 때문에 UUID를 사용해서 고유한 파일명을 생성한다.
         //String uniqueFileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
         //String filePath = uploadDirectory + File.separator + uniqueFileName;
-        String filePath = uploadDirectory + File.separator + file.getOriginalFilename();
+
+        String uniqueFileName = id + "_" + file.getOriginalFilename();
+        String filePath = uploadDirectory + File.separator + uniqueFileName;
         File dest = new File(filePath);
 
         try {

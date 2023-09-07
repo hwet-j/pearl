@@ -135,7 +135,7 @@ public class MyPageController {
 
         if (!imageFile.isEmpty()){   // 파일이 있을 경우에만 파일 업로드 진행
             // 이미지 저장과 경로 DTO에 저장
-            userInfo.setMemberImage(imageUpload.uploadImage(imageFile));
+            userInfo.setMemberImage(imageUpload.uploadImage(imageFile, userId , "member"));
         }
 
         // 중복된 정보가 없으면 업데이트

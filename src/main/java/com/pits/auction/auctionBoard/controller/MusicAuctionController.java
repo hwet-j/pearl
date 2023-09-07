@@ -103,7 +103,7 @@ public class MusicAuctionController {
         }
 
         if (!image.isEmpty()){
-            musicAuctionDTO.setAlbumImagePath(imageUpload.uploadImage(image));
+            musicAuctionDTO.setAlbumImagePath(imageUpload.uploadImage(image,musicAuctionRepository.findMaxId()+1 , "auction"));
         } else {
             model.addAttribute("imageError", "이미지를 반드시 업로드해야 합니다.");
             return "auction/write";
@@ -220,7 +220,7 @@ public class MusicAuctionController {
 
         if (!albumImage.isEmpty()){   // 파일이 있을 경우에만 파일 업로드 진행
             // 이미지 저장과 경로 DTO에 저장
-            musicAuctionDTO2.setAlbumImagePath(imageUpload.uploadImage(albumImage));
+            musicAuctionDTO2.setAlbumImagePath(imageUpload.uploadImage(albumImage, id, "auction"));
         }else {
             // 이미지 파일이 제출되지 않은 경우, 이전 이미지 경로를 그대로 사용
             musicAuctionDTO2.setAlbumImagePath(existingAuction.getAlbumImagePath());

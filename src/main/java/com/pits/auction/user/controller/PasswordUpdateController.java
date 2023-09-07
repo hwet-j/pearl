@@ -43,9 +43,9 @@ public class PasswordUpdateController {
         // 주어진 이메일 파라미터를 기반으로 사용자를 찾음
         Member currentUser = userService.findByEmail(email);
         if (currentUser == null) {
-            // 주어진 이메일로 사용자를 찾을 수 없는 경우
             model.addAttribute("updateResult", "해당 이메일의 사용자를 찾을 수 없습니다.");
-            return "/user/updatePasswordPage";
+            model.addAttribute("email", email);  // 실패한 경우 이메일 값을 다시 모델에 추가
+            return "/user/updatePw";
         }
 
         // 새 비밀번호와 새 비밀번호 확인이 일치하는지 확인
@@ -54,7 +54,6 @@ public class PasswordUpdateController {
 
         if (newPassword1.equals(newPassword2)) {
             // 새 비밀번호와 새 비밀번호 확인이 일치하는 경우
-            // 비밀번호를 해싱하여 업데이트
             String hashedPassword = passwordEncoder.encode(newPassword1);
             currentUser.setPassword(hashedPassword);
 
@@ -62,15 +61,15 @@ public class PasswordUpdateController {
             userService.saveOrUpdate(currentUser);
 
             model.addAttribute("updateResult", "비밀번호가 업데이트되었습니다.");
+            return "/user/updatePasswordPage";
         } else {
             // 새 비밀번호와 새 비밀번호 확인이 일치하지 않는 경우
-            // 업데이트 결과를 모델에 추가
-            model.addAttribute("updateResult", "새 비밀번호와 새 비밀번호 확인이 일치하지 않습니다.");
+            model.addAttribute("updateResult", "비밀번호가 일치하지 않습니다.");
+            model.addAttribute("email", email);  // 실패한 경우 이메일 값을 다시 모델에 추가
         }
 
-        return "/user/updatePasswordPage"; // 업데이트 결과를 보여주는 HTML 페이지
+        return "/user/updatePw";
     }
-
 
 
 

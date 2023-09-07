@@ -83,7 +83,11 @@ ul {
 body {
 
   font-family: 'Montserrat', sans-serif;
-   background-color: #1F1F1F;
+  /* background-color: #1F1F1F;*/
+  background-image: url("/pictures/woodback.png");
+   background-size: cover; /* 이미지 크기를 컨테이너 크기에 맞게 조절 */
+            background-repeat: no-repeat; /* 이미지가 반복되지 않도록 */
+            background-position: center center; /* 이미지를 중앙에 위치시킴 */
 }
 
 
@@ -92,7 +96,7 @@ body {
 
 
 .container {
-  margin-left: 400px;
+  margin-left: 420px;
   max-width: 1300px;
 
 }
@@ -144,11 +148,12 @@ section#formHolder {
   top: 0;
   left: 0;
   background: rgba(115, 82, 191, 0.9);
+  border-radius:10px;
   z-index: -1;
 }
 
 .brand a.logo {
-  color: #9A6DFF;
+  color: #9A97FF;
   font-size: 20px;
   font-weight: 700;
   text-decoration: none;
@@ -266,7 +271,7 @@ section#formHolder {
 
 .form form {
   padding: 0 40px;
-  margin: 0;
+  margin-top : 20px;
   width: 50%;
   position: absolute;
   top: 50%;
@@ -280,11 +285,11 @@ section#formHolder {
 }
 
 .form form .form-group.hasError input {
-  border-color: #9A6DFF !important;
+  border-color: #9A97FF !important;
 }
 
 .form form .form-group.hasError label {
-  color: #9A6DFF !important;
+  color: #9A97FF !important;
 }
 
 .form form label {
@@ -324,11 +329,11 @@ color: white;
 }
 
 .form form input.hasError {
-  border-color: #9A6DFF;
+  border-color: #9A97FF;
 }
 
 .form form span.error {
-  color: #9A6DFF;
+  color: #9A97FF;
   font-family: 'Montserrat', sans-serif;
   font-size: 12px;
   position: absolute;
@@ -341,20 +346,105 @@ color: white;
   color: white;
 }
 
+
+
+
+.loginKakao{
+ font-size: 12px;
+  text-transform: uppercase;
+  padding: 10px 105px;
+  background:none;
+  color: #9A97FF;
+  border-radius: 30px;
+
+  margin-top: 10px;
+  border: 2px solid #9A97FF;
+  font-family: 'Montserrat', sans-serif;
+
+}
+
+.loginKakao:hover{
+ font-size: 12px;
+   text-transform: uppercase;
+   padding: 10px 105px;
+   background:#9A97FF;
+   color: white;
+   border-radius: 30px;
+   transition: all 0.3s;
+   border: 2px solid #9A97FF;
+   font-family: 'Montserrat', sans-serif;
+}
+
+
+.form form .signupBtn {
+  font-size: 12px;
+  text-transform: uppercase;
+  padding: 10px 82px;
+  background:none;
+  color: #9A97FF;
+  border-radius: 30px;
+
+  margin-top: 20px;
+  border: 2px solid #9A97FF;
+  font-family: 'Montserrat', sans-serif;
+}
+.form form .signupBtn:hover{
+ font-size: 12px;
+   text-transform: uppercase;
+   padding: 10px 82px;
+   background:#9A97FF;
+   color: white;
+   border-radius: 30px;
+   transition: all 0.3s;
+   border: 2px solid #9A97FF;
+   font-family: 'Montserrat', sans-serif;
+}
+
+
 .form form .CTA input {
   font-size: 12px;
   text-transform: uppercase;
-  padding: 5px 30px;
-  background:#9A6DFF;
-  color: white;
+  padding: 10px 105px;
+  background:none;
+  color: #9A97FF;
   border-radius: 30px;
-  margin-right: 20px;
-  border: none;
+
+  margin-top: 20px;
+  border: 2px solid #9A97FF;
   font-family: 'Montserrat', sans-serif;
 }
 
-.form form .CTA a.switch {
-  font-size: 13px;
+
+.form form .CTA input:hover {
+  font-size: 12px;
+  text-transform: uppercase;
+  padding: 10px 105px;
+  background:#9A97FF;
+  color: white;
+  border-radius: 30px;
+  transition: all 0.3s;
+  margin-top: 20px;
+  border: 2px solid #9A97FF;
+  font-family: 'Montserrat', sans-serif;
+}
+
+
+.idpw{
+ float: left;
+  margin-top: 10px;
+  margin-left: 10px;
+  font-size: 15px;
+  font-weight: 400;
+  font-family: 'Montserrat', sans-serif;
+  color: #bbbbbb;
+ text-decoration-line:none;
+  transition: all 0.3s;
+}
+.form form .CTA a.idpw {
+  float: left;
+  margin-top: 10px;
+  margin-left: 10px;
+  font-size: 15px;
   font-weight: 400;
   font-family: 'Montserrat', sans-serif;
   color: #bbbbbb;
@@ -362,8 +452,44 @@ color: white;
   transition: all 0.3s;
 }
 
+.form form .CTA a.idpw:hover {
+  color: #9A97FF;
+}
+
+.form form .CTA a.switch {
+  float: left;
+  margin-top: 10px;
+  margin-left: 40px;
+  font-size: 15px;
+  font-weight: 400;
+  font-family: 'Montserrat', sans-serif;
+  color: #bbbbbb;
+ text-decoration-line:none;
+  transition: all 0.3s;
+}
+
+.form form .Btn a.switch {
+  float: left;
+  margin-top: 10px;
+  margin-left: 60px;
+  font-size: 15px;
+  font-weight: 400;
+  font-family: 'Montserrat', sans-serif;
+  color: #bbbbbb;
+ text-decoration-line:none;
+  transition: all 0.3s;
+}
+
+.form form .Btn a.switch:hover {
+  color: #9A97FF;
+}
+
 .form form .CTA a.switch:hover {
-  color: #9A6DFF;
+  color: #9A97FF;
+}
+
+.form .signup-form {
+    margin-top: -10px;
 }
 
 footer {
@@ -371,11 +497,11 @@ footer {
 }
 
 footer p {
-  color: #9A6DFF;
+  color: #9A97FF;
 }
 
 footer p a,
 footer p a:focus {
-  color: #9A6DFF;
+  color: #9A97FF;
   text-decoration-line:none;
 }

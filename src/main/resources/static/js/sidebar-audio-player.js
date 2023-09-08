@@ -44,7 +44,7 @@ function initPlaylist() {
         document.getElementById('currentTrackCover').src = tracks[0].albumImage;
         document.getElementById('currentTrackCover').setAttribute('onerror', "this.src='/pictures/image_not_found.png'");
 
-    audioElement.src = tracks[0].src;
+    audioElement.src = tracks[0].albumMusic;
 
     // 메타 데이터가 로드되면 트랙의 전체 길이를 얻습니다.
         audioElement.addEventListener('loadedmetadata', () => {

@@ -46,6 +46,6 @@ public class ImageUpload {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "\\images"  + saveFolder + "\\" + uniqueFileName;
+        return "\\images"  + saveFolder + "" + uniqueFileName;
     }
 }

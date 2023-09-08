@@ -1,6 +1,8 @@
 package com.pits.auction.auth.service;
 
 
+import com.pits.auction.auctionBoard.repository.BiddingRepository;
+import com.pits.auction.auctionBoard.service.BiddingService;
 import com.pits.auction.auth.dto.MemberDTO;
 import com.pits.auction.auth.entity.Member;
 import com.pits.auction.auth.repository.MemberRepository;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
+    private final BiddingService biddingService;
     private final ModelMapper modelMapper;
 
     @Override
@@ -178,8 +181,8 @@ public class MemberServiceImpl implements MemberService {
         if (amount <= 0) {
             throw new IllegalArgumentException("Invalid withdrawal amount: " + amount);
         }
-        // 가진 금액보다 큰 금액이 들어오면 예외처리
-        if (user.getBalance() < amount) {
+        // 가진 금액보다 큰 금액이 들어오면 예외처리 및 입찰 정보도 계산하여 예외처리
+        if ((user.getBalance() - biddingService.totalPriceProcessingLastBiddingByNickname(user.getNickname())) < amount) {
             throw new IllegalArgumentException("Invalid balance for withdrawal");
         }
 
@@ -230,7 +233,6 @@ public class MemberServiceImpl implements MemberService {
             memberRepository.save(member);
         }
     }
-
 
     public MemberDTO entityToDTO(Member member) {
         return modelMapper.map(member, MemberDTO.class);

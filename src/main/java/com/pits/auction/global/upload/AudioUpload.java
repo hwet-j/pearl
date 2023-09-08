@@ -14,7 +14,7 @@ public class AudioUpload {
     /* 이미지 업로드의 기능에서 경로와 메서드명만 바꿔 오디오 업로드 기능으로 구현 */
     public String uploadAudio(MultipartFile file, Long id) {
         // 오디오 저장 폴더 -> 오디오는 경매글에만 존재
-        String saveFolder = "\\auction_audios";
+        String saveFolder = "/auction_audios";
 
         String uploadDirectory = "C:/Auction/Audio" + saveFolder;
 
@@ -40,7 +40,7 @@ public class AudioUpload {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return  "\\audios"  + saveFolder + "\\" + uniqueFileName;
+        return  "/audios"  + saveFolder + "/" + uniqueFileName;
 
     }
 

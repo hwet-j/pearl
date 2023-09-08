@@ -124,5 +124,19 @@ public class BiddingServiceImpl implements BiddingService{
     }
 
 
+    @Override
+    public Long totalPriceProcessingLastBiddingByNickname(String nickname){
+        Long totalPrice = 0L;
+        List<Long> priceList = biddingRepository.findProcessingMaxPriceBiddingByNickname(nickname);
+        if (priceList != null){
+            for(Long biddingPrice : priceList){
+                totalPrice += biddingPrice;
+            }
+        }
+
+        return totalPrice;
+    }
+
+
 
 }

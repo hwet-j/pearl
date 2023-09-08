@@ -165,7 +165,7 @@ public class MusicAuctionController {
                     model.addAttribute("wish", wishListService.countByMemberNicknameAndAuctionId(optionalMember.get(), musicAuction));
                 }
             }
-
+            model.addAttribute("entries",musicAuctionService.findDetailByNickname(musicAuction.getAuthorNickname().getNickname()));
             model.addAttribute("genre", musicAuction.getGenre().getName());
             model.addAttribute("musicAuction", musicAuction);
 

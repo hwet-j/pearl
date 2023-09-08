@@ -51,7 +51,7 @@ public class MusicAuction {
     private Member authorNickname;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
-    @JsonIgnore
+
     @JoinColumn(name = "genre_id", nullable = false)
     private MusicGenre genre;
 

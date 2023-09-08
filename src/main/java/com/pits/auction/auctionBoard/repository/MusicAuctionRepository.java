@@ -50,4 +50,6 @@ public interface MusicAuctionRepository extends JpaRepository<MusicAuction, Long
     @Query(value = "SELECT MAX(id) FROM MusicAuction")
     Long findMaxId();
 
+    List<MusicAuction> findByAuthorNickname_Nickname(String nickname);
+
 }

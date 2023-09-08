@@ -51,12 +51,45 @@
 </script>
 
 
-<body>
+<body class="back">
+
+<div class="bigBox">
+
+
+
+    <ul class="" style="list-style-type:none;">
+        <li class="nav-item">
+            <!-- 타임리프의 security이용
+            sec:authorize="isAnonymous()은 로그인하지않는 경우->로그인 출력
+            sec:authorize="isAuthenticated()은 로그인한 경유->로그아웃 출력
+            -->
+            <a class="logo"  th:href="@{/main/list}"><img src="/pictures/logo.png" style="width:84px; height:42px; float:left; margin-left:180px; margin-top:50px;"></a>
+
+            <a class="loginBtn" sec:authorize="isAnonymous()" th:href="@{/user/plLogin}"
+               style="position: absolute; text-decoration:none; margin-left: 1320px; margin-top: 70px;  font-size: 25px; color:white; font-family: 'Roboto', sans-serif;">LogIn</a>
+
+
+
+            <!-- 카카오 로그인 후 로그인/로그아웃 링크 변경 -->
+
+            <!-- <a class="logoutKakao" href="javascript:kakaoLogout();" >
+                 로그아웃
+             </a>-->
+
+
+
+
+        </li>
+
+    </ul>
+
+
+</div>
 
 <div class="split-container">
     <!-- 좌측 프로필 영역 -->
     <div class="left-side">
-        <h1 th:text="|My Page|"></h1>
+        <h2 class="mypagetitle" th:text="|My Page|"></h2>
 
         <div>
             <img class="profile-image profile-box" th:src="@{__${userInfo.memberImage}__}" alt="asd"
@@ -66,7 +99,7 @@
         <div class="inner-divider"></div>
 
         <div class="center-align">
-            <a class="update-button" th:href="@{/mypage/useredit(userId=${userInfo.id})}"><span class="icon">✏️</span>Update</a>
+            <a class="update-button" th:href="@{/mypage/useredit(userId=${userInfo.id})}">Update</a>
         </div>
 
         <div class="inner-divider"></div>
@@ -78,7 +111,7 @@
         <div class="inner-divider"></div>
         <div class="bordered center-align money-text">
 
-            <span data-th-text="${#numbers.formatInteger(userInfo.balance, 0, 'COMMA') + ' ₩'}"></span>
+            <span class="money" data-th-text="${#numbers.formatInteger(userInfo.balance, 0, 'COMMA') + ' ₩'}"></span>
         </div>
 
         <div class="inner-divider"></div>
@@ -97,7 +130,7 @@
         <!-- 우측 상단 마지막 입찰 물품 -->
         <!-- 입찰한 내역이 있을경우 -->
         <div class="upper-side" th:if="${auction != null}">
-            <h1 th:text="|My Bidding Music|"></h1>
+            <h2 class="bidtitle" th:text="|My Bidding Music|"></h2>
 
             <div class="inner-split-container ">
                 <div class="inner-left">
@@ -105,18 +138,18 @@
                     <div class="inner-divider"></div>
                 </div>
                 <div class="inner-right">
-                   <div th:text="${auction.title}"></div>
+                   <div class="bidname" th:text="${auction.title}"></div>
 
 
 
-                   <div>내 입찰가 : <span th:text="${myPrice}"></span></div>
-                   <div>입찰 최고가 : <span th:text="${maxPrice}"></span></div>
+                   <div class="mybid">My Bidding Price<br/> <span th:text="${myPrice}"></span></div>
+                   <div class="topprice">Top Price<br/> <span th:text="${maxPrice}"></span></div>
                 </div>
             </div>
         </div>
         <!-- 입찰한 내역이 없을경우 -->
         <div class="upper-side" th:if="${auction == null}">
-            <h1 th:text="|My Bidding Music|"></h1>
+            <h2 class="bidtitle" th:text="|My Bidding Music|"></h2>
 
             <div class="inner-split-container ">
                 <div class="inner-left">
@@ -126,9 +159,9 @@
 
 
                 <div class="inner-right">
-                    <div>경매한 물품이 없습니다.</div>
 
-                    <div><a href="#">경매목록보기</a></div>
+
+
                 </div>
             </div>
         </div>
@@ -137,7 +170,7 @@
 
         <!-- 우측 하단 찜 목록 -->
         <div class="lower-side" th:if="${!wishLists.isEmpty()}">
-            <h1 th:text="|Wish List|"></h1>
+            <h2 class="wishtitle" th:text="|Wish List|"></h2>
 
             <div class="image-container">
                 <div th:each="musicAuction : ${wishLists}">
@@ -180,7 +213,7 @@
 
 
         <div class="lower-side" th:if="${wishLists.isEmpty()}">
-            <h1 th:text="|Wish List|"></h1>
+            <h2 class="wishtitle" th:text="|Wish List|"></h2>
 
             <div class="image-container">
                 <div class="image-with-text">

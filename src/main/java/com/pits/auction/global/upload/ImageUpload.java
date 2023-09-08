@@ -17,9 +17,9 @@ public class ImageUpload {
         String saveFolder = "";
 
         if (type.equals("member")){
-            saveFolder = "\\profile_images";
+            saveFolder = "/profile_images";
         } else if (type.equals("auction")){
-            saveFolder = "\\auction_images";
+            saveFolder = "/auction_images";
         }
 
 
@@ -46,6 +46,6 @@ public class ImageUpload {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "\\images"  + saveFolder + "" + uniqueFileName;
+        return "/images"  + saveFolder + "/" + uniqueFileName;
     }
 }

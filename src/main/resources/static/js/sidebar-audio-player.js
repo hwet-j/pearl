@@ -15,7 +15,6 @@ async function fetchTracks() {
         if (!response.ok) {
             throw new Error('Network response was not ok ' + response.statusText);
         }
-        console.log(response.toString());
         tracks = await response.json();
         initPlaylist(); // 데이터 로딩 후 플레이리스트 초기화
     } catch (error) {
@@ -44,7 +43,9 @@ function initPlaylist() {
         document.getElementById('currentTrackCover').src = tracks[0].albumImage;
         document.getElementById('currentTrackCover').setAttribute('onerror', "this.src='/pictures/image_not_found.png'");
 
+
     audioElement.src = tracks[0].albumMusic;
+
 
     // 메타 데이터가 로드되면 트랙의 전체 길이를 얻습니다.
         audioElement.addEventListener('loadedmetadata', () => {
@@ -91,7 +92,7 @@ function selectTrack(index) {
     document.getElementById('currentTrackCover').src = tracks[trackIndex].albumImage;
     document.getElementById('currentTrackCover').setAttribute('onerror', "this.src='/pictures/image_not_found.png'");
 
-    audioElement.src = tracks[trackIndex].src;
+    audioElement.src = tracks[trackIndex].albumMusic;
     playPauseIcon.src = "/pictures/sidebar-audio-icon/pause.png";
     audioElement.play();
 }

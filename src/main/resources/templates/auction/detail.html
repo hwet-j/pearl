@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html layout:decorate="~{layout}" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>게시글 상세정보</title>
@@ -50,10 +50,12 @@
 </head>
 
 <body>
-
+<div class="nav1" layout:fragment="content" >
+<div class="box1" th:style="|background-image: url('${musicAuction.albumImage}');|"></div>
 <div class="container">
 
-    <div class="container-header">
+    <div class="container-header" >
+
         <div class="title-split-container">
             <div class="title-left-side">
                 <img class="title-image" th:src="@{__${musicAuction.albumImage}__}" onError="this.src='/pictures/no_profile.png';" alt="Album Cover">
@@ -64,45 +66,45 @@
                     <span th:text="${genre}"></span>
                     <span class="align-right">
 
-                        <span th:if="${#authorization.expression('isAuthenticated() and hasRole(''ROLE_ADMIN'')')}">
-                            <a class="button-edit" th:if="${#authentication.principal.username eq musicAuction.authorNickname.email}" th:href="@{/edit/{id}(id=${musicAuction.id})}">수정</a>
-                        </span>
-
-                            <a class="button-edit" th:href="@{/edit/{id}(id=${musicAuction.id})}">수정(로그인 X 테스트용)</a>
-
-                        <span th:if="${#authorization.expression('isAuthenticated()')}">
-
-                            <span th:if="${wish != 0}">
-                                <a th:href="@{/detail/click-wishbutton(auctionId=${musicAuction.id})}">
-                                    <button class="heart-button">
-                                         <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="red" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                             <path d="M12 21.35l-1.45-1.32C5.4 16.25 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 7.75-8.55 11.54L12 21.35z" />
-                                         </svg>
-                                    </button>
-                                </a>
+                            <span th:if="${#authorization.expression('isAuthenticated() or hasRole(''ROLE_ADMIN'')')}">
+                                <a class="button-edit" th:if="${#authentication.principal.username eq musicAuction.authorNickname.email}" th:href="@{/edit/{id}(id=${musicAuction.id})}">수정</a>
                             </span>
 
-                            <span th:if="${wish == 0}">
-                                <a th:href="@{/detail/click-wishbutton(auctionId=${musicAuction.id})}">
-                                    <button class="heart-button">
-                                         <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                             <path d="M12 21.35l-1.45-1.32C5.4 16.25 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 7.75-8.55 11.54L12 21.35z" />
-                                         </svg>
-                                    </button>
-                                </a>
+                                <a class="button-edit" th:href="@{/edit/{id}(id=${musicAuction.id})}">수정(로그인 X 테스트용)</a>
+
+                            <span th:if="${#authorization.expression('isAuthenticated()')}">
+
+                                <span th:if="${wish != 0}">
+                                    <a th:href="@{/detail/click-wishbutton(auctionId=${musicAuction.id})}">
+                                        <button class="heart-button">
+                                             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="red" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                 <path d="M12 21.35l-1.45-1.32C5.4 16.25 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 7.75-8.55 11.54L12 21.35z" />
+                                             </svg>
+                                        </button>
+                                    </a>
+                                </span>
+
+                                <span th:if="${wish == 0}">
+                                    <a th:href="@{/detail/click-wishbutton(auctionId=${musicAuction.id})}">
+                                        <button class="heart-button">
+                                             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                 <path d="M12 21.35l-1.45-1.32C5.4 16.25 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 7.75-8.55 11.54L12 21.35z" />
+                                             </svg>
+                                        </button>
+                                    </a>
+                                </span>
+
+                            </span>
+
+                            <span th:unless="${#authorization.expression('isAuthenticated()')}">
+                                <button class="heart-button" onclick="showLoginAlert()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                         <path d="M12 21.35l-1.45-1.32C5.4 16.25 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 7.75-8.55 11.54L12 21.35z" />
+                                     </svg>
+                                </button>
                             </span>
 
                         </span>
-
-                        <span th:unless="${#authorization.expression('isAuthenticated()')}">
-                            <button class="heart-button" onclick="showLoginAlert()">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                     <path d="M12 21.35l-1.45-1.32C5.4 16.25 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 7.75-8.55 11.54L12 21.35z" />
-                                 </svg>
-                            </button>
-                        </span>
-
-                    </span>
                 </div>
 
                 <h1 class="album-title" th:text="${musicAuction.title}">Album Title</h1>
@@ -114,9 +116,9 @@
 
                 <div class="title-audio">
                     <audio-player th:attr="title='Audio Music',
-                    src=${musicAuction.albumMusic},
-                    bar-width='3', bar-gap='0.3',
-                    preload='preload'"></audio-player>
+                        src=${musicAuction.albumMusic},
+                        bar-width='3', bar-gap='0.3',
+                        preload='preload'"></audio-player>
                 </div>
 
                 <script src="/js/audio-player.js"></script>
@@ -179,30 +181,30 @@
 
             </div>
 
-        <div class="body-right-side">
-            <div class="bidding-box">
-                <div th:if="${remainingTime != null}">
-                    <div class="deadline-text">Submission Deadline</div>
-                    <div class="deadline" id="timeDifference"></div>
-                </div>
+            <div class="body-right-side">
+                <div class="bidding-box">
+                    <div th:if="${remainingTime != null}">
+                        <div class="deadline-text">Submission Deadline</div>
+                        <div class="deadline" id="timeDifference"></div>
+                    </div>
 
-                <div th:if="${remainingTime == null}">
-                    <div class="deadline-end">해당 경매는 종료되었습니다.</div>
-                </div>
+                    <div th:if="${remainingTime == null}">
+                        <div class="deadline-end">해당 경매는 종료되었습니다.</div>
+                    </div>
 
-                <div th:if="${maxBiddingPrice != 0}">
-                    <div>Top Price</div>
-                    <div class="money" data-th-text="${#numbers.formatInteger(maxBiddingPrice, 0, 'COMMA') + ' ₩'}"></div>
-                </div>
+                    <div th:if="${maxBiddingPrice != 0}">
+                        <div>Top Price</div>
+                        <div class="money" data-th-text="${#numbers.formatInteger(maxBiddingPrice, 0, 'COMMA') + ' ₩'}"></div>
+                    </div>
 
-                <div th:unless="${maxBiddingPrice != 0}">
-                    <div>경매 시작가<br>(경매 내역이 없습니다)</div>
-                    <div class="money" th:text="${#numbers.formatInteger(musicAuction.startingBid, 0, 'COMMA') + ' ₩'}"></div>
-                </div>
+                    <div th:unless="${maxBiddingPrice != 0}">
+                        <div>경매 시작가<br>(경매 내역이 없습니다)</div>
+                        <div class="money" th:text="${#numbers.formatInteger(musicAuction.startingBid, 0, 'COMMA') + ' ₩'}"></div>
+                    </div>
 
-                <div class="bidding">
+                    <div class="bidding">
 
-                    <div class="bidding-addPrice">
+                        <div class="bidding-addPrice">
 
                         <span class="bidding-button">
                             <span class="left-align-button">
@@ -216,52 +218,52 @@
                             </span>
                         </span>
 
+                        </div>
+
+
+                        <div th:if="${#authorization.expression('isAuthenticated()')}">
+                            <form id="biddingForm" action="" method="post">
+
+                                <div>
+                                    <input type="hidden" name="startPrice" th:value="${musicAuction.startingBid}"/>
+                                    <input type="hidden" name="auctionId" th:value="${musicAuction.id}"/>
+                                    <input type="hidden" name="bidder" th:value="${#authentication.principal.username}"/>
+                                    <input type="number" id="bidding_price" name="bidding_price" th:value="${maxBiddingPrice}"/>
+
+                                </div>
+
+                                <div>
+                                    <input type="submit" value="입찰하기"/>
+                                </div>
+
+                            </form>
+                        </div>
                     </div>
 
-
-                    <div th:if="${#authorization.expression('isAuthenticated()')}">
-                        <form id="biddingForm" action="" method="post">
+                    <div th:unless  ="${#authorization.expression('isAuthenticated()')}">
+                        <form id="biddingForm-logout" action="" method="post">
 
                             <div>
-                                <input type="hidden" name="startPrice" th:value="${musicAuction.startingBid}"/>
-                                <input type="hidden" name="auctionId" th:value="${musicAuction.id}"/>
-                                <input type="hidden" name="bidder" th:value="${#authentication.principal.username}"/>
-                                <input type="number" id="bidding_price" name="bidding_price" th:value="${maxBiddingPrice}"/>
-
+                                <input type="number" placeholder="비회원은 입찰이 불가합니다." readonly/>
                             </div>
 
                             <div>
-                                <input type="submit" value="입찰하기"/>
+                                <input type="submit" id="submitButton" value="입찰하기"/>
                             </div>
 
                         </form>
                     </div>
-                </div>
 
-                <div th:unless  ="${#authorization.expression('isAuthenticated()')}">
-                    <form id="biddingForm-logout" action="" method="post">
-
-                        <div>
-                            <input type="number" placeholder="비회원은 입찰이 불가합니다." readonly/>
-                        </div>
-
-                        <div>
-                            <input type="submit" id="submitButton" value="입찰하기"/>
-                        </div>
-
-                    </form>
                 </div>
 
             </div>
-
-        </div>
 
         </div>
     </div>
 
 </div>
 
-
+</div>
 <script th:inline="javascript">
     function showLoginAlert() {
         Swal.fire({

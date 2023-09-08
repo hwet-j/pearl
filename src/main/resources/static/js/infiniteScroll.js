@@ -1,5 +1,5 @@
 const container = document.querySelector('.scroller');
-let page = 2; // 시작 페이지 번호 (2부터 시작)
+let page = 3; // 시작 페이지 번호 (2부터 시작)
 let loading = false;
 const loadingIndicator = document.getElementById('loadingIndicator');
 
@@ -59,7 +59,7 @@ function fetchMoreData() {
 
                 adjustSidebarHeight();//사이드바 연장
             });
-    }, 500); // 로딩 시간 0.5초 설정
+    }, 150); // 로딩 시간 0.5초 설정
 }
 
 function checkScroll() {

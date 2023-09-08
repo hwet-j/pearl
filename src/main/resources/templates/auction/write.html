@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html  xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>write</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/write.css}">
 </head>
 <body class="back">
-<h1>음악등록 작성페이지</h1>
+
+
+<div class="background"></div>
 <form th:action="@{/write}" th:object="${musicAuctionDTO}" method="post" enctype="multipart/form-data">
     <div class="form-container">
         <div class="left">
@@ -22,22 +24,23 @@
                 <label th:for="'period_' + ${period.id}" th:text="${period.periodValue}"></label>
             </div></p><br>
 
-            <!--            <p><label for="startingBid">Start Price</label><br>-->
-            <!--                <div class="input-error-container">-->
-            <!--                    <input type="number" id="startingBid" name="startingBid" th:field="*{startingBid}">-->
-            <!--                    <span id="startingBidErrorMsg" class="error-message"></span>-->
-            <!--                </div>-->
-            <!--                <span th:if="${startingBidError}" th:text="${startingBidError}" class="error-message"></span></p><br>-->
+<!--            <p><label for="startingBid">Start Price</label><br>-->
+<!--                <div class="input-error-container">-->
+<!--                    <input type="number" id="startingBid" name="startingBid" th:field="*{startingBid}">-->
+<!--                    <span id="startingBidErrorMsg" class="error-message"></span>-->
+<!--                </div>-->
+<!--                <span th:if="${startingBidError}" th:text="${startingBidError}" class="error-message"></span></p><br>-->
 
-            <p><label for="startingBid">Start Price</label><br>
+
             <div class="input-error-container">
+                <p class="priceTitle"><label for="startingBid">Start Price</label><br>
                 <input type="number" id="startingBid" name="startingBid" th:field="*{startingBid}">
-                <span id="startingBidErrorMsg" class="error-message"></span>
-                <span th:if="${startingBidError}" th:text="${startingBidError}" class="error-message"></span>
+                <span id="startingBidErrorMsg" class="error-message"style="color:#9A97FF;"></span>
+                <span th:if="${startingBidError}" th:text="${startingBidError}" class="error-message" ></span>
             </div></p><br>
 
 
-            <p><label for="title">Music Title</label><br>
+            <p class="musicTitle"><label for="title">Music Title</label><br>
                 <input type="text" id="title" name="title" th:field="*{title}"></p><br>
 
             <p><label for="content">Description</label><br>
@@ -53,17 +56,17 @@
                 <img id="image_preview" src="#" alt="Image Preview" onerror="this.src='/pictures/image_not_found.png'"/>
                 <p><label class="custom-file-upload">Attachment</label>
                     <input type="file" id="albumImage" name="albumImage" accept="image/*" style="display: none;" required></p>
-                <span id="imageErrorMsg" style="color:red; display:none;"></span>
-                <span th:text="${imageError}" style="color:red;"></span>
+                <span id="imageErrorMsg" class="error1"></span>
+                <span th:text="${imageError}" style="color:#9A97FF;"></span>
 
-                <p>Music</p>
+                <p style="margin-top: 80px;">Music</p>
                 <p>
                     <input type="file" id="albumMusic" name="albumMusic" accept="audio/*" style="display: none;" required>
                     <input type="text" id="albumMusicName" readonly>
                     <br>
                     <label for="albumMusic" class="custom-file-upload">Attachment</label>
-                    <span id="musicErrorMsg" style="color:red; display:none;"></span>
-                    <span th:text="${musicError}" style="color:red;"></span>
+                    <span id="musicErrorMsg" class="error2"></span>
+                    <span th:text="${musicError}" style="color:#9A97FF;"></span>
                 </p>
 
                 <script>
@@ -80,6 +83,7 @@
         </div>
     </div>
 </form>
+
 <script>
     document.getElementById('albumImage').addEventListener('change', previewImage);
 
@@ -139,7 +143,7 @@
         const minValue = 10000;
 
         if (startingBidInput.value < minValue) {
-            startingBidErrorMsg.textContent = "입찰 시작 최소 가격은 10000원입니다";
+            startingBidErrorMsg.textContent = "최소 시작 가격은 10000원입니다";
             startingBidErrorMsg.style.display = 'block';
         } else {
             startingBidErrorMsg.style.display = 'none';

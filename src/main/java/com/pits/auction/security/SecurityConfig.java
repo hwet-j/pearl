@@ -27,10 +27,10 @@ public class SecurityConfig {
                 .headers((headers) -> headers.addHeaderWriter(new XFrameOptionsHeaderWriter(
                         XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
                 .formLogin((formLogin)->formLogin.loginPage("/user/plLogin")
-                        .defaultSuccessUrl("/"))
+                        .defaultSuccessUrl("/main/list"))
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/user/plLogout"))
-                        .logoutSuccessUrl("/").invalidateHttpSession(true)).csrf().disable()
+                        .logoutSuccessUrl("/main/list").invalidateHttpSession(true)).csrf().disable()
         ;
         return http.build();
     }

@@ -1,22 +1,45 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html layout:decorate="~{layout}" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Welcome to Pearl!</title>
     <link href="/css/scroll.css" rel="stylesheet" type="text/css">
-    <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"
-    />
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
     <!--스와이퍼 CDN-->
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/amplitudejs@5.2.0/dist/amplitude.min.css">
     <script src="https://cdn.jsdelivr.net/npm/amplitudejs@5.2.0/dist/amplitude.min.js"></script>
     <!--구글웹폰트 CDN-->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Roboto&display=swap" rel="stylesheet">
+
+
+
+
+
+
+
 </head>
 <body>
-<div class="main-container">
+<div class="nav1" layout:fragment="content" >
+
+
+    <div class="bg"></div>
+    <div class="bg2"></div>
+    <div class="bg3"></div>
+    <div class="bg4"></div>
+    <div class="bg5"></div>
+    <div class="bg6"></div>
+    <div class="bg7"></div>
+    <div class="bg8"></div>
+    <div class="bg9"></div>
+    <div class="bg10"></div>
+    <div class="bg11"></div>
+
+    <button id="scrollTopBtn" style="display:none; position: fixed; bottom: 70px; right: 130px;"><img src="/pictures/topbtn.png"></button>
+
+
+<div class="main-container" >
     <div class="list-container">
         <div class="container">
             <div class="left">
@@ -85,10 +108,12 @@
                 </div>
             </div>
             <div class="music-player">
+
                 <div class="current-track">
+                    <p style="margin-left:-250px; margin-top:-20px;">Music Player</p>
                     <img id="currentTrackCover" src="" alt="Current Track Cover" onerror="'this.src=\'/pictures/image_not_found.png\''"/>
                     <div class="controls-top">
-                        <div id="currentTime">00:00</div>
+                        <div id="currentTime" style="margin-top:-5px;">00:00</div>
                         <input type="range" min="0" max="100" value="0" class="slider" id="progressSlider" oninput="changeProgress()">
                     </div>
                 </div>
@@ -119,6 +144,7 @@
 <div id="loadingIndicator" class="loading">
     Now Loading...
 </div>
+
     <script src="/js/dropdown.js"></script>
     <script src="/js/infiniteScroll.js"></script>
     <script src="/js/sidebar-audio-player.js"></script>
@@ -138,6 +164,7 @@
 });
     </script>
     <script th:inline="javascript">
+
         /*<![CDATA[*/
         var remainingTimes = /*[[${remainingTimes}]]*/;
         var intervalIDs = [];
@@ -152,7 +179,7 @@
                 var minutes = Math.floor((timeDifference % (60 * 60)) / 60);
                 var seconds = timeDifference % 60;
 
-                var timeString = "D - "+ days + " &nbsp;&nbsp;&nbsp; " + hours + " : " + minutes + " : " + seconds;
+                var timeString = "D-"+ days + " &nbsp;&nbsp;" + hours + " : " + minutes + " : " + seconds;
                 timeDifferenceElement.innerHTML  = timeString;
 
                 timeDifference--; // 시간 차이를 1초씩 감소
@@ -168,5 +195,31 @@
         }
         /*]]>*/
     </script>
+    <script>
+
+        let scrollTopBtn = document.getElementById("scrollTopBtn");
+
+    // 사용자가 스크롤할 때마다 함수를 실행
+    window.onscroll = function() {
+        scrollFunction();
+    };
+
+    function scrollFunction() {
+        // 스크롤 위치가 20보다 크면 버튼을 표시, 그렇지 않으면 숨김
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            scrollTopBtn.style.display = "block";
+        } else {
+            scrollTopBtn.style.display = "none";
+        }
+    }
+
+    // 버튼을 클릭하면 맨 위로 스크롤
+    scrollTopBtn.onclick = function() {
+        document.body.scrollTop = 0;  // Safari
+        document.documentElement.scrollTop = 0;  // Chrome, Firefox, IE, Opera
+    }
+
+    </script>
+</div>
 </body>
 </html>

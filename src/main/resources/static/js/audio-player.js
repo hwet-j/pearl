@@ -278,7 +278,7 @@
         }
         
         .play-btn {
-
+            margin-left:3px;
             width: 45px;
             min-width: 45px;
             height: 45px;
@@ -421,7 +421,7 @@
             top: 50%;
             left: 0;
             transform: translateY(-50%);
-            opacity: 0.4;
+            opacity: 1;
         }
       </style>
     `

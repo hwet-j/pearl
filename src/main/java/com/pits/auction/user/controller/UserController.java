@@ -112,7 +112,7 @@ public class UserController {
         }
 
         //3.Model //4.view
-        return "redirect:/"; //회원가입성공시  메인화면으로 이동
+        return "redirect:/main/list"; //회원가입성공시  메인화면으로 이동
     }
 
 

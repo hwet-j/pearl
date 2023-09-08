@@ -13,6 +13,7 @@ import com.pits.auction.auth.repository.MemberRepository;
 import com.pits.auction.auth.service.MemberService;
 import com.pits.auction.global.upload.AudioUpload;
 import com.pits.auction.global.upload.ImageUpload;
+import com.pits.auction.user.repository.UserRepository;
 import com.pits.auction.user.service.UserSecurityService;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +22,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -166,6 +170,7 @@ public class MusicAuctionController {
                 }
             }
 
+            model.addAttribute("entries",musicAuctionService.findDetailByNickname(musicAuction.getAuthorNickname().getNickname()));
             model.addAttribute("genre", musicAuction.getGenre().getName());
             model.addAttribute("musicAuction", musicAuction);
 
@@ -196,16 +201,13 @@ public class MusicAuctionController {
         model.addAttribute("musicAuctions", musicAuctions);
         return ("/auction/read");
     }*/
-
-
     //작성 상세 페이지 수정
     @GetMapping("/edit/{id}")
     public String editMusicAuction(@PathVariable("id")Long id,Model model)throws Exception{
+
         MusicAuction musicAuction=musicAuctionService.getAuctionDetail(id);
         List<MusicGenre> genres = musicGenreService.findAllGenres();
         List<BiddingPeriod> biddingPeriods = biddingPeriodService.findAllPeriods();
-
-
         model.addAttribute("genres", genres);
         model.addAttribute("biddingPeriods", biddingPeriods);
         model.addAttribute("musicAuction",musicAuction);
@@ -232,10 +234,6 @@ public class MusicAuctionController {
             // 오디오 파일이 제출되지 않은 경우, 이전 오디오 경로를 그대로 사용
             musicAuctionDTO2.setAlbumMusicPath(existingAuction.getAlbumMusicPath());
         }
-        System.out.println("DTO2="+musicAuctionDTO2.getBiddingPeriod());
-        System.out.println("DTO2="+musicAuctionDTO2.getBiddingPeriod());
-        System.out.println("DTO2="+musicAuctionDTO2.getBiddingPeriod());
-        System.out.println("DTO2="+musicAuctionDTO2.getBiddingPeriod());
         musicAuctionService.editMusicAuction(musicAuctionDTO2,id);
 
         return String.format("redirect:/detail?id=%d",id);

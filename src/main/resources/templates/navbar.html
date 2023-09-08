@@ -26,12 +26,11 @@
                     sec:authorize="isAnonymous()은 로그인하지않는 경우->로그인 출력
                     sec:authorize="isAuthenticated()은 로그인한 경유->로그아웃 출력
                     -->
-                    <a class="logo" href="/" th:href="@{/}"><img src="/pictures/logo.png" style="float:left; margin-left:150px; margin-top:50px;"></a>
-
+                    <a class="logo"  th:href="@{/main/list}"><img src="/pictures/logo.png" style="width:84px; height:42px; float:left; margin-left:180px; margin-top:50px;"></a>
                     <a class="loginBtn" sec:authorize="isAnonymous()" th:href="@{/user/plLogin}"
-                       style="position: absolute; text-decoration:none; margin-left: 1400px; margin-top: 70px;  font-size: 25px; color:white; font-family: 'Roboto', sans-serif;">LogIn</a>
-                    <a class="" sec:authorize="isAuthenticated()" th:href="@{/plMypage}"
-                       style="text-decoration:none; float:left; margin-top: 70px; font-size: 25px; color:white; margin-left: 1260px; font-family: 'Roboto', sans-serif;">MyPage</a>
+                       style="position: absolute; text-decoration:none; margin-left: 1320px; margin-top: 70px;  font-size: 25px; color:white; font-family: 'Roboto', sans-serif;">LogIn</a>
+                    <a class="" sec:authorize="isAuthenticated()" th:href="@{/mypage/userinfo}"
+                       style="text-decoration:none; float:left; margin-top: 70px; font-size: 25px; color:white; margin-left: 1170px; font-family: 'Roboto', sans-serif;">MyPage</a>
                     <a class="" sec:authorize="isAuthenticated()"  th:href="@{/user/plLogout}"
                        style="text-decoration:none; float:left; margin-top: 70px; font-size: 25px; color:white; margin-left: 50px; font-family: 'Roboto', sans-serif;">LogOut</a>
 

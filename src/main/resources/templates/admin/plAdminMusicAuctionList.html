@@ -54,8 +54,25 @@ deleteForm.submit(); // form 제출
     .btn{
      border-color:#fff;}
 </style>
+<nav class="" th:fragment="navbarFragment"
+     xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml" style="width:1920px;height: 100px; float: left; background-color: none;">
+    <div class="bigBox" >
+        <ul class="" style="list-style-type:none;">
+            <li class="nav-item">
+                <a class="logo"  th:href="@{/main/list}"><img src="/pictures/logo.png" style="width:84px; height:42px; float:left; margin-left:180px; margin-top:50px;"></a>
+                <a class="loginBtn" sec:authorize="isAnonymous()" th:href="@{/user/plLogin}"
+                   style="position: absolute; text-decoration:none; margin-left: 1320px; margin-top: 70px;  font-size: 25px; color:white; font-family: 'Roboto', sans-serif;">LogIn</a>
+                <a class="" sec:authorize="isAuthenticated()" th:href="@{/member/list}"
+                   style="text-decoration:none; float:left; margin-top: 70px; font-size: 25px; color:white; margin-left: 900px; font-family: 'Roboto', sans-serif;">MemberList</a>
+                <a class="" sec:authorize="isAuthenticated()" th:href="@{/mypage/userinfo}"
+                   style="text-decoration:none; float:left; margin-top: 70px; font-size: 25px; color:white; margin-left: 50px; font-family: 'Roboto', sans-serif;">MyPage</a>
+                <a class="" sec:authorize="isAuthenticated()"  th:href="@{/user/plLogout}"
+                   style="text-decoration:none; float:left; margin-top: 70px; font-size: 25px; color:white; margin-left: 50px; font-family: 'Roboto', sans-serif;">LogOut</a>
+            </li>
+        </ul>
+    </div>
 <body>
-<div style="margin:150px;" >
+<div style="margin:200px;" >
     <div class="container"  >
 <form method="post" th:object="${musicAuction}" action="/musicAuction/delete">
 <table border="1"  class="table table-dark table-striped" style="text-align: center;">
@@ -73,7 +90,7 @@ deleteForm.submit(); // form 제출
     <tr th:each="musicAuction:${musicAuctionList}" >
         <td><input type="checkbox" name="selectedMusicAutions" th:value="${musicAuction.id}" ></td>
         <td th:text="${musicAuction.id}" name="id"></td>
-        <td name="title"><a th:href="@{/detail/id(id=${musicAuction.id})}" th:text="${musicAuction.title}"></a></td>
+        <td name="title"><a th:href="@{/detail(id=${musicAuction.id})}" th:text="${musicAuction.title}"></a></td>
         <td th:text="${musicAuction.genre.name}" name="genre"></td>
         <td th:text="${musicAuction.authorNickname.nickname}" name="authorNickname"></td>
         <td th:text="${#temporals.format(musicAuction.createdAt,'yyyy-MM-dd HH:mm')}" name="createdAt"></td>
@@ -93,4 +110,5 @@ deleteForm.submit(); // form 제출
     </div>
 </div>
 </body>
+</nav>
 </html>

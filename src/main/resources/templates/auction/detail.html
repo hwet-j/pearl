@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html layout:decorate="~{layout}" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>게시글 상세정보</title>
@@ -50,20 +50,21 @@
 </head>
 
 <body>
-
+<div class="nav1" layout:fragment="content" >
+<div class="box1" th:style="|background-image: url('${musicAuction.albumImage}');|"></div>
 <div class="container">
 
-    <div class="container-header" th:style="|background-image: url('${musicAuction.albumImage}');|">
+    <div class="container-header" >
 
         <div class="title-split-container">
-                <div class="title-left-side">
-                    <img class="title-image" th:src="@{__${musicAuction.albumImage}__}" onError="this.src='/pictures/no_profile.png';" alt="Album Cover">
-                </div>
+            <div class="title-left-side">
+                <img class="title-image" th:src="@{__${musicAuction.albumImage}__}" onError="this.src='/pictures/no_profile.png';" alt="Album Cover">
+            </div>
 
-                <div class="title-right-side">
-                    <div class="flex-container">
-                        <span th:text="${genre}"></span>
-                        <span class="align-right">
+            <div class="title-right-side">
+                <div class="flex-container">
+                    <span th:text="${genre}"></span>
+                    <span class="align-right">
 
                             <span th:if="${#authorization.expression('isAuthenticated() or hasRole(''ROLE_ADMIN'')')}">
                                 <a class="button-edit" th:if="${#authentication.principal.username eq musicAuction.authorNickname.email}" th:href="@{/edit/{id}(id=${musicAuction.id})}">수정</a>
@@ -104,26 +105,26 @@
                             </span>
 
                         </span>
-                    </div>
+                </div>
 
-                    <h1 class="album-title" th:text="${musicAuction.title}">Album Title</h1>
+                <h1 class="album-title" th:text="${musicAuction.title}">Album Title</h1>
 
-                    <div>
-                        <img class="title-profile-image" th:src="@{__${musicAuction.authorNickname.memberImage}__}" onError="this.src='/pictures/no_profile.png';" alt="Album Cover">
-                        <span class="title-author" th:text="${musicAuction.authorNickname.nickname}" >Author</span>
-                    </div>
+                <div>
+                    <img class="title-profile-image" th:src="@{__${musicAuction.authorNickname.memberImage}__}" onError="this.src='/pictures/no_profile.png';" alt="Album Cover">
+                    <span class="title-author" th:text="${musicAuction.authorNickname.nickname}" >Author</span>
+                </div>
 
-                    <div class="title-audio">
-                        <audio-player th:attr="title='Audio Music',
+                <div class="title-audio">
+                    <audio-player th:attr="title='Audio Music',
                         src=${musicAuction.albumMusic},
                         bar-width='3', bar-gap='0.3',
                         preload='preload'"></audio-player>
-                    </div>
-
-                    <script src="/js/audio-player.js"></script>
-
                 </div>
+
+                <script src="/js/audio-player.js"></script>
+
             </div>
+        </div>
     </div>
 
 
@@ -170,40 +171,55 @@
                     </div>
 
                     <div class="body-authorPost">
-                        <div>글번호 , ~~~~~~~~~~~~~~~~~~~~~</div>
-                        <div>글번호 , ~~~~~~~~~~~~~~~~~~~~~</div>
-                        <div>글번호 , ~~~~~~~~~~~~~~~~~~~~~</div>
-                        <div>글번호 , ~~~~~~~~~~~~~~~~~~~~~</div>
+                        <br>
+                        <table border="1" style="width:100%; text-align:center;">
+                        <th style="width:100px;">앨범커버</th>
+                        <th style="width:500px;">제목</th>
+                        <th style="width:100px;">장르</th>
+                        <th style="width:200px;">작성일</th>
+                        <th style="width:100px;">진행여부</th>
+                        <div th:each="entry : ${entries}" >
+                            <tr>
+                            <td >
+                                <img style="width:100px; height:100px;" th:src="${entry.albumImage}"/>
+                            </td>
+                                <td><a th:href="@{/detail?id=__${entry.id}__}" th:for="${entry.title}" th:text="${entry.title}"></a></td>
+
+                            <td th:for="${entry.genre.name}" th:text="${entry.genre.name}"> </td>
+                                <td th:for="${entry.createdAt}" th:text="${entry.createdAt}"></td>
+                                <td th:for="${entry.status}" th:text="${entry.status}"></td></tr>
+                        </div>
+                        </table>
                     </div>
 
                 </div>
 
             </div>
 
-        <div class="body-right-side">
-            <div class="bidding-box">
-                <div th:if="${remainingTime != null}">
-                    <div class="deadline-text">Submission Deadline</div>
-                    <div class="deadline" id="timeDifference"></div>
-                </div>
+            <div class="body-right-side">
+                <div class="bidding-box">
+                    <div th:if="${remainingTime != null}">
+                        <div class="deadline-text">Submission Deadline</div>
+                        <div class="deadline" id="timeDifference"></div>
+                    </div>
 
-                <div th:if="${remainingTime == null}">
-                    <div class="deadline-end">해당 경매는 종료되었습니다.</div>
-                </div>
+                    <div th:if="${remainingTime == null}">
+                        <div class="deadline-end">해당 경매는 종료되었습니다.</div>
+                    </div>
 
-                <div th:if="${maxBiddingPrice != 0}">
-                    <div>Top Price</div>
-                    <div class="money" data-th-text="${#numbers.formatInteger(maxBiddingPrice, 0, 'COMMA') + ' ₩'}"></div>
-                </div>
+                    <div th:if="${maxBiddingPrice != 0}">
+                        <div>Top Price</div>
+                        <div class="money" data-th-text="${#numbers.formatInteger(maxBiddingPrice, 0, 'COMMA') + ' ₩'}"></div>
+                    </div>
 
-                <div th:unless="${maxBiddingPrice != 0}">
-                    <div>경매 시작가<br>(경매 내역이 없습니다)</div>
-                    <div class="money" th:text="${#numbers.formatInteger(musicAuction.startingBid, 0, 'COMMA') + ' ₩'}"></div>
-                </div>
+                    <div th:unless="${maxBiddingPrice != 0}">
+                        <div>경매 시작가<br>(경매 내역이 없습니다)</div>
+                        <div class="money" th:text="${#numbers.formatInteger(musicAuction.startingBid, 0, 'COMMA') + ' ₩'}"></div>
+                    </div>
 
-                <div class="bidding">
+                    <div class="bidding">
 
-                    <div class="bidding-addPrice">
+                        <div class="bidding-addPrice">
 
                         <span class="bidding-button">
                             <span class="left-align-button">
@@ -217,52 +233,52 @@
                             </span>
                         </span>
 
+                        </div>
+
+
+                        <div th:if="${#authorization.expression('isAuthenticated()')}">
+                            <form id="biddingForm" action="" method="post">
+
+                                <div>
+                                    <input type="hidden" name="startPrice" th:value="${musicAuction.startingBid}"/>
+                                    <input type="hidden" name="auctionId" th:value="${musicAuction.id}"/>
+                                    <input type="hidden" name="bidder" th:value="${#authentication.principal.username}"/>
+                                    <input type="number" id="bidding_price" name="bidding_price" th:value="${maxBiddingPrice}"/>
+
+                                </div>
+
+                                <div>
+                                    <input type="submit" value="입찰하기"/>
+                                </div>
+
+                            </form>
+                        </div>
                     </div>
 
-
-                    <div th:if="${#authorization.expression('isAuthenticated()')}">
-                        <form id="biddingForm" action="" method="post">
+                    <div th:unless  ="${#authorization.expression('isAuthenticated()')}">
+                        <form id="biddingForm-logout" action="" method="post">
 
                             <div>
-                                <input type="hidden" name="startPrice" th:value="${musicAuction.startingBid}"/>
-                                <input type="hidden" name="auctionId" th:value="${musicAuction.id}"/>
-                                <input type="hidden" name="bidder" th:value="${#authentication.principal.username}"/>
-                                <input type="number" id="bidding_price" name="bidding_price" th:value="${maxBiddingPrice}"/>
-
+                                <input type="number" placeholder="비회원은 입찰이 불가합니다." readonly/>
                             </div>
 
                             <div>
-                                <input type="submit" value="입찰하기"/>
+                                <input type="submit" id="submitButton" value="입찰하기"/>
                             </div>
 
                         </form>
                     </div>
-                </div>
 
-                <div th:unless  ="${#authorization.expression('isAuthenticated()')}">
-                    <form id="biddingForm-logout" action="" method="post">
-
-                        <div>
-                            <input type="number" placeholder="비회원은 입찰이 불가합니다." readonly/>
-                        </div>
-
-                        <div>
-                            <input type="submit" id="submitButton" value="입찰하기"/>
-                        </div>
-
-                    </form>
                 </div>
 
             </div>
-
-        </div>
 
         </div>
     </div>
 
 </div>
 
-
+</div>
 <script th:inline="javascript">
     function showLoginAlert() {
         Swal.fire({

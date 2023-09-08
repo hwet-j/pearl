@@ -5,6 +5,17 @@ body {
     font-family: 'Noto Sans KR', 'Roboto', sans-serif;
 }
 
+.box1{
+    position:absolute;
+    top: 150px;
+    width: 1920px;
+    height: 400px;
+    opacity: 0.4;
+    z-index: -999;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
 
 /***************************/
 /* 전체를 묶어주는 container */
@@ -31,6 +42,8 @@ body {
     margin-right:-160px;
     padding-left: 160px;
     padding-right: 160px;
+    margin-top: 100px;
+    width: 1870px;
 }
 
 /***************************/
@@ -78,6 +91,8 @@ body {
     width: 320px;
     height: 320px;
     object-fit: cover;
+    margin-left: 30px;
+    margin-top: -30px;
 }
 
 .title-profile-image{

@@ -105,10 +105,10 @@ public class MusicAuction {
             String unit = matcher.group(2);
 
             switch (unit) {
-                case "주":
+                case "week":
                     this.endTime = this.createdAt.plusWeeks(value);
                     break;
-                case "개월":
+                case "month":
                     this.endTime = this.createdAt.plusMonths(value);
                     break;
                 default:
@@ -139,10 +139,10 @@ public class MusicAuction {
             String unit = matcher.group(2);
 
             switch (unit) {
-                case "주":
+                case "week":
                     this.endTime = LocalDateTime.now().plusWeeks(value);
                     break;
-                case "개월":
+                case "month":
                     this.endTime =  LocalDateTime.now().plusMonths(value);
                     break;
                 default:

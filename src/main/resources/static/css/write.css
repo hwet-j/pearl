@@ -1,6 +1,7 @@
 .back {
+font-family: 'Noto Sans KR', sans-serif;
+font-family: 'Roboto', sans-serif;
     width: 1920px;
-    height: 2000px;
     background-color: black;
     color: white;
     display: flex;
@@ -10,9 +11,30 @@
     overflow: auto;
 }
 
+
+.back {
+    position: absolute;
+    background-image: url('/pictures/background/writeback.png');
+    width: 1920px;
+    height: 910px;
+}
+
+p {
+    font-size : 20px;
+    font-weight: 600;
+}
+
+
+
+
+
+
+
+
 .form-container {
    display: flex;
-   margin-top: 46px;
+   margin-top: 30px;
+   margin-left: 50px;
    width: 1920px;
    justify-content: center;
 }
@@ -23,8 +45,9 @@
 }
 
 .verticalLine {
-   border-left: 3px solid white;
-   height: 510px
+   border-left: 2px solid white;
+   opacity: 0.5;
+   height: 750px;
    margin-left: 10px;
    margin-right: 10px;
    margin: 50px 50px;
@@ -34,9 +57,37 @@
     margin-right: 600px;
 }
 
+
+.error-message {
+    font-size: 15px;
+    position: absolute;
+    margin-top: 10px;
+    font-color: #9A97FF;
+}
+
+.error1 {
+    position:absolute;
+    font-size:13px;
+    color:#9A97FF;
+    display:none;
+    margin-top: -55px;
+    width: 130px;
+    font-weight:bold;
+}
+
+.error2 {
+    position:absolute;
+    font-size:13px;
+    color:#9A97FF;
+    width: 120px;
+    top: 490px;
+}
+
+
 .radio-item {
     display: inline-block;
-    margin-right: 10px; /* 오른쪽 간격 추가, 필요에 따라 조절 가능 */
+    margin-right: 17px; /* 오른쪽 간격 추가, 필요에 따라 조절 가능 */
+
 }
 
 .image-upload-container {
@@ -45,56 +96,119 @@
 }
 
 .custom-file-upload {
+    font-size: 15px;
    display: inline-block;
    padding: 6px 12px;
    cursor: pointer;
    background-color: none;
    color: white;
    border: 2px solid white;
-   border-radius: 4px;
+   border-radius: 30px;
    margin-left: 140px;
-   margin-top: 15px;
+   margin-top: 0px;
 }
 
 .submit-button {
+    font-size: 15px;
     background-color: transparent;
     border-radius: 5px;
     border: 3px solid white;
     color: white;
-    margin-left: 180px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    width: 110px;
+    height: 40px;
+    margin-left: 140px;
     padding-left: 10px;
     padding-right: 10px;
-    margin-top: 90px;
+    margin-top: 150px;
+    border-radius: 30px;
+    font-weight:bold;
+}
+
+
+
+.priceTitle {
+
+    margin-bottom: -10px;
+}
+.musicTitle {
+    margin-bottom: 10px;
 }
 
 #startingBid, #title {
     color: white;
     background-color: transparent;
     border: 3px solid white;
-    border-radius: 5px;
-    width: 250px;
-    height: 30px;
-    margin-top: 8px;
+    border-radius: 10px;
+    width: 300px;
+    height: 40px;
+    margin-top: 10px;
+}
+
+
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
 }
 
 #content {
     color: white;
     background-color: transparent;
     border: 3px solid white;
-    border-radius: 5px;
+    border-radius: 10px;
     margin-top: 8px;
+    width: 600px;
+    height: 200px;
+    resize:none;
 }
+
+input {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    padding-left: 10px;
+    font-size: 15px;
+}
+
+
+textarea {
+font-family: 'Noto Sans KR', sans-serif;
+font-family: 'Roboto', sans-serif;
+
+    padding:10px;
+    font-size: 15px;
+}
+
+textarea::-webkit-scrollbar {
+    width: 5px;  /* 스크롤바의 너비 */
+    margin-left: 5px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+    background-color: #888;  /* 스크롤바 핸들 색상 */
+    border-radius: 4px;      /* 스크롤바 핸들 모서리 둥글게 */
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+    background-color: #fff;  /* 스크롤바 핸들 마우스 오버시 색상 */
+}
+
 
 #albumMusicName {
    color: white;
    background-color: transparent;
    border: 3px solid white;
-   border-radius: 5px;
-   width: 240px;
-   height: 30px;
-   margin-top: 8px;
+   border-radius: 10px;
+   width: 232px;
+   height: 40px;
+   margin-top: -20px;
+   margin-bottom: 20px;
 }
 
 img {

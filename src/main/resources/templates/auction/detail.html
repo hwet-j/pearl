@@ -171,10 +171,25 @@
                     </div>
 
                     <div class="body-authorPost">
-                        <div>글번호 , ~~~~~~~~~~~~~~~~~~~~~</div>
-                        <div>글번호 , ~~~~~~~~~~~~~~~~~~~~~</div>
-                        <div>글번호 , ~~~~~~~~~~~~~~~~~~~~~</div>
-                        <div>글번호 , ~~~~~~~~~~~~~~~~~~~~~</div>
+                        <br>
+                        <table border="1" style="width:100%; text-align:center;">
+                        <th style="width:100px;">앨범커버</th>
+                        <th style="width:500px;">제목</th>
+                        <th style="width:100px;">장르</th>
+                        <th style="width:200px;">작성일</th>
+                        <th style="width:100px;">진행여부</th>
+                        <div th:each="entry : ${entries}" >
+                            <tr>
+                            <td >
+                                <img style="width:100px; height:100px;" th:src="${entry.albumImage}"/>
+                            </td>
+                                <td><a th:href="@{/detail?id=__${entry.id}__}" th:for="${entry.title}" th:text="${entry.title}"></a></td>
+
+                            <td th:for="${entry.genre.name}" th:text="${entry.genre.name}"> </td>
+                                <td th:for="${entry.createdAt}" th:text="${entry.createdAt}"></td>
+                                <td th:for="${entry.status}" th:text="${entry.status}"></td></tr>
+                        </div>
+                        </table>
                     </div>
 
                 </div>

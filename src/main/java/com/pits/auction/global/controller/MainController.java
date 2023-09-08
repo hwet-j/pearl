@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MainController {
 
 
-    @RequestMapping("/")
+    @RequestMapping("/main/list")
     public String index(Model model){
 
         model.addAttribute("team", "Pearl in the Soil");
 
-        return "plMain";
+        return "/auction/read";
     }
 
 

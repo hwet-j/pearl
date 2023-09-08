@@ -261,16 +261,16 @@ width:1080px;
 }
 
 .scroller .top{
-    margin-left:30px;
+    margin-left:20px;
     margin-right:30px;
     margin-top:20px;
     font-weight:bolder;
-    font-size:23px;
+    font-size:20px;
 }
 .scroller .bottom{
-    margin-left:30px;
+    margin-left:20px;
     margin-right:30px;
-    margin-top:15px;
+    margin-top:10px;
 }
 
 img{

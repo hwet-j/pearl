@@ -91,7 +91,7 @@ function selectTrack(index) {
     document.getElementById('currentTrackCover').src = tracks[trackIndex].albumImage;
     document.getElementById('currentTrackCover').setAttribute('onerror', "this.src='/pictures/image_not_found.png'");
 
-    audioElement.src = tracks[trackIndex].src;
+    audioElement.src = tracks[trackIndex].albumMusic;
     playPauseIcon.src = "/pictures/sidebar-audio-icon/pause.png";
     audioElement.play();
 }

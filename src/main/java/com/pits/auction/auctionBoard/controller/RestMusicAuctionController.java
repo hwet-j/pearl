@@ -6,6 +6,7 @@ import com.pits.auction.auctionBoard.entity.MusicAuctionProjection;
 import com.pits.auction.auctionBoard.service.MusicAuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -60,7 +61,8 @@ public class RestMusicAuctionController {
             List<MusicAuctionProjection> top5MusicList = top5Musics.getContent();
             return ResponseEntity.ok(top5MusicList);
         }else{
-            return null;
+
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
     }
 }

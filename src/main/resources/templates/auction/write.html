@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  xmlns:layout="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>write</title>
@@ -7,6 +7,22 @@
 </head>
 <body class="back">
 
+<div class="bigBox">
+
+
+
+    <ul class="" style="list-style-type:none;">
+        <li class="nav-item">
+
+            <a class="logo"  th:href="@{/main/list}"><img src="/pictures/logo.png" style="width:84px; height:42px; float:left; margin-left:180px; margin-top:50px;"></a>
+
+
+        </li>
+
+    </ul>
+
+
+</div>
 
 <div class="background"></div>
 <form th:action="@{/write}" th:object="${musicAuctionDTO}" method="post" enctype="multipart/form-data">

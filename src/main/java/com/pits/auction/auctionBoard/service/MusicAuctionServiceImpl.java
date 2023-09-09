@@ -220,6 +220,10 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
         }
         return null;
     }
+    @Override
+    public List<MusicAuction> findDetailByNickname(String authorNickname){
+        return musicAuctionRepository.findByAuthorNickname_Nickname(authorNickname);
+    }
 
     @Override
     public List<MusicAuction> findDetailByNickname(String authorNickname) {

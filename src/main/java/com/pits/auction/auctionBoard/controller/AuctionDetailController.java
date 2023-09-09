@@ -1,6 +1,5 @@
 package com.pits.auction.auctionBoard.controller;
 
-import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO2;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
 import com.pits.auction.auctionBoard.service.MusicAuctionService;
@@ -25,13 +24,12 @@ public class AuctionDetailController {
         MusicAuctionDTO2 auctionDetail = musicAuctionService.findDetailById(id);
         model.addAttribute("auctionDetail", auctionDetail);
 
-
         return "auction/detail";
     }
 
     @GetMapping()
-    public List<MusicAuction> entries(@RequestParam String authorNickname, Model model) {
-        List<MusicAuction> entries = musicAuctionService.findDetailByNickname(authorNickname);
-        return entries;
-    }
+    public List<MusicAuction> entries(@RequestParam String authorNickname, Model model){
+    List<MusicAuction> entries=musicAuctionService.findDetailByNickname(authorNickname);
+    return entries;
+}
 }

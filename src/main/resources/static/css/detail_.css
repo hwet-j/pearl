@@ -1,20 +1,20 @@
 
 /* 배경 색상 */
 body {
-    background-color: #020202;
+background-color: #212024;
     font-family: 'Noto Sans KR', 'Roboto', sans-serif;
 }
 
 .box1{
     position:absolute;
-    top: 150px;
+    top: 165px;
     width: 1920px;
-    height: 400px;
+    height: 450px;
     opacity: 0.4;
     z-index: -999;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
+    background-size: cover; /* 이미지 크기를 컨테이너 크기에 맞게 조절 */
+              background-repeat: no-repeat; /* 이미지가 반복되지 않도록 */
+              background-position: center center; /* 이미지를 중앙에 위치시킴 */
 }
 
 /***************************/
@@ -37,13 +37,14 @@ body {
 /* 전체에서 상 container */
 /***************************/
 .container-header {
+
   background-color: inherit;
-    margin-left:-160px;
+    margin-left:-140px;
     margin-right:-160px;
     padding-left: 160px;
     padding-right: 160px;
-    margin-top: 100px;
-    width: 1870px;
+    margin-top: 80px;
+    width: 1470px;
 }
 
 /***************************/
@@ -80,19 +81,21 @@ body {
 /* 좌측 영역 */
 .title-left-side {
     flex: 1;
+    background-color: #212024;
 }
 
 /* 우측 영역 */
 .title-right-side {
     flex: 3;
+    background-color: #212024;
 }
 
 .title-image{
-    width: 320px;
-    height: 320px;
+    width: 350px;
+    height: 350px;
     object-fit: cover;
     margin-left: 30px;
-    margin-top: -30px;
+
 }
 
 .title-profile-image{
@@ -107,7 +110,10 @@ body {
 }
 
 .title-author {
-  font-style: italic;
+    position:absolute;
+    font-size: 20px;
+    margin-top: 5px;
+    margin-left: 12px;
 }
 
 .flex-container {
@@ -116,7 +122,19 @@ body {
     flex-wrap: nowrap; /* 줄바꿈 없이 한 줄에 요소 표시 */
 }
 
+.genre {
+    margin-top: 2px;
+    padding-top: 2px;
+    text-align : center;
+    border: 2px solid white;
+    width: 80px;
+    height: 30px;
+    border-radius: 10px;
+}
+
 .heart-button {
+    margin-left: 10px;
+    margin-right: 10px;
     background: none;
     border: none;
     cursor: pointer;
@@ -154,7 +172,10 @@ body {
 }
 
 /* 좌,우 공통 */
-.body-left-side,
+.body-left-side{
+    margin-left: 20px;
+    color: white;
+}
 .body-right-side {
     padding: 20px;
     box-sizing: border-box;
@@ -165,6 +186,7 @@ body {
 
 /* 좌측 영역 */
 .body-left-side {
+   padding: 30px;
     flex: 3.5;
     background-color: #212024;
 }
@@ -178,8 +200,19 @@ body {
 .body-content{
 
      /* 스크롤 활성화 */
-    height:800px;
+    width: 1000px;
+    height:500px;
     overflow: auto;
+    -ms-overflow-style: none;
+}
+
+.body-content::-webkit-scrollbar {
+    display: none;
+}
+
+.body-content {
+    -ms-overflow-style: none;  /* IE 10+ */
+    scrollbar-width: none; /* Firefox */
 }
 
 /*******************/
@@ -205,8 +238,9 @@ body {
 
 
 .description{
+    margin-left: 20px;
     font-weight: bold;
-    font-size: 42px;
+    font-size: 30px;
     margin-bottom:32px;
 }
 
@@ -217,14 +251,30 @@ body {
     white-space: pre-wrap;
 }
 
+.dolby {
+    position:absolute;
+    top:670px;
+    left: 1290px;
+    width: 320px;
+    height: 72px;
+    background-image:url('/pictures/dolby.png');
+}
+.sticky{
+    position: fixed;
+    bottom: 285px;
+    width: 315px;
+}
 
 .bidding-box{
-    height:315px;
+    margin-left:1062px;
+    margin-top:-1170px;
+    max-width: 315px;
+    height:395px;
     background-color: inherit;
-    color:#804EF1;
-    border: 4px solid #804EF1; /* 테두리 두께와 색상 설정 */
-    border-radius: 30px;
-    padding:20px;
+    color:#9A97FF;
+    border: 4px solid #9A97FF; /* 테두리 두께와 색상 설정 */
+    border-radius: 20px;
+    padding-top: 50px;
     text-align: center;
     justify-content: center;
     align-items: center;
@@ -232,15 +282,45 @@ body {
 
 .bidding-box input[type="number"],
 .bidding-box input[type="submit"]{
-    border: 2.5px solid #804EF1; /* 테두리 설정 */
-    border-radius: 12px; /* 테두리 둥글게 설정 */
+    margin-top: 10px;
+    border: 2.5px solid #9A97FF; /* 테두리 설정 */
+    border-radius: 30px; /* 테두리 둥글게 설정 */
     background-color: inherit;
-    color: #804EF1;
+    color: #9A97FF;
+    width: 120px;
+    height: 50px;
+    text-align: right;
+    padding-left: 10px;
+    padding-right: 18px;
+    font-weight: bold;
+    font-size: 20px;
+}
 
+.bidding-box input[type="submit"]:hover{
+    margin-top: 10px;
+    border: 2.5px solid #9A97FF; /* 테두리 설정 */
+    border-radius: 30px; /* 테두리 둥글게 설정 */
+    background-color: #9A97FF;
+    color: white;
+    width: 120px;
+    height: 50px;
+    text-align: right;
+    padding-left: 10px;
+    padding-right: 18px;
+    font-weight: bold;
+    font-size: 20px;
+    transition: all 0.3s;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .bidding-box input[type="number"]{
-    width:100%;
+    width:72%;
+
     margin-top: 5px;
     margin-bottom: 13px;
     height: 30px;
@@ -256,14 +336,33 @@ body {
 
 .bidding-addPrice button{
     flex: 1;
-    width:62px;
-    border: 2.5px solid #804EF1;
-    border-radius: 25px;
+    width:80px;
+    height: 30px;
+    border: 2.5px solid #9A97FF;
+    border-radius: 15px;
     background-color: inherit;
-    color: #804EF1;
+    color: #9A97FF;
     cursor: pointer;
     margin-top: 5px;
-    margin-bottom: 5px;
+    margin-left:2px;
+    margin-right:2px;
+    margin-bottom: 0px;
+}
+
+.bidding-addPrice button:hover{
+    flex: 1;
+    width:80px;
+    height: 30px;
+    border: 2.5px solid #9A97FF;
+    border-radius: 15px;
+    background-color: #9A97FF;
+    transition: all 0.3s;
+    color: white;
+    cursor: pointer;
+    margin-top: 5px;
+    margin-left:2px;
+    margin-right:2px;
+    margin-bottom: 0px;
 }
 
 .bidding-button{
@@ -291,7 +390,7 @@ body {
 
 .deadline{
     font-weight: bold;
-    font-size: 21px;
+    font-size: 25px;
     margin-bottom: 20px;
 }
 
@@ -319,15 +418,25 @@ body {
 }
 
 .button-container button {
+    margin-left: -10px;
+    border: none;
+    height: 70px;
+    margin-top: 40px;
     flex-grow: 1;               /* 버튼 요소가 가능한 한 너비를 확장 */
     border-top: none;           /* 테두리 상단 제거 */
     background-color: inherit;  /* 부모 요소의 배경색 상속 */
-    color:white;
+    color:gray;
     font-size: 32px;
 }
 
 .button-container button.active {
-    text-decoration: underline; /* 클릭되었을 때 밑줄 스타일을 추가합니다. */
+            color:white;
+        background: linear-gradient(to right, #212024, #212024 39%, white 39%, white 61%, #212024 61%, #212024);
+            background-repeat: no-repeat;
+            background-position: bottom;
+            background-size: 100% 7px; /* "border"의 두께 결정 */
+             /* "border" 공간 확보 */
+            font-weight: bold;
 }
 
 
@@ -345,6 +454,15 @@ body {
     resize: none; /* 크기 조절 핸들 비활성화 */
 }
 
+.whiteLine {
+    border: 1px solid gray;
+    width: 980px;
+    margin-top: 50px;
+    margin-left: 20px;
+    opacity: 0.5;
+    margin-bottom : -50px;
+}
+
 
 .comment-submit-button {
     background-color: inherit; /* 배경색 부모 객체의 배경색 상속 */
@@ -357,6 +475,7 @@ body {
 }
 
 .auction-container{
+    width: 1000px;
     height: 700px;
     overflow: auto; /* 스크롤 활성화 */
 }

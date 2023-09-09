@@ -16,25 +16,14 @@
 
 
 
-
-
-
 </head>
 <body>
 <div class="nav1" layout:fragment="content" >
 
-
+    <div class="bg0"></div>
     <div class="bg"></div>
-    <div class="bg2"></div>
-    <div class="bg3"></div>
-    <div class="bg4"></div>
-    <div class="bg5"></div>
-    <div class="bg6"></div>
-    <div class="bg7"></div>
-    <div class="bg8"></div>
-    <div class="bg9"></div>
-    <div class="bg10"></div>
-    <div class="bg11"></div>
+
+
 
     <button id="scrollTopBtn" style="display:none; position: fixed; bottom: 70px; right: 130px;"><img src="/pictures/topbtn.png"></button>
 
@@ -84,6 +73,9 @@
                 <div class="card">
                     <div class="albumImage">
                         <img th:src="${musicAuctions.albumImage}" th:onerror="'this.src=\'/pictures/image_not_found.png\''">
+                    </div>
+                    <div class="genreDiv">
+                        <div th:text="${musicAuctions.genre.name}" class="genre"></div>
                     </div>
                     <div class="top">
                         <div th:text="${musicAuctions.title}"></div>
@@ -148,6 +140,11 @@
     <script src="/js/dropdown.js"></script>
     <script src="/js/infiniteScroll.js"></script>
     <script src="/js/sidebar-audio-player.js"></script>
+
+
+
+
+
     <script>
         new Swiper('.swiper', {
      direction: 'vertical',
@@ -195,6 +192,7 @@
         }
         /*]]>*/
     </script>
+
     <script>
 
         let scrollTopBtn = document.getElementById("scrollTopBtn");

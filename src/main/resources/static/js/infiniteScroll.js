@@ -1,5 +1,5 @@
 const container = document.querySelector('.scroller');
-let page = 3; // 시작 페이지 번호 (2부터 시작)
+let page = 4; // 시작 페이지 번호 (2부터 시작)
 let loading = false;
 const loadingIndicator = document.getElementById('loadingIndicator');
 
@@ -11,7 +11,7 @@ function adjustSidebarHeight() {
 function fetchMoreData() {
     if (loading) return; // 이미 로딩 중이라면 중복 호출 방지
     loading = true; // 로딩 시작
-    loadingIndicator.style.display = 'block'; // 로딩 중 엘리먼트 표시
+   /* loadingIndicator.style.display = 'block'; // 로딩 중 엘리먼트 표시*/
 
     setTimeout(() => {
         fetch(`/main/getMore/${page}`)
@@ -31,6 +31,11 @@ function fetchMoreData() {
                         };
                         albumImage.appendChild(image);
 
+                        const genreDiv = document.createElement('div');
+                        genreDiv.classList.add('genreDiv');
+                        genreDiv.textContent = musicAuction.genre.name;
+
+
                         const top = document.createElement('div');
                         top.classList.add('top');
                         top.textContent = musicAuction.title;
@@ -39,7 +44,9 @@ function fetchMoreData() {
                         bottom.classList.add('bottom');
                         bottom.textContent = musicAuction.authorNickname.nickname;
 
+
                         card.appendChild(albumImage);
+                        card.appendChild(genreDiv);
                         card.appendChild(top);
                         card.appendChild(bottom);
 
@@ -59,7 +66,7 @@ function fetchMoreData() {
 
                 adjustSidebarHeight();//사이드바 연장
             });
-    }, 150); // 로딩 시간 0.5초 설정
+    }, 300); // 로딩 시간 0.5초 설정
 }
 
 function checkScroll() {

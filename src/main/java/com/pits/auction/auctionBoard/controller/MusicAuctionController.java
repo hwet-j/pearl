@@ -13,7 +13,6 @@ import com.pits.auction.auth.repository.MemberRepository;
 import com.pits.auction.auth.service.MemberService;
 import com.pits.auction.global.upload.AudioUpload;
 import com.pits.auction.global.upload.ImageUpload;
-import com.pits.auction.user.repository.UserRepository;
 import com.pits.auction.user.service.UserSecurityService;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,9 +21,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -169,7 +165,6 @@ public class MusicAuctionController {
                     model.addAttribute("wish", wishListService.countByMemberNicknameAndAuctionId(optionalMember.get(), musicAuction));
                 }
             }
-
             model.addAttribute("entries",musicAuctionService.findDetailByNickname(musicAuction.getAuthorNickname().getNickname()));
             model.addAttribute("genre", musicAuction.getGenre().getName());
             model.addAttribute("musicAuction", musicAuction);
@@ -201,6 +196,8 @@ public class MusicAuctionController {
         model.addAttribute("musicAuctions", musicAuctions);
         return ("/auction/read");
     }*/
+
+
     //작성 상세 페이지 수정
     @GetMapping("/edit/{id}")
     public String editMusicAuction(@PathVariable("id")Long id,Model model)throws Exception{

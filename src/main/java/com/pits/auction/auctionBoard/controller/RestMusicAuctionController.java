@@ -61,6 +61,7 @@ public class RestMusicAuctionController {
             List<MusicAuctionProjection> top5MusicList = top5Musics.getContent();
             return ResponseEntity.ok(top5MusicList);
         }else{
+
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
     }

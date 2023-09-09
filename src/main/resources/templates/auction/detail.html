@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout}" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>게시글 상세정보</title>
@@ -45,12 +45,47 @@
         });
     });
 
-    </script>
+</script>
+
 
 </head>
 
 <body>
-<div class="nav1" layout:fragment="content" >
+<div class="bigBox">
+
+
+
+    <ul class="" style="list-style-type:none;">
+        <li class="nav-item">
+            <!-- 타임리프의 security이용
+            sec:authorize="isAnonymous()은 로그인하지않는 경우->로그인 출력
+            sec:authorize="isAuthenticated()은 로그인한 경유->로그아웃 출력
+            -->
+            <a class="logo"  th:href="@{/main/list}"><img src="/pictures/logo.png" style="width:84px; height:42px; float:left; margin-left:180px; margin-top:50px;"></a>
+
+            <a class="loginBtn" sec:authorize="isAnonymous()" th:href="@{/user/plLogin}"
+               style="position: absolute; text-decoration:none; margin-left: 1320px; margin-top: 70px;  font-size: 25px; color:white; font-family: 'Roboto', sans-serif;">LogIn</a>
+            <a class="" sec:authorize="isAuthenticated()" th:href="@{/mypage/userinfo}"
+               style="text-decoration:none; float:left; margin-top: 70px; font-size: 25px; color:white; margin-left: 1170px; font-family: 'Roboto', sans-serif;">MyPage</a>
+            <a class="" sec:authorize="isAuthenticated()"  th:href="@{/user/plLogout}"
+               style="text-decoration:none; float:left; margin-top: 70px; font-size: 25px; color:white; margin-left: 50px; font-family: 'Roboto', sans-serif;">LogOut</a>
+
+
+            <!-- 카카오 로그인 후 로그인/로그아웃 링크 변경 -->
+
+            <!-- <a class="logoutKakao" href="javascript:kakaoLogout();" >
+                 로그아웃
+             </a>-->
+
+
+
+
+        </li>
+
+    </ul>
+
+
+</div>
 <div class="box1" th:style="|background-image: url('${musicAuction.albumImage}');|"></div>
 <div class="container">
 
@@ -63,7 +98,7 @@
 
             <div class="title-right-side">
                 <div class="flex-container">
-                    <span th:text="${genre}"></span>
+                    <span th:text="${genre}" class="genre"></span>
                     <span class="align-right">
 
                             <span th:if="${#authorization.expression('isAuthenticated() or hasRole(''ROLE_ADMIN'')')}">
@@ -77,7 +112,7 @@
                                 <span th:if="${wish != 0}">
                                     <a th:href="@{/detail/click-wishbutton(auctionId=${musicAuction.id})}">
                                         <button class="heart-button">
-                                             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="red" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="#9A97FF" stroke="#9A97FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                  <path d="M12 21.35l-1.45-1.32C5.4 16.25 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 7.75-8.55 11.54L12 21.35z" />
                                              </svg>
                                         </button>
@@ -87,7 +122,7 @@
                                 <span th:if="${wish == 0}">
                                     <a th:href="@{/detail/click-wishbutton(auctionId=${musicAuction.id})}">
                                         <button class="heart-button">
-                                             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#9A97FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                  <path d="M12 21.35l-1.45-1.32C5.4 16.25 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 7.75-8.55 11.54L12 21.35z" />
                                              </svg>
                                         </button>
@@ -98,7 +133,7 @@
 
                             <span th:unless="${#authorization.expression('isAuthenticated()')}">
                                 <button class="heart-button" onclick="showLoginAlert()">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="9A97FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                          <path d="M12 21.35l-1.45-1.32C5.4 16.25 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 7.75-8.55 11.54L12 21.35z" />
                                      </svg>
                                 </button>
@@ -133,14 +168,14 @@
         <div class="body-split-container">
 
             <div class="body-left-side">
-
+                <div class="description">Description</div>
                 <div class="body-content">
-                    <div class="description">Description</div>
+
 
                     <div class="content" th:text="${musicAuction.content}"></div>
 
                 </div>
-                <hr/>
+                <div class="whiteLine"></div>
                 <div style="margin-top:30px"> </div>
 
                 <div class="auction-container">
@@ -172,34 +207,34 @@
 
                     <div class="body-authorPost">
                         <br>
-                        <table border="1" style="width:100%; text-align:center;">
-                        <th style="width:100px;">앨범커버</th>
-                        <th style="width:500px;">제목</th>
-                        <th style="width:100px;">장르</th>
-                        <th style="width:200px;">작성일</th>
-                        <th style="width:100px;">진행여부</th>
-                        <div th:each="entry : ${entries}" >
-                            <tr>
-                            <td >
-                                <img style="width:100px; height:100px;" th:src="${entry.albumImage}"/>
-                            </td>
-                                <td><a th:href="@{/detail?id=__${entry.id}__}" th:for="${entry.title}" th:text="${entry.title}"></a></td>
+                        <table border="1" style="width:900px; text-align:center;">
+                            <th style="width:100px;">앨범커버</th>
+                            <th style="width:500px;">제목</th>
+                            <th style="width:100px;">장르</th>
+                            <th style="width:200px;">작성일</th>
+                            <th style="width:100px;">진행여부</th>
+                            <div th:each="entry : ${entries}" >
+                                <tr>
+                                    <td >
+                                        <img style="width:100px; height:100px;" th:src="${entry.albumImage}"/>
+                                    </td>
+                                    <td><a th:href="@{/detail?id=__${entry.id}__}" th:for="${entry.title}" th:text="${entry.title}"></a></td>
 
-                            <td th:for="${entry.genre.name}" th:text="${entry.genre.name}"> </td>
-                                <td th:for="${entry.createdAt}" th:text="${entry.createdAt}"></td>
-                                <td th:for="${entry.status}" th:text="${entry.status}"></td></tr>
-                        </div>
+                                    <td th:for="${entry.genre.name}" th:text="${entry.genre.name}"> </td>
+                                    <td th:for="${entry.createdAt}" th:text="${entry.createdAt}"></td>
+                                    <td th:for="${entry.status}" th:text="${entry.status}"></td></tr>
+                            </div>
                         </table>
-                    </div>
 
                 </div>
 
             </div>
 
             <div class="body-right-side">
+                <div class="dolby"></div>
                 <div class="bidding-box">
                     <div th:if="${remainingTime != null}">
-                        <div class="deadline-text">Submission Deadline</div>
+                        <div class="deadline-text">SUBMISSION DEADLINE</div>
                         <div class="deadline" id="timeDifference"></div>
                     </div>
 
@@ -248,7 +283,7 @@
                                 </div>
 
                                 <div>
-                                    <input type="submit" value="입찰하기"/>
+                                    <input type="submit" value="Bidding"/>
                                 </div>
 
                             </form>
@@ -259,11 +294,11 @@
                         <form id="biddingForm-logout" action="" method="post">
 
                             <div>
-                                <input type="number" placeholder="비회원은 입찰이 불가합니다." readonly/>
+                                <input type="number" placeholder="Please login." readonly/>
                             </div>
 
                             <div>
-                                <input type="submit" id="submitButton" value="입찰하기"/>
+                                <input type="submit" id="submitButton" value="Bidding"/>
                             </div>
 
                         </form>
@@ -276,9 +311,24 @@
         </div>
     </div>
 
-</div>
+
 
 </div>
+<script>
+    const element = document.querySelector('.bidding-box'); // 고정할 요소의 선택자
+    const offset = 600; // 스크롤을 얼마나 내렸을 때 요소를 고정할 것인지의 픽셀 값
+
+    window.addEventListener("scroll", function() {
+        if (window.pageYOffset > offset) {
+            element.classList.add("sticky");
+        } else {
+            element.classList.remove("sticky");
+        }
+    });
+
+</script>
+
+
 <script th:inline="javascript">
     function showLoginAlert() {
         Swal.fire({

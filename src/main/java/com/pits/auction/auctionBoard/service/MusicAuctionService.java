@@ -36,6 +36,5 @@ public interface MusicAuctionService {
     public void editMusicAuction(MusicAuctionDTO2 musicAuctionDTO2, Long id);
 
     MusicAuction getAuctionDetail(Long id);
-
     List<MusicAuction> findDetailByNickname(String authorNickname);
 }

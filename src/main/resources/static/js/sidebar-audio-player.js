@@ -15,7 +15,7 @@ async function fetchTracks() {
         if (!response.ok) {
             throw new Error('Network response was not ok ' + response.statusText);
         }
-
+        console.log(response.toString());
         tracks = await response.json();
         initPlaylist(); // 데이터 로딩 후 플레이리스트 초기화
     } catch (error) {

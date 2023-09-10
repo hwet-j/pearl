@@ -138,11 +138,11 @@
                     <div class="inner-divider"></div>
                 </div>
                 <div class="inner-right">
-                   <div class="bidname" th:text="${auction.title}"></div>
-
-
-
+                    <a class="image-link" th:href="@{|/detail?id=${auction.id}|}">
+                       <div class="bidname" th:text="${auction.title}"></div>
+                    </a>
                    <div class="mybid">My Bidding Price<br/> <span th:text="${myPrice}"></span></div>
+
                    <div class="topprice">Top Price<br/> <span th:text="${maxPrice}"></span></div>
                 </div>
             </div>
@@ -157,10 +157,10 @@
                     <div class="inner-divider"></div>
                 </div>
 
-
                 <div class="inner-right">
+                    <div class="bidname">입찰 내역이 존재하지 않습니다.</div>
 
-
+                    <a class="main-link" th:href="@{|/main/list|}"><div class="mybid">경매목록으로 이동</div></a>
 
                 </div>
             </div>
@@ -182,7 +182,9 @@
                             <source th:src="@{__${musicAuction.albumMusic}__}" type="audio/mpeg">
                             Your browser does not support the audio element.
                         </audio>
-                        <p th:text="${musicAuction.title}"></p>
+                        <a class="image-link" th:href="@{|/detail?id=${musicAuction.id}|}">
+                            <p th:text="${musicAuction.title}"></p>
+                        </a>
                     </div>
                 </div>
 
@@ -191,6 +193,7 @@
 
                     function imageClickNotification(id) {
                         var audio = document.getElementById("audio_" + id);
+                        audio.volume = 0.2;
 
                         if (audio !== currentlyPlayingAudio) {
                         // 다른 오디오가 재생 중이었다면 중지
@@ -201,12 +204,27 @@
                         // 선택한 오디오를 재생하고 현재 재생 중인 오디오로 설정
                         audio.play();
                         currentlyPlayingAudio = audio;
-                    } else {
-                        // 현재 재생 중인 오디오를 다시 클릭하면 중지
-                        audio.pause();
-                        currentlyPlayingAudio = null;
+                        } else {
+                            // 현재 재생 중인 오디오를 다시 클릭하면 중지
+                            audio.pause();
+                            currentlyPlayingAudio = null;
+                        }
                     }
-                    }
+
+
+                    // 좌,우 스크롤 휠로 이동 하도록
+                    var container = document.querySelector(".image-container");
+
+                    container.addEventListener("wheel", function(event) {
+                        // 마우스 휠 이벤트 처리
+                        var scrollAmount = event.deltaY;        // deltaY 값을 사용하여 위아래로 스크롤 양을 가져옵니다.
+                        var scrollLeft = container.scrollLeft;
+                        container.scrollLeft += scrollAmount;   // 좌우 스크롤 이동
+                        if (scrollLeft !== container.scrollLeft) {
+                            event.preventDefault();             // 좌우 스크롤이 움직였을 때 기본 스크롤 동작을 막습니다.
+                        }
+                    });
+
                 </script>
             </div>
         </div>
@@ -218,25 +236,10 @@
             <div class="image-container">
                 <div class="image-with-text">
                     <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" onError="this.src='/pictures/auction.jpg';" alt="Image">
-                    <p>Title for Image 1</p>
-                </div>
-                <div class="image-with-text">
-                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" onError="this.src='/pictures/auction.jpg';" alt="Image">
-                    <p>Title for Image 2</p>
-                </div>
-                <div class="image-with-text">
-                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" onError="this.src='/pictures/auction.jpg';" alt="Image">
-                    <p>Title for Image 3</p>
-                </div>
-                <div class="image-with-text">
-                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" onError="this.src='/pictures/auction.jpg';" alt="Image">
-                    <p>Title for Image 4</p>
-                </div>
-                <div class="image-with-text">
-                    <img class="wish-image" th:src="@{__${userInfo.memberImage}__}" onError="this.src='/pictures/auction.jpg';" alt="Image">
-                    <p>Title for Image 5</p>
+                    <p>등록한 찜이 없습니다.</p>
                 </div>
             </div>
+
         </div>
 
     </div>

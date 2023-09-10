@@ -17,6 +17,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/mypage")
 @RequiredArgsConstructor
+@PreAuthorize("isAuthenticated()")
 public class MyPageController {
 
     private final MemberService memberService;
@@ -225,7 +227,6 @@ public class MyPageController {
 
     /* 입/출금 기능 (입금인지 출금인지 action변수에 받아와 하나의 메서드에서 두 기능을 구현) */
     @PostMapping("/balance")
-    @PermitAll
     public String transactionBalance(
             @RequestParam Long userId,
             @RequestParam String action,

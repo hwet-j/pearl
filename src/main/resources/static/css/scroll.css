@@ -418,7 +418,7 @@ a, a:visited {
 .sidebar .fixed-content {
     position: fixed;
     top:105px;
-    right:0;
+    right0;
     display: flex;
     flex-direction:column;
     justify-content: center;
@@ -467,10 +467,10 @@ box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.7);
     font-size:16px;
 
     background-color: none; /* 버튼의 배경색 */
-    color: white; /* 버튼의 글자색 */
-    text-decoration: none; /* 언더라인 제거 */
-    display: inline-block; /* 인라인 블록 요소로 변경 */
-    transition: background-color 0.3s; /* 배경색의 변화를 부드럽게 만듦 */
+        color: white; /* 버튼의 글자색 */
+        text-decoration: none; /* 언더라인 제거 */
+        display: inline-block; /* 인라인 블록 요소로 변경 */
+        transition: background-color 0.3s; /* 배경색의 변화를 부드럽게 만듦 */
 }
 
 .block-registbtn:hover{

@@ -173,8 +173,6 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
 
 
 
-
-
     public void editMusicAuction(MusicAuctionDTO2 musicAuctionDTO2, Long id) {
         Optional<MusicAuction> optionalMusicAuction = musicAuctionRepository.findById(id);
 
@@ -220,12 +218,10 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
         }
         return null;
     }
-
     @Override
-    public List<MusicAuction> findDetailByNickname(String authorNickname) {
+    public List<MusicAuction> findDetailByNickname(String authorNickname){
         return musicAuctionRepository.findByAuthorNickname_Nickname(authorNickname);
     }
-
 
 
 

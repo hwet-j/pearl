@@ -2,6 +2,7 @@ package com.pits.auction.auctionBoard.service;
 
 import com.pits.auction.auctionBoard.dto.BiddingDTO;
 import com.pits.auction.auctionBoard.entity.Bidding;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -19,4 +20,5 @@ public interface BiddingService{
 
     Long totalPriceProcessingLastBiddingByNickname(String nickname);
 
+    Long findMaxPriceByNicknameAndAuctionId(String nickname, Long auctionId);
 }

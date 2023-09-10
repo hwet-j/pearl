@@ -83,7 +83,7 @@
                 <p>Music</p>
                 <p>
                     <input type="file" id="albumMusic" name="albumMusic" accept="audio/*" th:value="${musicAuction.albumMusic}" style="display: none;">
-                    <input type="text" id="albumMusicName" th:value="|${musicAuction.title}.mp3|" style="border:none; outline:none" readonly>
+                    <input type="text" id="albumMusicName" th:value="${musicAuction.albumMusic}" style="border:none; outline:none" readonly>
                     <br>
                     <label for="albumMusic" class="custom-file-upload">Attachment</label>
                 </p>

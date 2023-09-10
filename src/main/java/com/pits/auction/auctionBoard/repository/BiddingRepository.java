@@ -31,12 +31,18 @@ public interface BiddingRepository extends JpaRepository<Bidding, Long> {
             "LIMIT 1")
     Long findLastBidPriceByNickname(@Param("nickname") String nickname);
 
+
     @Query("SELECT MAX(b.price) " +
             "FROM Bidding b " +
             "WHERE b.bidder.nickname = :nickname " +
             "AND b.status = '진행' " +
             "GROUP BY b.auctionId.id")
     List<Long> findProcessingMaxPriceBiddingByNickname(@Param("nickname")String nickname);
+
+    @Query("SELECT MAX(b.price) FROM Bidding b WHERE 1=1 " +
+            "AND b.bidder.nickname = :nickname " +
+            "AND b.auctionId.id = :auctionId")
+    Long findMaxPriceByNicknameAndAuctionId(@Param("nickname") String nickname, @Param("auctionId") Long auctionId);
 
 
 }

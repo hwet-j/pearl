@@ -1,7 +1,6 @@
 package com.pits.auction.auth.service;
 
 
-import com.pits.auction.auctionBoard.repository.BiddingRepository;
 import com.pits.auction.auctionBoard.service.BiddingService;
 import com.pits.auction.auth.dto.MemberDTO;
 import com.pits.auction.auth.entity.Member;
@@ -233,6 +232,7 @@ public class MemberServiceImpl implements MemberService {
             memberRepository.save(member);
         }
     }
+
 
     public MemberDTO entityToDTO(Member member) {
         return modelMapper.map(member, MemberDTO.class);

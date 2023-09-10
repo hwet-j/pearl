@@ -34,7 +34,37 @@ body {
     display: flex;
     gap: 10px; /* 이미지와 텍스트 사이의 간격 */
     margin-left: 40px;
+    overflow-x: auto; /* 가로 스크롤을 감춥니다. */
+    overflow-y: hidden; /* 세로 스크롤을 활성화합니다. */
 }
+
+/* 스크롤 바의 스타일을 변경합니다. */
+.image-container::-webkit-scrollbar {
+    height: 9px; /* 스크롤 바의 너비 */
+}
+
+/* 스크롤 바의 track(바깥 부분) 스타일 */
+.image-container::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* 바깥 부분의 배경색 */
+}
+
+/* 스크롤 바의 thumb(안쪽 부분) 스타일 */
+.image-container::-webkit-scrollbar-thumb {
+    background-color: #888;     /* thumb의 배경색 */
+    border-radius: 6px;         /* thumb의 모서리를 둥글게 만듭니다. */
+}
+
+/* 스크롤 버튼의 활성화 상태 스타일 */
+.image-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555;     /* 활성화 상태에서 thumb의 배경색 변경 */
+}
+
+
+.image-link{
+    text-decoration: none; /* 밑줄 제거 */
+    color: inherit; /* 부모 요소의 텍스트 색상 상속 */
+}
+
 
 
 .image-with-text {
@@ -296,6 +326,7 @@ button {
 .lower-side {
     margin-top: 80px;
     margin-left: 80px;
+    padding-right:35px;
 }
 
 
@@ -419,6 +450,7 @@ a {
 .transaction-container {
     color: white; /* 기본 글자색을 흰색으로 설정 */
 }
-.playButton{
-    cursor:pointer;
+
+.playButton:hover {
+    cursor: pointer;
 }

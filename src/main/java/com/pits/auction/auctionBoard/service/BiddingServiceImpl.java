@@ -37,8 +37,11 @@ public class BiddingServiceImpl implements BiddingService{
     @Override
     @Transactional
     public String createBidding(BiddingDTO biddingDTO) {
-        Optional<Member> memberOptional = memberRepository.findByEmail(biddingDTO.getBidder());
+        Optional<Member> memberOptional = memberRepository.findByNickname(biddingDTO.getBidder());
         Optional<MusicAuction> musicAuctionOptional = musicAuctionRepository.findById(biddingDTO.getAuctionId());
+
+        Long bidding_total = this.totalPriceProcessingLastBiddingByNickname(biddingDTO.getBidder());
+        Long user_max_this_bidding = this.findMaxPriceByNicknameAndAuctionId(biddingDTO.getBidder(), biddingDTO.getAuctionId());
 
         // 입력된 데이터에 맞는 정보를 불러왔다면 기능 수행
         if (memberOptional.isPresent() && musicAuctionOptional.isPresent()) {
@@ -49,6 +52,11 @@ public class BiddingServiceImpl implements BiddingService{
             if(musicAuction.getStartingBid() > biddingDTO.getPrice()){
                 return "입찰 시작가는 " + musicAuction.getStartingBid() + "원 입니다.\n입찰가를 확인해주세요.";
                 // throw new InsufficientBiddingException("경매하신 물품의 시작 입찰가는 " + musicAuction.getStartingBid() + "입니다.");
+            }
+
+            if(bidding_total - user_max_this_bidding + biddingDTO.getPrice() > member.getBalance()){
+                return "회원님께서 입찰한 다른 경매물품들의 총 금액은 " + (bidding_total - user_max_this_bidding) +
+                        "원 입니다. 회원님이 입찰 가능한 금액은 " + (member.getBalance() - (bidding_total - user_max_this_bidding)) + "원 입니다.";
             }
 
             long currentTimeMillis = System.currentTimeMillis();
@@ -123,7 +131,6 @@ public class BiddingServiceImpl implements BiddingService{
         return maxBidPrice.orElse(0L); // 0L 또는 원하는 기본 값으로 변경
     }
 
-
     @Override
     public Long totalPriceProcessingLastBiddingByNickname(String nickname){
         Long totalPrice = 0L;
@@ -137,6 +144,13 @@ public class BiddingServiceImpl implements BiddingService{
         return totalPrice;
     }
 
-
+    @Override
+    public Long findMaxPriceByNicknameAndAuctionId(String nickname, Long auctionId) {
+        Long user_max_bidding = biddingRepository.findMaxPriceByNicknameAndAuctionId(nickname, auctionId);
+        if (user_max_bidding == null){
+            return 0L;
+        }
+        return user_max_bidding;
+    }
 
 }

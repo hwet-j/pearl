@@ -178,7 +178,7 @@ public class MyPageController {
 
         memberService.updateUserInfo(userInfo);
 
-        return "redirect:/mypage/userlist";
+        return "redirect:/mypage/userinfo";
     }
 
 
@@ -187,7 +187,7 @@ public class MyPageController {
     public String requestUserDelete(@RequestParam Long userId) {
 
         memberService.requestUserDelete(userId);
-        return "redirect:/mypage/userlist";
+        return "redirect:/mypage/userinfo";
     }
 
 

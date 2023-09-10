@@ -141,11 +141,13 @@
                 <div class="inner-right">
                     <a class="image-link" th:href="@{|/detail?id=${auction.id}|}">
                        <div class="bidname" th:text="${auction.title}"></div>
-                    </a>
-                   <div class="mybid">My Bidding Price<br/> <span th:text="${myPrice}"></span></div>
 
-                   <div class="topprice">Top Price<br/> <span th:text="${maxPrice}"></span></div>
+                   <div class="mybid">My Bidding Price<br/><span data-th-text="${#numbers.formatInteger(myPrice, 0, 'COMMA') + ' ₩'}"></span></div>
+
+                   <div class="topprice">Top Price<br/> <span data-th-text="${#numbers.formatInteger(maxPrice, 0, 'COMMA') + ' ₩'}"></span></div>
+                    </a>
                 </div>
+
             </div>
             <script>
                 var currentlyPlayingAudio = null; // 현재 재생 중인 오디오 요소

@@ -101,11 +101,14 @@
                     <span th:text="${genre}" class="genre"></span>
                     <span class="align-right">
 
-                            <span th:if="${#authorization.expression('isAuthenticated() or hasRole(''ROLE_ADMIN'')')}">
-                                <a class="button-edit" th:if="${#authentication.principal.username eq musicAuction.authorNickname.email}" th:href="@{/edit/{id}(id=${musicAuction.id})}">수정</a>
-                            </span>
-
-                                <a class="button-edit" th:href="@{/edit/{id}(id=${musicAuction.id})}">수정(로그인 X 테스트용)</a>
+                            <div th:unless="${maxBiddingPrice != 0 and remainingTime != null}">
+                                <span th:if="${#authorization.expression('isAuthenticated() and !hasRole(''ROLE_ADMIN'')')}">
+                                    <a class="button-edit" th:if="${#strings.toLowerCase(#authentication.principal.username) eq #strings.toLowerCase(musicAuction.authorNickname.email)}" th:href="@{/edit/{id}(id=${musicAuction.id})}">수정</a>
+                                </span>
+                                <span th:if="${#authorization.expression('isAuthenticated() and hasRole(''ROLE_ADMIN'')')}">
+                                    <a class="button-edit" th:href="@{/edit/{id}(id=${musicAuction.id})}">수정</a>
+                                </span>
+                            </div>
 
                             <span th:if="${#authorization.expression('isAuthenticated()')}">
 

@@ -69,6 +69,8 @@
                style="text-decoration:none; float:left; margin-top: 70px; font-size: 25px; color:white; margin-left: 1170px; font-family: 'Roboto', sans-serif;">MyPage</a>
             <a class="" sec:authorize="isAuthenticated()"  th:href="@{/user/plLogout}"
                style="text-decoration:none; float:left; margin-top: 70px; font-size: 25px; color:white; margin-left: 50px; font-family: 'Roboto', sans-serif;">LogOut</a>
+            <a class="" sec:authorize="hasRole('ADMIN')"  th:href="@{/member/list}"
+               style="text-decoration:none; float:left; margin-top: 70px; font-size: 25px; color:white; margin-left: 50px; font-family: 'Roboto', sans-serif;">Admin</a>
 
 
             <!-- 카카오 로그인 후 로그인/로그아웃 링크 변경 -->
@@ -188,39 +190,29 @@
                     </div>
 
                   <div class="body-comment">
-                        <div>작성자 : 내용</div>
-                        <div>작성자 : 내용</div>
-                        <div>작성자 : 내용</div>
-                        <div>작성자 : 내용</div>
-                        <div>작성자 : 내용</div>
-                        <div>작성자 : 내용</div>
-                        <div>작성자 : 내용</div>
-                        <div>작성자 : 내용</div>
-                        <div>작성자 : 내용</div>
-                        <div>작성자 : 내용</div>
-                        <div>작성자 : 내용</div>
-                        <div>작성자 : 내용</div>
 
-                        <div class="body-comment">
-                            <div class="card-body" th:each="auctionComment:${musicAuction.commentList}" > <!--musicAuction 엔터티에 필드값-->
-                                <div class="card-text" style="white-space:pre-line;"  th:text="${auctionComment.content}"></div> <!--AuctionComment 의 content내용-->
-                                <div class="d-flex justify-content-end">
-                                    <div class="badge bg-light text-dark p-2 text-start">
-                                        <div class="my-2">
-                                            <span th:if="${auctionComment.authorNickname!=null}"  th:text="${auctionComment.authorNickname.nickname}"></span>
-                                        </div>
-                                        <div th:text="${#temporals.format(auctionComment.createdAt,'yyyy-MM-dd HH:mm')}"/>
-                                    </div>
-                                </div>
+                      <div class="card-body" th:each="auctionComment:${musicAuction.commentList}" > <!--musicAuction 엔터티에 필드값-->
+                        <table class="body-comment" >
 
-                                <a href="javascript:void(0);" th:data-uri="@{|/comment/delete/${auctionComment.id}|}"
-                                   class="delete btn btn-sm btn-outline-secondary"
-                                   sec:authorize="isAuthenticated()"
-                                   th:if="${auctionComment.authorNickname!=null and #authentication.getPrincipal().getUsername()==auctionComment.authorNickname.email}"
-                                   th:text="삭제"></a>
-                                </div>
-                            </div>
 
+                                <th class="commentname" style="width:180px;">
+                                    <span th:if="${auctionComment.authorNickname!=null}"  th:text="${auctionComment.authorNickname.nickname}"></span>
+                                </th>
+                                <th class="commentcontent" style="width:750px; padding-right: 20px; text-align:left;" th:text="${auctionComment.content}"></th> <!--AuctionComment 의 content내용-->
+                                <th class="commentdate" style="width:110px;">
+                                    <div th:text="${#temporals.format(auctionComment.createdAt,'yyyy-MM-dd HH:mm')}"/>
+                                </th>
+                                <th class="delete" style="padding-left: 20px;">
+                                    <a href="javascript:void(0);" th:data-uri="@{|/comment/delete/${auctionComment.id}|}"
+                                        class="deletebtn"
+                                       sec:authorize="isAuthenticated()"
+                                       th:if="${auctionComment.authorNickname!=null and #authentication.getPrincipal().getUsername()==auctionComment.authorNickname.email}"
+                                       th:text="DEL" ></a>
+                                </th>
+                            </table>
+
+
+                      </div>
                       <!--#authentication.getPrincipal().getUsername()==auctionComment.authorNickname.email 겟유저네임이 이메일이니까-->
 
 
@@ -230,7 +222,7 @@
                        <form method="post" id="commentForm" th:action="@{|/comment/add/${musicAuction.id}|}" th:object="${commentForm}">
                            <textarea  class="form-control" disabled="disabled" rows="8" sec:authorize="isAnonymous()" th:field="*{comment}"></textarea>
                            <textarea class="form-control" placeholder="댓글 내용을 입력해주세요." rows="8"  sec:authorize="isAuthenticated()" th:field="*{comment}"></textarea>
-                           <input type="submit" value="댓글작성" class="comment-submit-button">
+                           <input type="submit" value="Submit" class="comment-submit-button">
                         </form>
 
 
@@ -241,12 +233,12 @@
 
                     <div class="body-authorPost">
                         <br>
-                        <table border="1" style="width:900px; text-align:center;">
-                            <th style="width:100px;">앨범커버</th>
-                            <th style="width:500px;">제목</th>
-                            <th style="width:100px;">장르</th>
-                            <th style="width:200px;">마감일</th>
-                            <th style="width:100px;">진행여부</th>
+                        <table  style="width:900px; text-align:center;">
+                            <th style="width:100px;"></th>
+                            <th style="width:500px;"></th>
+                            <th style="width:100px;"></th>
+                            <th style="width:200px;"></th>
+                            <th style="width:100px;"></th>
 
                             <div th:each="entry : ${entries}" >
                                 <tr>
@@ -310,8 +302,8 @@
                             <form id="biddingForm" action="" method="post">
 
                                 <div>
-                                    <input type="hidden" name="startPrice" th:value="${musicAuction.startingBid}"/>
                                     <input type="hidden" name="auctionId" th:value="${musicAuction.id}"/>
+                                    <input type="hidden" name="startPrice" th:value="${musicAuction.startingBid}"/>
                                     <input type="hidden" name="bidder" th:value="${#authentication.principal.username}"/>
                                     <input type="number" id="bidding_price" name="bidding_price" th:value="${maxBiddingPrice}"/>
 

@@ -35,7 +35,6 @@ function fetchMoreData() {
                         genreDiv.classList.add('genreDiv');
                         genreDiv.textContent = musicAuction.genre.name;
 
-
                         const top = document.createElement('div');
                         top.classList.add('top');
                         top.textContent = musicAuction.title;
@@ -43,7 +42,6 @@ function fetchMoreData() {
                         const bottom = document.createElement('div');
                         bottom.classList.add('bottom');
                         bottom.textContent = musicAuction.authorNickname.nickname;
-
 
                         card.appendChild(albumImage);
                         card.appendChild(genreDiv);
@@ -62,11 +60,12 @@ function fetchMoreData() {
             .catch(error => console.error('Error fetching data:', error))
             .finally(() => {
                 loading = false; // 로딩 종료
-                loadingIndicator.style.display = 'none'; // 로딩 중 엘리먼트 숨김
-
+                /*loadingIndicator.style.display = 'none'; // 로딩 중 엘리먼트 숨김*/
                 adjustSidebarHeight();//사이드바 연장
             });
-    }, 200); // 로딩 시간 0.5초 설정
+
+    }, 100); // 로딩 시간 0.1초 설정
+
 }
 
 function checkScroll() {

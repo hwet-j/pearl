@@ -48,6 +48,16 @@ public class MemberServiceImpl implements MemberService {
         return null;
     }
 
+
+    @Override
+    public Member getUser(String email){
+        Optional<Member> member=memberRepository.findByEmail(email);
+        if(member.isPresent()){
+            return member.get();
+        }
+        return null;
+    }
+
     @Override
     public void deleteMember(Long id){
         Optional<Member> member=memberRepository.findById(id);

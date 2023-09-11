@@ -161,4 +161,8 @@ public class MusicAuction {
         }
     }
     }
+
+    /* 로그인 한 유저의 wish가 맞는지 확인하는 임시용 필드 > DB 적용 안되는 필드임 */
+    @Transient
+    private int wish;
 }

@@ -13,16 +13,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class BiddingPeriodServiceImpl implements BiddingPeriodService{
-    @Autowired
-    private BiddingPeriodRepository biddingPeriodRepository;
+public class BiddingPeriodServiceImpl implements BiddingPeriodService {
+    private final BiddingPeriodRepository biddingPeriodRepository;
 
+    //입찰 기간 목록(1week, 2week 등등) 가져오기
+    @Override
     public List<BiddingPeriod> findAllPeriods() {
         return biddingPeriodRepository.findAll();
     }
-
-    // 필요한 다른 서비스 메서드 추가...
-
-
-
 }

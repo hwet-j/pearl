@@ -53,7 +53,10 @@
                                     <div class="item-text-title" th:text="${musicAuctionList.title}"></div>
                                     <div class="item-text-nickname" th:text="${musicAuctionList.nickname}"></div>
                                     <div class="item-text-timelimit" th:id="'timeDifference' + ${iterStat.index}"></div>
-                                    <div class="item-text-price" th:text="${musicAuctionList.maxPrice != null} ? ${musicAuctionList.maxPrice} + ' &#8361;' : '0 &#8361;'"></div>
+                                    <!--<div class="item-text-price" th:text="${musicAuctionList.maxPrice != null} ? ${musicAuctionList.maxPrice} + ' &#8361;' : '0 &#8361;'"></div>-->
+
+                                    <div class="item-text-price" th:if="${musicAuctionList.maxPrice != null}" th:utext="'<script>document.write(new Intl.NumberFormat().format(' + ${musicAuctionList.maxPrice} + ') + \' &#8361;\')</script>'"></div>
+                                    <div class="item-text-price" th:if="${musicAuctionList.maxPrice == null}">0 &#8361;</div>
                                 </div>
                             </div>
                             </a>
@@ -100,7 +103,6 @@
                 </div>
             </div>
             <div class="music-player">
-
                 <div class="current-track">
                     <p style="margin-left:-250px; margin-top:-20px;">Music Player</p>
                     <img id="currentTrackCover" src="" alt="Current Track Cover" onerror="'this.src=\'/pictures/image_not_found.png\''"/>

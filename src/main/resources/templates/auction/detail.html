@@ -212,8 +212,17 @@
                                         <div th:text="${#temporals.format(auctionComment.createdAt,'yyyy-MM-dd HH:mm')}"/>
                                     </div>
                                 </div>
+
+                                <a href="javascript:void(0);" th:data-uri="@{|/comment/delete/${auctionComment.id}|}"
+                                   class="delete btn btn-sm btn-outline-secondary"
+                                   sec:authorize="isAuthenticated()"
+                                   th:if="${auctionComment.authorNickname!=null and #authentication.getPrincipal().getUsername()==auctionComment.authorNickname.email}"
+                                   th:text="삭제"></a>
                                 </div>
                             </div>
+
+                      <!--#authentication.getPrincipal().getUsername()==auctionComment.authorNickname.email 겟유저네임이 이메일이니까-->
+
 
 
 
@@ -455,6 +464,7 @@
 </script>
 
 
+
 <!--/* 마감 남은 시간을 출력해주는 기능 */-->
 <!--/*
 남은시간이 -2초면 페이지 재시작 설정을 해주었지만, 댓글을 작성하고 있거나 다른 작업을 하고있을 수 있으므로
@@ -487,7 +497,24 @@
     /*]]>*/
 </script>
 
+    <script layout:fragment="script">
+        //삭제버튼 클릭시
+        const delElements = document.getElementsByClassName("delete");
+        Array.from(delElements).forEach(function(element){
+
+            //$(".delete").on("click",function(){ alert("정말삭제할거여?"); });
+            element.addEventListener("click",function(){
+                if(confirm("정말삭제할거여?")){//확인버튼을 클릭하면
+                    //click이벤트가 발생한 a요소의  data-uri속성의 값을 가져와
+                    //location객체의 href속성의 값으로 적용해라
+                    //=>현재 browser의 URL주소를 변경해라
+                    location.href=this.dataset.uri;
+                    //location.href="/question/delete/${question.id}";//삭제요청
+                };
+            });
+        });
+    </script>
 
 
-</body>
-</html>
+    </body>
+    </html>

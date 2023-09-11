@@ -270,6 +270,7 @@ line-height: 55px;
       color:white;
       margin-bottom:8px;
       box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.5);
+      cursor:pointer;
 }
 
 .scroller{

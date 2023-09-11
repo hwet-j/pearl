@@ -95,16 +95,20 @@ public class MusicAuction {
     private List<Bidding> auctionBiddings;
 
 
+    //createdAt생성일에 따라서 endTime입찰 종료 일자를 계산하고 데이터베이스에 추가하는 콜백 메서드
     @PrePersist
     public void setEndTimeUsingBiddingPeriod() {
         if (this.createdAt == null || this.biddingPeriod == null) {
             throw new IllegalStateException("Cannot set end time without created time or bidding period.");
         }
+
+        //Matcher객체가 문자열 형식의 입찰 기간을 패턴 정규식과 대조해 정규식과 일치하는 부분을 찾음
         String periodValue = this.biddingPeriod.getPeriodValue();
         Pattern pattern = Pattern.compile("(\\d+)\\s*(\\D+)");
         Matcher matcher = pattern.matcher(periodValue);
 
-             if (matcher.find()) {
+        //group(1) = (\\d+) 연속된 숫자, group(2) = (\\D+) 연속된 문자, \\s* = 0개 이상의 공백
+        if (matcher.find()) {
             int value = Integer.parseInt(matcher.group(1));
             String unit = matcher.group(2);
 

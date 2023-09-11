@@ -18,12 +18,13 @@ import java.util.List;
 public class AuctionDetailController {
     private final MusicAuctionService musicAuctionService;
 
+    //상세페이지 컨트롤러
     @GetMapping("/detail/{id}")
     public String showDetail(@PathVariable Long id, Model model) {
-        System.out.println("id = " + id);
+        //작성페이지 완료 후 생긴 id로 상세페이지 찾기
         MusicAuctionDTO2 auctionDetail = musicAuctionService.findDetailById(id);
         model.addAttribute("auctionDetail", auctionDetail);
-
+        //상세페이지 보여주기
         return "auction/detail";
     }
 

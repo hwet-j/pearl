@@ -92,7 +92,7 @@ p {
 
 .radio-item {
     display: inline-block;
-    margin-right: 17px; /* 오른쪽 간격 추가, 필요에 따라 조절 가능 */
+    margin-right: 15px; /* 오른쪽 간격 추가, 필요에 따라 조절 가능 */
 
 }
 

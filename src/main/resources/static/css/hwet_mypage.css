@@ -26,8 +26,10 @@ body {
 
 
 .edit-image{
-    width: 460px; /* 너비 설정 */
-    height: 460px; /* 높이 설정 */
+    width: 350px; /* 너비 설정 */
+    height: 350px; /* 높이 설정 */
+    margin-bottom: 20px;
+
 }
 
 .image-container {
@@ -40,24 +42,25 @@ body {
 
 /* 스크롤 바의 스타일을 변경합니다. */
 .image-container::-webkit-scrollbar {
-    height: 9px; /* 스크롤 바의 너비 */
-}
+    display:none;
 
-/* 스크롤 바의 track(바깥 부분) 스타일 */
+}
+/*
+*//* 스크롤 바의 track(바깥 부분) 스타일 *//*
 .image-container::-webkit-scrollbar-track {
-    background-color: #f1f1f1; /* 바깥 부분의 배경색 */
+    background-color: #f1f1f1; *//* 바깥 부분의 배경색 *//*
 }
 
-/* 스크롤 바의 thumb(안쪽 부분) 스타일 */
+*//* 스크롤 바의 thumb(안쪽 부분) 스타일 *//*
 .image-container::-webkit-scrollbar-thumb {
-    background-color: #888;     /* thumb의 배경색 */
-    border-radius: 6px;         /* thumb의 모서리를 둥글게 만듭니다. */
+    background-color: #9A97FF;     *//* thumb의 배경색 *//*
+    border-radius: 6px;         *//* thumb의 모서리를 둥글게 만듭니다. *//*
 }
 
-/* 스크롤 버튼의 활성화 상태 스타일 */
+*//* 스크롤 버튼의 활성화 상태 스타일 *//*
 .image-container::-webkit-scrollbar-thumb:hover {
-    background-color: #555;     /* 활성화 상태에서 thumb의 배경색 변경 */
-}
+    background-color: #555;     *//* 활성화 상태에서 thumb의 배경색 변경 *//*
+}*/
 
 
 .image-link{
@@ -69,6 +72,7 @@ body {
 
 .image-with-text {
     text-align: center;
+
 }
 
 
@@ -173,7 +177,7 @@ body {
     text-align:center;
     border: 3px solid white;
     width: 240px;
-    height: 40px;
+    height: 35px;
     border-radius: 10px;
     padding-top: 10px;
     margin-bottom: -10px;
@@ -221,7 +225,7 @@ body {
 /********************************/
 
 .split-container {
-    margin-left: 310px;
+    margin-left: 350px;
     width: 1300px;
     height: 800px;
     margin-top:95px;
@@ -233,7 +237,7 @@ body {
 /* 좌,우 공통 */
 .left-side,
 .right-side {
-
+    height: 200px;
     padding: 20px;
     box-sizing: border-box;
     color: white;
@@ -338,7 +342,7 @@ button {
 /* 수정 버튼 */
 .update-button {
         display: inline;
-        border: 1px solid white;
+        border: 2px solid white;
         padding: 5px 10px;
         border-radius: 15px;
         color: white;
@@ -408,6 +412,7 @@ a {
 
 /* 좌측 영역 */
 .left-side-edit {
+    margin-top: -50px;
     padding: 15px;
     flex: 1;                    /* 영역의 비율을 설정해주는 속성 */
     background-color: #212024; /* 왼쪽 배경색상 */
@@ -415,6 +420,7 @@ a {
 
 /* 우측 영역 */
 .right-side-edit {
+    margin-top: -50px;
     padding: 70px;
     flex: 1.2;
     background-color: #212024; /* 왼쪽 배경색상 */

@@ -7,7 +7,7 @@ background-color: #212024;
 
 .box1{
     position:absolute;
-    top: 165px;
+    top: 160px;
     width: 1920px;
     height: 450px;
     opacity: 0.4;
@@ -263,7 +263,7 @@ background-color: #212024;
 
 .bidding-box{
     margin-left:1062px;
-    margin-top:-1170px;
+    margin-top:-1240px;
     max-width: 315px;
     height:395px;
     background-color: inherit;
@@ -410,7 +410,8 @@ input[type="number"]::-webkit-outer-spin-button {
 .button-container {
     display: flex;                  /* 컨테이너 안의 요소들을 가로로 배열하기 위해 Flexbox 사용 */
     justify-content: space-between; /* 버튼 사이에 공간을 균등하게 분배 */
-    width: 100%;                    /* 전체 컨테이너의 너비를 사용 */
+    width: 100%;   /* 전체 컨테이너의 너비를 사용 */
+    margin-top: -50px;
 }
 
 .button-container button {
@@ -456,7 +457,7 @@ input[type="number"]::-webkit-outer-spin-button {
     margin-top: 50px;
     margin-left: 20px;
     opacity: 0.5;
-    margin-bottom : -50px;
+    margin-bottom : 50px;
 }
 
 
@@ -474,4 +475,19 @@ input[type="number"]::-webkit-outer-spin-button {
     width: 1000px;
     height: 700px;
     overflow: auto; /* 스크롤 활성화 */
+}
+
+
+.entries {
+margin-top: 200px;
+    width:900px;
+    text-align:center;
+}
+
+::-webkit-scrollbar {
+    display: none;  /* 스크롤바 숨기기 */
+}
+
+.body-authorPost {
+    margin-top : -200px;
 }

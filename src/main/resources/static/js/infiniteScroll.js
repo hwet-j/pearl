@@ -63,7 +63,9 @@ function fetchMoreData() {
                 /*loadingIndicator.style.display = 'none'; // 로딩 중 엘리먼트 숨김*/
                 adjustSidebarHeight();//사이드바 연장
             });
+
     }, 100); // 로딩 시간 0.1초 설정
+
 }
 
 function checkScroll() {

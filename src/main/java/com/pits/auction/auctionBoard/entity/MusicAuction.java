@@ -85,6 +85,7 @@ public class MusicAuction {
     @Column(nullable = false)
     private String status;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "musicAuction", cascade = CascadeType.REMOVE)
     private List<AuctionComment> commentList;
 

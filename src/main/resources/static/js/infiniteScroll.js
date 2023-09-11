@@ -33,7 +33,49 @@ function fetchMoreData() {
 
                         const genreDiv = document.createElement('div');
                         genreDiv.classList.add('genreDiv');
-                        genreDiv.textContent = musicAuction.genre.name;
+
+                            const genreBox =document.createElement('div');
+                            genreBox.classList.add('genreBox');
+                            genreBox.textContent = musicAuction.genre.name;
+
+                            const rightspace =document.createElement('div');
+                            rightspace.classList.add('genreDiv-rightspace');
+
+                            const wishButtonContainer = document.createElement('div');
+                            if(musicAuction.wish !== -1) {
+                                const wishButton = document.createElement('button');
+                                wishButton.classList.add('heart-button');
+                                if(musicAuction.wish === 1) {
+                                    wishButton.classList.add('filled');
+                                }
+                                wishButton.onclick = function(event) {
+                                    event.stopPropagation();
+                                    toggleWish(musicAuction.id, event);
+                                };
+
+                                const svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                                svgElement.setAttribute('width', '25');
+                                svgElement.setAttribute('height', '25');
+                                svgElement.setAttribute('viewBox', '0 0 24 24');
+                                svgElement.setAttribute('fill', musicAuction.wish === 1 ? '#9A97FF' : 'none');
+                                svgElement.setAttribute('stroke', '#9A97FF');
+                                svgElement.setAttribute('stroke-width', '2');
+                                svgElement.setAttribute('stroke-linecap', 'round');
+                                svgElement.setAttribute('stroke-linejoin', 'round');
+
+                                const pathElement = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                                pathElement.setAttribute('d', "M12 21.35l-1.45-1.32C5.4 16.25 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 7.75-8.55 11.54L12 21.35z");
+                                svgElement.appendChild(pathElement);
+
+                                wishButton.appendChild(svgElement);
+                                wishButtonContainer.appendChild(wishButton);
+                            }
+                            rightspace.appendChild(wishButtonContainer);
+
+
+
+                        genreDiv.appendChild(genreBox);
+                        genreDiv.appendChild(rightspace);
 
                         const top = document.createElement('div');
                         top.classList.add('top');
@@ -68,6 +110,8 @@ function fetchMoreData() {
 
 }
 
+
+
 function checkScroll() {
     const scrollY = window.scrollY || window.pageYOffset;
     const windowInnerHeight = window.innerHeight;
@@ -77,5 +121,7 @@ function checkScroll() {
         fetchMoreData();
     }
 }
+
+
 
 window.addEventListener('scroll', checkScroll);

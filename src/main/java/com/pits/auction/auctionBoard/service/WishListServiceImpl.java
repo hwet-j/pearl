@@ -82,4 +82,19 @@ public class WishListServiceImpl implements WishListService{
         return musicAuctions;
     }
 
+    @Override
+    public Long countByEmailAndAuctionId(Long auctionId, String email) {
+        Long wishExist;
+        Optional<Member> optionalMember = memberRepository.findByEmail(email);
+        Optional<MusicAuction> optionalMusicAuction = musicAuctionRepository.findById(auctionId);
+        if(optionalMember.isPresent() && optionalMusicAuction.isPresent()){
+            Member member = optionalMember.get();
+            MusicAuction musicAuction = optionalMusicAuction.get();
+            wishExist = countByMemberNicknameAndAuctionId(member,musicAuction);
+        }else{
+            wishExist = 0L;
+        }
+        return wishExist;
+    }
+
 }

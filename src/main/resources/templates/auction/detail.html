@@ -232,12 +232,13 @@
 
                     <div class="body-authorPost">
                         <br>
-                        <table class="entries">
-                            <th style="width:100px;"></th>
-                            <th style="width:500px;"></th>
-                            <th style="width:100px;"></th>
-                            <th style="width:200px;"></th>
-                            <th style="width:100px;"></th>
+                        <table border="1" style="width:900px; text-align:center;">
+                            <th style="width:100px;">앨범커버</th>
+                            <th style="width:500px;">제목</th>
+                            <th style="width:100px;">장르</th>
+                            <th style="width:200px;">마감일</th>
+                            <th style="width:100px;">진행여부</th>
+
                             <div th:each="entry : ${entries}" >
                                 <tr>
                                     <td >
@@ -246,7 +247,7 @@
                                     <td><a th:href="@{/detail?id=__${entry.id}__}" th:for="${entry.title}" th:text="${entry.title}" style="text-decoration:none; color:white;"></a></td>
 
                                     <td th:for="${entry.genre.name}" th:text="${entry.genre.name}"> </td>
-                                    <td th:for="${entry.createdAt}" th:text="${entry.createdAt}"></td>
+                                    <td th:text="${#temporals.format(entry.endTime, 'yyyy-MM-dd HH:mm')}"></td>
                                     <td th:for="${entry.status}" th:text="${entry.status}"></td></tr>
                             </div>
                         </table>

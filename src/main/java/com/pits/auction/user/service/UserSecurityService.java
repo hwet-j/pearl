@@ -43,6 +43,7 @@ public class UserSecurityService implements UserDetailsService {
             throw new UsernameNotFoundException("사용자는 탈퇴한 회원입니다.");
         }
 
+
         List<GrantedAuthority> authorities = new ArrayList<>();
         //nickname "admin"을 포함하면
         if (siteUser.getNickname().contains("admin")) {

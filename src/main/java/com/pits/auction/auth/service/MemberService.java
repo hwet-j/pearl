@@ -23,9 +23,9 @@ public interface MemberService {
 
     Long getBalanceByEmail(String email);
 
-    void addBalance(Long userId, Long amount);
+    String addBalance(Long userId, Long amount);
 
-    void minusBalance(Long userId, Long amount);
+    String minusBalance(Long userId, Long amount);
 
     boolean duplicatePhoneNumber(Long id, String phoneNumber);
 

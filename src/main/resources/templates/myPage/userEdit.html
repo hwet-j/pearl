@@ -98,8 +98,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     </div>
 
-<h1 th:text="|${userInfo.nickname}님의 정보수정|"></h1>
-<h1 th:text="|${userInfo.email}님의 정보수정|"></h1>
+<h1>&nbsp;</h1>
+<h1>&nbsp;</h1>
 
 
 
@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="inner-divider"></div>
             <div class="inner-divider"></div>
             <div class="right-align">
-                <button class="delete-button" th:attr="data-userid=${userInfo.id}">회원탈퇴</button>
+                <button class="delete-button" th:attr="data-userid=${userInfo.id}">Delete</button>
                 <input class="action-button"  type="submit" value="Submit">
             </div>
 

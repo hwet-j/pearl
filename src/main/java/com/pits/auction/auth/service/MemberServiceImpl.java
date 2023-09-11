@@ -165,12 +165,16 @@ public class MemberServiceImpl implements MemberService {
     /* 입금 Deposit */
     @Override
     @Transactional
-    public void addBalance(Long userId, Long amount) {
+    public String addBalance(Long userId, Long amount) {
         Member user = memberRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + userId));
 
         // 음수가 들어오면 예외처리
-        if (amount <= 0) {
-            throw new IllegalArgumentException("Invalid withdrawal amount: " + amount);
+        if (amount <= 0L) {
+            return "음수는 설정이 불가능합니다.";
+        }
+
+        if (amount > 500000L) {
+            return "입금 금액은 50만원을 초과할 수 없습니다.";
         }
 
         Long newBalance = user.getBalance() + amount;
@@ -178,27 +182,36 @@ public class MemberServiceImpl implements MemberService {
         user.setBalance(newBalance);
 
         memberRepository.save(user);
+        return "Success";
     }
 
     /* 출금 Withdraw */
     @Override
     @Transactional
-    public void minusBalance(Long userId, Long amount) {
+    public String minusBalance(Long userId, Long amount) {
         Member user = memberRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + userId));
 
         // 음수가 들어오면 예외처리
         if (amount <= 0) {
-            throw new IllegalArgumentException("Invalid withdrawal amount: " + amount);
+            return "음수는 설정이 불가능합니다.";
         }
+
+        Long bidPrice = biddingService.totalPriceProcessingLastBiddingByNickname(user.getNickname());
         // 가진 금액보다 큰 금액이 들어오면 예외처리 및 입찰 정보도 계산하여 예외처리
-        if ((user.getBalance() - biddingService.totalPriceProcessingLastBiddingByNickname(user.getNickname())) < amount) {
-            throw new IllegalArgumentException("Invalid balance for withdrawal");
+
+        if ((user.getBalance() - bidPrice) < amount) {
+            if (bidPrice == 0L){
+                return "보유하신 금액이 부족합니다. " + (user.getBalance() - bidPrice) + "원까지 출금 가능합니다. ";
+            } else {
+                return "보유하신 금액이 부족합니다. 현재 입찰 진행중인 경매금액은 " + bidPrice + "원 입니다. " + (user.getBalance() - bidPrice) + "원까지 출금 가능합니다.";
+            }
         }
 
         Long newBalance = user.getBalance() - amount;
         user.setBalance(newBalance);
 
         memberRepository.save(user);
+        return "Success";
     }
 
 

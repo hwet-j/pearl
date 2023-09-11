@@ -187,7 +187,7 @@
                         <button class="authorPost-button">Entries</button>
                     </div>
 
-                    <div class="body-comment">
+                  <div class="body-comment">
                         <div>작성자 : 내용</div>
                         <div>작성자 : 내용</div>
                         <div>작성자 : 내용</div>
@@ -200,12 +200,34 @@
                         <div>작성자 : 내용</div>
                         <div>작성자 : 내용</div>
                         <div>작성자 : 내용</div>
-                        <form>
-                            <input type="hidden" value="글번호" name="글번호">
-                            <input type="hidden" value="댓글 작성자" name="댓글 작성자">
-                            <textarea rows="4" cols="50" placeholder="댓글 내용을 입력해주세요."></textarea>
-                            <input type="submit" value="작성" class="comment-submit-button">
+
+                        <div class="body-comment">
+                            <div class="card-body" th:each="auctionComment:${musicAuction.commentList}" > <!--musicAuction 엔터티에 필드값-->
+                                <div class="card-text" style="white-space:pre-line;"  th:text="${auctionComment.content}"></div> <!--AuctionComment 의 content내용-->
+                                <div class="d-flex justify-content-end">
+                                    <div class="badge bg-light text-dark p-2 text-start">
+                                        <div class="my-2">
+                                            <span th:if="${auctionComment.authorNickname!=null}"  th:text="${auctionComment.authorNickname.nickname}"></span>
+                                        </div>
+                                        <div th:text="${#temporals.format(auctionComment.createdAt,'yyyy-MM-dd HH:mm')}"/>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+
+
+
+                       <!--김현민 최종 09.08 19.57-->
+                       <form method="post" id="commentForm" th:action="@{|/comment/add/${musicAuction.id}|}" th:object="${commentForm}">
+                           <textarea  class="form-control" disabled="disabled" rows="8" sec:authorize="isAnonymous()" th:field="*{comment}"></textarea>
+                           <textarea class="form-control" placeholder="댓글 내용을 입력해주세요." rows="8"  sec:authorize="isAuthenticated()" th:field="*{comment}"></textarea>
+                           <input type="submit" value="댓글작성" class="comment-submit-button">
                         </form>
+
+
+
+
+
                     </div>
 
                     <div class="body-authorPost">

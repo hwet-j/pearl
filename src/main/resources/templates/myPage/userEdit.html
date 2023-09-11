@@ -76,6 +76,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </head>
 <body>
+<nav class="" th:fragment="navbarFragment"
+     xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml" style="width:1920px;height: 100px; float: left; background-color: none;">
+    <div class="bigBox">
+
+
+
+        <ul class="" style="list-style-type:none;">
+            <li class="nav-item">
+                <!-- 타임리프의 security이용
+                sec:authorize="isAnonymous()은 로그인하지않는 경우->로그인 출력
+                sec:authorize="isAuthenticated()은 로그인한 경유->로그아웃 출력
+                -->
+                <a class="logo"  th:href="@{/main/list}"><img src="/pictures/logo.png" style="width:82px; height:57px; float:left; margin-left:180px; margin-top:45px;"></a>
+
+
+            </li>
+
+        </ul>
+
+
+    </div>
 
 <h1 th:text="|${userInfo.nickname}님의 정보수정|"></h1>
 <h1 th:text="|${userInfo.email}님의 정보수정|"></h1>

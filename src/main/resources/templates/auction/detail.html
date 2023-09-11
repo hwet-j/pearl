@@ -246,7 +246,7 @@
                                     <td><a th:href="@{/detail?id=__${entry.id}__}" th:for="${entry.title}" th:text="${entry.title}"></a></td>
 
                                     <td th:for="${entry.genre.name}" th:text="${entry.genre.name}"> </td>
-                                    <td th:for="${entry.createdAt}" th:text="${entry.createdAt}"></td>
+                                    <td th:text="${#temporals.format(entry.endTime, 'yyyy-MM-dd HH:mm')}"></td>
                                     <td th:for="${entry.status}" th:text="${entry.status}"></td></tr>
                             </div>
                         </table>

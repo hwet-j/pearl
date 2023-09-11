@@ -37,6 +37,9 @@
                        style="text-decoration:none; float:left; margin-top: 70px; font-size: 25px; color:white; margin-left: 1170px; font-family: 'Roboto', sans-serif;">MyPage</a>
                     <a class="" sec:authorize="isAuthenticated()"  th:href="@{/user/plLogout}"
                        style="text-decoration:none; float:left; margin-top: 70px; font-size: 25px; color:white; margin-left: 50px; font-family: 'Roboto', sans-serif;">LogOut</a>
+                    <a class="" sec:authorize="hasRole('ADMIN')"  th:href="@{/member/list}"
+                       style="text-decoration:none; float:left; margin-top: 70px; font-size: 25px; color:white; margin-left: 50px; font-family: 'Roboto', sans-serif;">ADMIN</a>
+
 
 
                     <!-- 카카오 로그인 후 로그인/로그아웃 링크 변경 -->

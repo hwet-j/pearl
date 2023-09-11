@@ -11,5 +11,7 @@ public interface CommentService {
 
     void add(MusicAuction musicAuction, String comment, Member member);
 
+    AuctionComment getComment(Long id);
 
+    void delete(AuctionComment auctionComment);
 }

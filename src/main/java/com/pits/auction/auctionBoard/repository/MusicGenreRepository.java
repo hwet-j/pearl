@@ -7,6 +7,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MusicGenreRepository extends JpaRepository<MusicGenre, Long> {
     MusicGenre findByName(MusicGenre genreName);
-
-
 }

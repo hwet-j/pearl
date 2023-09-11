@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
@@ -21,6 +22,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("SELECT m FROM Member m WHERE m.withdrawalRequested = false")
     List<Member> findAllActiveMembers();
 
+    @Query("SELECT m FROM Member m WHERE m.withdrawalRequested = true AND m.email = :email")
+    Optional<Member> findActiveMembersByEmail(@Param("email") String email);
 
     @Query("SELECT m FROM Member m WHERE m.withdrawalRequested = true")
     Page<Member> findByWithdrawalRequestedTrue(Pageable pageable);

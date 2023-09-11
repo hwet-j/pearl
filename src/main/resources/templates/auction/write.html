@@ -14,7 +14,7 @@
     <ul class="" style="list-style-type:none;">
         <li class="nav-item">
 
-            <a class="logo"  th:href="@{/main/list}"><img src="/pictures/logo.png" style="width:84px; height:42px; float:left; margin-left:180px; margin-top:50px;"></a>
+            <a class="logo"  th:href="@{/main/list}"><img src="/pictures/logo.png" style="width:82px; height:57px; float:left; margin-left:180px; margin-top:45px;"></a>
 
 
         </li>
@@ -32,21 +32,14 @@
             <div th:each="genre : ${genres}" class="radio-item">
                 <input type="radio" id="genre_${genre.id}" name="genre" th:value="${genre.id}" th:field="*{genre}" />
                 <label th:for="'genre_' + ${genre.id}" th:text="${genre.name}"></label>
-            </div></p><br>
+            </div>
+                <span id="genreErrorMsg" class="error-message"></span></p><br>
 
             <p><label>Period</label>
             <div th:each="period : ${biddingPeriods}" class="radio-item">
                 <input type="radio" id="period_${period.id}" name="biddingPeriod" th:value="${period.id}" th:field="*{biddingPeriod}" />
                 <label th:for="'period_' + ${period.id}" th:text="${period.periodValue}"></label>
-            </div></p><br>
-
-<!--            <p><label for="startingBid">Start Price</label><br>-->
-<!--                <div class="input-error-container">-->
-<!--                    <input type="number" id="startingBid" name="startingBid" th:field="*{startingBid}">-->
-<!--                    <span id="startingBidErrorMsg" class="error-message"></span>-->
-<!--                </div>-->
-<!--                <span th:if="${startingBidError}" th:text="${startingBidError}" class="error-message"></span></p><br>-->
-
+            </div><span id="periodErrorMsg" class="error-message"></span></p><br>
 
             <div class="input-error-container">
                 <p class="priceTitle"><label for="startingBid">Start Price</label><br>
@@ -57,7 +50,8 @@
 
 
             <p class="musicTitle"><label for="title">Music Title</label><br>
-                <input type="text" id="title" name="title" th:field="*{title}"></p><br>
+                <input type="text" id="title" name="title" th:field="*{title}">
+                <span id="titleErrorMsg" class="error-message"></span></p><br>
 
             <p><label for="content">Description</label><br>
                 <textarea id="content" name="content" rows="10" cols="80" th:field="*{content}"></textarea></p><br>
@@ -127,7 +121,7 @@
         event.preventDefault();
         // 오류 메시지 표시
         document.getElementById('imageErrorMsg').style.display = 'block';
-        document.getElementById('imageErrorMsg').textContent = "이미지 파일을 반드시 업로드해야 합니다.";
+        document.getElementById('imageErrorMsg').textContent = "이미지 파일을 반드시 업로드해야 합니다";
     });
 
     // 에러 메시지를 숨기기 위한 이벤트 리스너 추가
@@ -148,62 +142,116 @@
         event.preventDefault();
         // 오류 메시지 표시
         document.getElementById('musicErrorMsg').style.display = 'block';
-        document.getElementById('musicErrorMsg').textContent = "음악 파일을 반드시 업로드해야 합니다.";
+        document.getElementById('musicErrorMsg').textContent = "음악 파일을 반드시 업로드해야 합니다";
     });
 
     document.getElementById('startingBid').addEventListener('input', validateStartingBid);
 
-    function validateStartingBid() {
-        const startingBidInput = document.getElementById('startingBid');
-        const startingBidErrorMsg = document.getElementById('startingBidErrorMsg');
-        const minValue = 10000;
+        function validateStartingBid() {
+            const startingBidInput = document.getElementById('startingBid');
+            const startingBidErrorMsg = document.getElementById('startingBidErrorMsg');
+            const minValue = 10000;
 
-        if (startingBidInput.value < minValue) {
-            startingBidErrorMsg.textContent = "최소 시작 가격은 10000원입니다";
-            startingBidErrorMsg.style.display = 'block';
-        } else {
-            startingBidErrorMsg.style.display = 'none';
+            if (startingBidInput.value < minValue) {
+                startingBidErrorMsg.textContent = "최소 시작 가격은 10000원입니다";
+                startingBidErrorMsg.style.display = 'block';
+            } else {
+                startingBidErrorMsg.style.display = 'none';
+            }
         }
-    }
 
-    document.querySelector("form").addEventListener("submit", function(event) {
-    let isValid = true;
-    const startingBidInput = document.getElementById('startingBid');
-    const startingBidErrorMsg = document.getElementById('startingBidErrorMsg');
-    const minValue = 10000;
-    const imageInput = document.getElementById('albumImage');
-    const imageErrorMsg = document.getElementById('imageErrorMsg');
-    const musicInput = document.getElementById('albumMusic');
-    const musicErrorMsg = document.getElementById('musicErrorMsg');
+        document.querySelector("form").addEventListener("submit", function(event) {
+             let isValid = true;
 
-    if (startingBidInput.value < minValue) {
-        startingBidErrorMsg.textContent = "입찰 시작 최소 가격은 10000원입니다";
-        startingBidErrorMsg.style.display = 'block';
-        isValid = false;
-    } else {
-        startingBidErrorMsg.style.display = 'none';
-    }
+            // 시작 입찰 가격 체크
+            const startingBidInput = document.getElementById('startingBid');
+            const startingBidErrorMsg = document.getElementById('startingBidErrorMsg');
+            const minValue = 10000;
+            if (startingBidInput.value < minValue) {
+                startingBidErrorMsg.textContent = "입찰 시작 최소 가격은 10000원입니다";
+                startingBidErrorMsg.style.display = 'block';
+                isValid = false;
+            } else {
+                startingBidErrorMsg.style.display = 'none';
+            }
 
-    if (!imageInput.files.length) {
-        imageErrorMsg.textContent = "이미지 파일을 반드시 업로드해야 합니다.";
-        imageErrorMsg.style.display = 'block';
-        isValid = false;
-    } else {
-        imageErrorMsg.style.display = 'none';
-    }
+            // 이미지 파일 체크
+            const imageInput = document.getElementById('albumImage');
+            const imageErrorMsg = document.getElementById('imageErrorMsg');
+            if (!imageInput.files.length) {
+                imageErrorMsg.textContent = "이미지 파일을 반드시 업로드해야 합니다";
+                imageErrorMsg.style.display = 'block';
+                isValid = false;
+            } else {
+                imageErrorMsg.style.display = 'none';
+            }
 
-    if (!musicInput.files.length) {
-        musicErrorMsg.textContent = "음악 파일을 반드시 업로드해야 합니다.";
-        musicErrorMsg.style.display = 'block';
-        isValid = false;
-    } else {
-        musicErrorMsg.style.display = 'none';
-    }
+            // 음악 파일 체크
+            const musicInput = document.getElementById('albumMusic');
+            const musicErrorMsg = document.getElementById('musicErrorMsg');
+            if (!musicInput.files.length) {
+                musicErrorMsg.textContent = "음악 파일을 반드시 업로드해야 합니다";
+                musicErrorMsg.style.display = 'block';
+                isValid = false;
+            } else {
+                musicErrorMsg.style.display = 'none';
+            }
 
-    if (!isValid) {
-        event.preventDefault();
-    }
-});
+            // genre 체크
+            const genreErrorMsg = document.getElementById('genreErrorMsg');
+            let genreSelected = false;
+            const genres = document.querySelectorAll("input[name='genre']");
+            for (const genre of genres) {
+                if (genre.checked) {
+                    genreSelected = true;
+                    break;
+                }
+            }
+            if (!genreSelected) {
+                genreErrorMsg.textContent = '장르를 선택해주세요.';
+                genreErrorMsg.style.display = 'block';
+                isValid = false;
+            } else {
+                genreErrorMsg.textContent = '';
+                genreErrorMsg.style.display = 'none';
+            }
+
+            // title 체크
+            const title = document.getElementById('title');
+            const titleErrorMsg = document.getElementById('titleErrorMsg');
+            if (!title.value.trim()) {
+                titleErrorMsg.textContent = '음악 제목을 입력해주세요.';
+                titleErrorMsg.style.display = 'block';
+                isValid = false;
+            } else {
+                titleErrorMsg.textContent = '';
+                titleErrorMsg.style.display = 'none';
+            }
+
+            // biddingPeriod 체크
+            const periodErrorMsg = document.getElementById('periodErrorMsg');
+            let periodSelected = false;
+            const periods = document.querySelectorAll("input[name='biddingPeriod']");
+            for (const period of periods) {
+                if (period.checked) {
+                    periodSelected = true;
+                    break;
+                }
+            }
+            if (!periodSelected) {
+                periodErrorMsg.textContent = '경매 기간을 선택해주세요.';
+                periodErrorMsg.style.display = 'block';
+                isValid = false;
+            } else {
+                periodErrorMsg.textContent = '';
+                periodErrorMsg.style.display = 'none';
+            }
+
+            // 폼 제출을 방지하는 부분
+            if (!isValid) {
+                event.preventDefault();
+            }
+    });
 </script>
 </body>
 </html>

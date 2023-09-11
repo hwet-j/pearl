@@ -297,7 +297,7 @@ width:1080px;
     margin-top:10px;
 }
 
-.scroller .genreDiv {
+.scroller .genreBox {
  margin-top: 18px;
     width: 57px;
     height: 23px;
@@ -308,7 +308,18 @@ width:1080px;
         border-radius: 10px;
         font-size: 4px;
 }
-
+/* 찜버튼 변경내용시작*/
+.genreDiv{
+    display:flex;
+    flex-direction:row;
+}
+.genreDiv-rightspace{
+    margin-left:auto;
+    margin-right:15px;
+    display:flex;
+    align-items:flex-end;
+}
+/* 찜버튼 변경내용끝*/
 img{
 width:254px;
 height:254px;
@@ -663,3 +674,5 @@ border:none;
 
 
 /*음악 재생 관련 css*/
+
+/* 찜에 쓰이는 하트 CSS */

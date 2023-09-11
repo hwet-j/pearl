@@ -241,4 +241,6 @@ public class MusicAuctionController {
         return String.format("redirect:/detail?id=%d",id);
     }
 
+
+
 }

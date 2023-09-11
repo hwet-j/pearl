@@ -256,6 +256,7 @@ public class MyPageController {
 
     /* 입/출금 기능 (입금인지 출금인지 action변수에 받아와 하나의 메서드에서 두 기능을 구현) */
     @PostMapping("/balance")
+    @ResponseBody
     public String transactionBalance(
             @RequestParam String action,
             @RequestParam Long balance,
@@ -278,19 +279,17 @@ public class MyPageController {
 
         try {
             if ("deposit".equals(action)) {
-                memberService.addBalance(userId, balance);
+                return memberService.addBalance(userId, balance);
             } else if ("withdraw".equals(action)) {
-                memberService.minusBalance(userId, balance);
+                return memberService.minusBalance(userId, balance);
             }
         } catch (InsufficientBalanceException e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            return "error/insufficientBalance"; // 예외 페이지로 이동
+            return "실패";
         } catch (IllegalArgumentException e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            return "error/invalidAmount";       // 다른 예외 페이지로 이동
+            return "실패";       // 다른 예외 페이지로 이동
         }
 
-        return "redirect:/mypage/userinfo?userId=" + userId;
+        return "실패";
     }
 
 

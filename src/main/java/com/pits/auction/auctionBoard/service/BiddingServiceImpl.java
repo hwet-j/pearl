@@ -76,15 +76,20 @@ public class BiddingServiceImpl implements BiddingService{
                 musicAuctionRepository.save(musicAuction);
             }
 
+            LocalDateTime now = LocalDateTime.now();
+
             biddingRepository.save(Bidding.builder()
                     .id(biddingDTO.getId())
                     .bidder(member)
                     .auctionId(musicAuction)
                     .price(biddingDTO.getPrice())
-                    .bidTime(biddingDTO.getBidTime() != null ? biddingDTO.getBidTime() : LocalDateTime.now())
+                    .bidTime(biddingDTO.getBidTime() != null ? biddingDTO.getBidTime() : now)
                     .status(biddingDTO.getStatus() != null ? biddingDTO.getStatus() : "진행")
                     .build());
 
+            Long top_price = biddingRepository.findMaxPriceByNicknameAndAuctionId(member.getNickname(), musicAuction.getId());
+
+            biddingRepository.updateMaxPriceBiddingStatus(musicAuction.getId(), top_price);
             return "Success";
         } else {
             throw new InsufficientBiddingException("경매중 알수없는 오류가 발생했습니다.\n문제가 지속되면 관리자에게 문의하세요.");
@@ -153,4 +158,13 @@ public class BiddingServiceImpl implements BiddingService{
         return user_max_bidding;
     }
 
+
+    /*public void updateStatusAfterInsert(Bidding newBidding) {
+        Long currentAuctionId = newBidding.getAuctionId().getId();
+        Long maxPrice = biddingRepository.findMaxPriceByAuctionId(currentAuctionId);
+
+        if (newBidding.getPrice() == maxPrice) {
+            biddingRepository.updateStatusForOthers(currentAuctionId, newBidding.getId());
+        }
+    }*/
 }

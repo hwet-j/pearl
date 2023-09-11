@@ -35,6 +35,8 @@ public interface MemberService {
     public Page<Member> getMemberYList(Pageable pageable);
     public Member getMemberDetail(Long id);
 
+    public Member getUser(String email);
+
     public void deleteMember(Long id);
 
     public void deleteMembers(List<Long> ids);

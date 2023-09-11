@@ -2,11 +2,13 @@ package com.pits.auction.auctionBoard.controller;
 
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO2;
+import com.pits.auction.auctionBoard.entity.AuctionComment;
 import com.pits.auction.auctionBoard.entity.BiddingPeriod;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
 import com.pits.auction.auctionBoard.entity.MusicGenre;
 import com.pits.auction.auctionBoard.repository.MusicAuctionRepository;
 import com.pits.auction.auctionBoard.service.*;
+import com.pits.auction.auctionBoard.validation.CommentForm;
 import com.pits.auction.auth.dto.MemberDTO;
 import com.pits.auction.auth.entity.Member;
 import com.pits.auction.auth.repository.MemberRepository;
@@ -130,7 +132,7 @@ public class MusicAuctionController {
 
     /* 글 상세보기 (auctionId) */
     @GetMapping("/detail")
-    public String auctionDedail(@RequestParam("id") Long auctionId, Model model){
+    public String auctionDedail(@RequestParam("id") Long auctionId, Model model,CommentForm commentForm, AuctionComment auctionComment){
         Long id = 42L;
         // 경매글 가져오기
         Optional<MusicAuction> optionalMusicAuction = musicAuctionService.findById(auctionId);

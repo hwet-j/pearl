@@ -41,7 +41,6 @@ import static java.time.LocalTime.now;
 @Builder
 @Table(name = "music_auction")
 @EntityListeners(AuditingEntityListener.class)
-@ToString(exclude = "authorNickname")
 public class MusicAuction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -33,4 +33,10 @@ public class AuctionDetailController {
     List<MusicAuction> entries=musicAuctionService.findDetailByNickname(authorNickname);
     return entries;
 }
+    @GetMapping("/detail/delete/{id}")
+    public String deleteMusic(@PathVariable("id")Long id) throws Exception {
+        musicAuctionService.deleteMusic(id);
+        return "redirect:/main/list";
+    }
+
 }

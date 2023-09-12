@@ -223,6 +223,11 @@ public class MusicAuctionServiceImpl implements MusicAuctionService {
         return musicAuctionRepository.findByAuthorNickname_Nickname(authorNickname);
     }
 
+    @Override
+    public void deleteMusic(Long id){
 
+        musicAuctionRepository.deleteById(id);
+
+    }
 
 }

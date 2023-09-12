@@ -37,4 +37,6 @@ public interface MusicAuctionService {
 
     MusicAuction getAuctionDetail(Long id);
     List<MusicAuction> findDetailByNickname(String authorNickname);
+
+    public void deleteMusic(Long id);
 }

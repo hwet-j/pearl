@@ -525,3 +525,20 @@ a {
 .playButton:hover {
     cursor: pointer;
 }
+
+a.main-link {
+    display: inline-block;          /* 인라인 블록 요소로 설정하여 가로로 정렬됩니다. */
+    padding: 10px 20px;             /* 원하는 패딩값 설정 (상하 10px, 좌우 20px 예시) */
+    text-decoration: none;          /* 기본 링크 텍스트 스타일 제거 */
+    background-color: inherit;      /* 배경색 설정 */
+    color: #fff;                    /* 텍스트 색상 설정 */
+    border: none;                   /* 테두리 제거 */
+    font-size: 34px;                /* 원하는 글꼴 크기 설정 */
+    cursor: pointer;                /* 마우스 커서를 포인터로 변경하여 클릭 가능하다는 표시를 합니다. */
+    margin: 0 auto;                 /* 가운데 정렬을 위해 좌우 마진을 자동으로 조절합니다. */
+}
+
+.main-link-container{
+    margin-top:75px;
+    text-align: center;             /* 텍스트를 가운데 정렬합니다. */
+}

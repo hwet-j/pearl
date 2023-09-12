@@ -13,7 +13,7 @@
     <script th:src="@{/js/audiplay.js}"></script>
 
     <!--/* 두 개로 나뉜 Comment, Entries에 대한 기능 구현을 위한 스크립트 */-->
-    <script>
+    <script th:inline="javascript">
         document.addEventListener("DOMContentLoaded", function () {
         const buttons = document.querySelectorAll('.button-container button');
         const commentContent = document.querySelector('.body-comment');
@@ -45,6 +45,35 @@
         });
     });
 
+document.addEventListener("DOMContentLoaded", function () {
+    const deleteButtons = document.querySelectorAll(".delete");
+
+               /*<![CDATA[*/
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", function (event) {
+            event.preventDefault(); // 기본 동작 취소
+            const id =/*[[${musicAuction.id}]]*/;
+
+            Swal.fire({
+                title: '글 삭제',
+                text: '정말로 삭제하시겠습니까?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '삭제',
+                cancelButtonText: '취소',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const deleteForm = document.createElement('form');
+                    deleteForm.method = 'GET';
+                    deleteForm.action = `/detail/delete/`+id;
+                    document.body.appendChild(deleteForm);
+                    deleteForm.submit();
+                }
+            });
+        });
+    });
+});
+        /*]]>*/
 </script>
 
 
@@ -109,6 +138,12 @@
                                 </span>
                                 <span th:if="${#authorization.expression('isAuthenticated() and hasRole(''ROLE_ADMIN'')')}">
                                     <a class="button-edit" th:href="@{/edit/{id}(id=${musicAuction.id})}">수정</a>
+                                </span>
+                                  <span th:if="${#authorization.expression('isAuthenticated() and !hasRole(''ROLE_ADMIN'')')}">
+                                    <a class="delete button-edit" data-id="${musicAuction.id}" th:if="${#strings.toLowerCase(#authentication.principal.username) eq #strings.toLowerCase(musicAuction.authorNickname.email)}" th:href="@{|/detail/delete/${musicAuction.id}|}">삭제</a>
+                                </span>
+                                <span th:if="${#authorization.expression('isAuthenticated() and hasRole(''ROLE_ADMIN'')')}">
+                                    <a class="delete button-edit" data-id="${musicAuction.id}" th:href="@{|/detail/delete/${musicAuction.id}|}">삭제</a>
                                 </span>
                             </div>
 

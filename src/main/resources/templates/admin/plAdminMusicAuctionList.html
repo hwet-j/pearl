@@ -100,7 +100,7 @@ deleteForm.submit(); // form 제출
     <body>
 <div style="margin:150px;" >
     <div class="container"  >
-<form method="post" th:object="${musicAuction}" action="/musicAuction/delete">
+<form method="post" th:object="${musicAuction}" action="/detail/delete/{id}">
 <table border="1"  class="table table-dark table-striped" style="text-align: center;">
     <thead>
     <tr>
@@ -116,7 +116,7 @@ deleteForm.submit(); // form 제출
     <tr th:each="musicAuction:${musicAuctionList}" >
         <td><input type="checkbox" name="selectedMusicAutions" th:value="${musicAuction.id}" ></td>
         <td th:text="${musicAuction.id}" name="id"></td>
-        <td name="title"><a th:href="@{/detail/id(id=${musicAuction.id})}" th:text="${musicAuction.title}"></a></td>
+        <td name="title"><a th:href="@{/detail/${musicAuction.id}}" th:text="${musicAuction.title}"></a></td>
         <td th:text="${musicAuction.genre.name}" name="genre"></td>
         <td th:text="${musicAuction.authorNickname.nickname}" name="authorNickname"></td>
         <td th:text="${#temporals.format(musicAuction.createdAt,'yyyy-MM-dd HH:mm')}" name="createdAt"></td>

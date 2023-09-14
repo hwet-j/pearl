@@ -1,14 +1,21 @@
 
 /* 배경 색상 */
 body {
-    background-color: #020202;
+
+    position: absolute;
+    background-image: url('/pictures/background/mypageback.png');
+    width: 1920px;
+    height: 910px;
+
     font-family: 'Noto Sans KR', 'Roboto', sans-serif;
 }
 
 /* 프로필 이미지 설정 */
 .profile-image {
-    width: 350px;
-    height: 350px;
+    margin-top: 90px;
+    margin-left: 40px;
+    width: 250px;
+    height: 250px;
     object-fit: cover;
 }
 
@@ -19,19 +26,65 @@ body {
 
 
 .edit-image{
-    width: 460px; /* 너비 설정 */
-    height: 460px; /* 높이 설정 */
+    margin-top: 80px;
+    width: 350px; /* 너비 설정 */
+    height: 350px; /* 높이 설정 */
+    margin-bottom: 20px;
+
 }
 
 .image-container {
     display: flex;
     gap: 10px; /* 이미지와 텍스트 사이의 간격 */
+    margin-left: 40px;
+    overflow-x: auto; /* 가로 스크롤을 감춥니다. */
+    overflow-y: hidden; /* 세로 스크롤을 활성화합니다. */
 }
+
+/* 스크롤 바의 스타일을 변경합니다. */
+.image-container::-webkit-scrollbar {
+    display:none;
+
+}
+
+/*
+*//* 스크롤 바의 track(바깥 부분) 스타일 *//*
+.image-container::-webkit-scrollbar-track {
+    background-color: #f1f1f1; *//* 바깥 부분의 배경색 *//*
+}
+
+*//* 스크롤 바의 thumb(안쪽 부분) 스타일 *//*
+.image-container::-webkit-scrollbar-thumb {
+    background-color: #9A97FF;     *//* thumb의 배경색 *//*
+    border-radius: 6px;         *//* thumb의 모서리를 둥글게 만듭니다. *//*
+}
+
+*//* 스크롤 버튼의 활성화 상태 스타일 *//*
+.image-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555;     *//* 활성화 상태에서 thumb의 배경색 변경 *//*
+}*/
+
+
+.image-link{
+    text-decoration: none; /* 밑줄 제거 */
+    color: inherit; /* 부모 요소의 텍스트 색상 상속 */
+}
+
 
 
 .image-with-text {
     text-align: center;
+
 }
+
+
+.mypagetitle {
+
+    font-size: 20px;
+    margin-top: -40px;
+
+}
+
 
 
 /* 파일첨부 관련 CSS */
@@ -44,14 +97,37 @@ body {
     border-radius: 8px;
 }
 
+.file-input-container:hover {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    margin: 10px 0;
+    border: 2px solid white;
+    border-radius: 8px;
+    background-color: white;
+    color: black;
+    font-weight:bold;
+}
+
 .file-input-container label {
-    color: white;
+
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
     display: block;
     text-align: center;
 }
+
+
+.file-input-container label:hover {
+    color: black;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    text-align: center;
+}
+
 
 .file-input-container input[type="file"] {
     position: absolute;
@@ -62,19 +138,45 @@ body {
     cursor: pointer;
 }
 
+.image-container p {
+
+}
+
+.bidname{
+    font-size: 30px;
+}
+
+.mybid {
+    margin-top: 90px;
+    font-size:24px;
+    float:left;
+}
+
+.topprice {
+    margin-top: 90px;
+    margin-left: 70px;
+    font-size:24px;
+    float:left;
+}
 
 /* 찜목록 이미지 설정 */
 .wish-image {
-    width: 150px; /* 최대 너비 설정 */
-    height: 150px; /* 최대 높이 설정 */
+    width: 200px; /* 최대 너비 설정 */
+    height: 200px; /* 최대 높이 설정 */
     margin-right: 10px; /* 오른쪽 margin 값 */
+    margin-top: 40px;
 }
 
 /* 프로필 이미지 설정 */
 .music-image {
-    width: 180px; /* 최대 너비 설정 */
-    height: 180px; /* 최대 높이 설정 */
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 230px; /* 최대 너비 설정 */
+    height: 230px; /* 최대 높이 설정 */
 }
+
+
+
 
 /* 가운데 정렬 */
 .center-align {
@@ -95,9 +197,23 @@ body {
     color: gray;
 }
 
+
+.money {
+    text-align:center;
+    border: 3px solid white;
+    width: 240px;
+    height: 35px;
+    border-radius: 10px;
+    padding-top: 10px;
+    margin-bottom: -10px;
+
+}
+
+
 /* 테두리 입히기 */
 .bordered {
-    border: 1px solid #ccc;
+
+
     padding: 10px;
     border-radius: 5px;
 }
@@ -123,7 +239,7 @@ body {
 .money-text {
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
-    font-size: 18px; /* 원하는 크기로 조정 */
+    font-size: 20px; /* 원하는 크기로 조정 */
     color: white; /* 글자 색상 설정 */
 }
 
@@ -134,10 +250,10 @@ body {
 /********************************/
 
 .split-container {
-    margin-left: 310px;
+    margin-left: 350px;
     width: 1300px;
     height: 800px;
-    margin-top:150px;
+    margin-top:95px;
     display: flex;
     align-items: stretch;   /* 높이를 부모 컨테이너에 맞추기 -> 좌,우의 높이가 동일하도록 */
     justify-content: center;
@@ -146,6 +262,7 @@ body {
 /* 좌,우 공통 */
 .left-side,
 .right-side {
+
     padding: 20px;
     box-sizing: border-box;
     color: white;
@@ -153,20 +270,63 @@ body {
 
 /* 좌측 영역 */
 .left-side {
+
+    margin-left: 20px;
     flex: 1;                    /* 영역의 비율을 설정해주는 속성 */
-    background-color: #212024; /* 왼쪽 배경색상 */
+    background-image: url('/pictures/background/leftback.png'); /* 왼쪽 배경색상 */
+    background-repeat: no-repeat; /* 이미지가 반복되지 않도록 */
+    background-position: center center; /* 이미지를 중앙에 위치시킴 */
 }
 
 /* 우측 영역 */
 .right-side {
+    margin-top: 5px;
+    margin-left : -90px;
     flex: 3;
 }
+button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
 
+.bidtitle{
+    position:absolute;
+    margin-left: 10px;
+    font-size: 20px;
+    margin-top: -55px;
+    margin-bottom: 100px;
+}
+
+.wishtitle{
+    position:absolute;
+    margin-left: 20px;
+    font-size: 20px;
+    margin-top: -50px;
+}
 
 .transaction-button {
-    padding: 10px 25px; /* 버튼의 높이와 너비 설정 */
-    border-radius: 5px;
-    margin: 0 10px; /* 버튼 사이에 간격 설정 */
+    border: 3px solid;
+    width: 118px;
+    height: 50px;
+    border-radius: 10px;
+    margin: -5px 5px; /* 버튼 사이에 간격 설정 */
+    font-weight:bold;
+}
+
+.transaction-button:hover {
+    border: 3px solid;
+    width: 118px;
+    height: 50px;
+    border-radius: 10px;
+    margin: -5px 5px; /* 버튼 사이에 간격 설정 */
+    background-color: white;
+    color: black;
+    font-weight:bold;
 }
 
 /* 좌,우 거리 조절을 위한 분할선의 너비 지정 */
@@ -177,18 +337,25 @@ body {
 /* 상,하 공통 */
 .upper-side,
 .lower-side {
-  padding: 20px;
+
   box-sizing: border-box;
-  background-color: #212024;
+  width: 800px;
+  height: 315px;
+  background-image: url('/pictures/background/rightback1.png');
+  background-repeat: no-repeat; /* 이미지가 반복되지 않도록 */
+  background-position: center center; /* 이미지를 중앙에 위치시킴 */
 }
 
 .upper-side {
-  margin-top: -20px;
+  margin-top: 10px;
+  margin-left: 80px;
 }
 
 
 .lower-side {
-    margin-top: 75px;
+    margin-top: 80px;
+    margin-left: 80px;
+    padding-right:35px;
 }
 
 
@@ -200,11 +367,29 @@ body {
 /* 수정 버튼 */
 .update-button {
         display: inline;
-        border: 1px solid white;
+        border: 2px solid white;
         padding: 5px 10px;
-        border-radius: 5px;
+        border-radius: 15px;
         color: white;
+        margin-bottom: -30px;
+        font-size: 12px;
     }
+
+.update-button:hover {
+        display: inline;
+        border: 2px solid white;
+        padding: 5px 10px;
+        border-radius: 15px;
+        color: black;
+        margin-bottom: -30px;
+        background:white;
+        font-weight:bold;
+    }
+
+
+a {
+    text-decoration:none;
+}
 
 /************************************/
 /* 좌우 영역 구분하기 - 마이페이지(수정) */
@@ -214,7 +399,7 @@ body {
     margin-left: 310px;
     width: 1300px;
     height: 630px;
-    margin-top:150px;
+    margin-top:120px;
     display: flex;
     align-items: stretch;   /* 높이를 부모 컨테이너에 맞추기 -> 좌,우의 높이가 동일하도록 */
     justify-content: center;
@@ -231,16 +416,43 @@ body {
     margin-left: 10px;
 }
 
+.action-button:hover {
+    background-color: white; /* 배경색 투명하게 설정 */
+    color: black;
+    padding: 10px 20px;
+    border: 2px solid white; /* 테두리 추가 및 스타일 설정 */
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-left: 10px;
+    font-weight:bold;
+}
+
 .delete-button {
         background-color: transparent;
         color: white;
-        padding: 9px 14px;
+        padding: 7px 20px 10px 20px;
         border: 2px solid white;
         border-radius: 4px;
         cursor: pointer;
         margin-right: 10px;
         margin-left: 10px;
+        font-size: 13px;
     }
+
+.delete-button:hover {
+        background-color: white;
+        color: black;
+        padding: 7px 20px 10px 20px;
+        border: 2px solid white;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 10px;
+        margin-left: 10px;
+        font-size: 13px;
+        font-weight:bold;
+    }
+
 
 
 .cancle-button {
@@ -265,6 +477,7 @@ body {
 
 /* 좌측 영역 */
 .left-side-edit {
+    margin-top: -50px;
     padding: 15px;
     flex: 1;                    /* 영역의 비율을 설정해주는 속성 */
     background-color: #212024; /* 왼쪽 배경색상 */
@@ -272,7 +485,8 @@ body {
 
 /* 우측 영역 */
 .right-side-edit {
-    padding: 70px;
+    margin-top: -50px;
+    padding: 100px;
     flex: 1.2;
     background-color: #212024; /* 왼쪽 배경색상 */
 }
@@ -295,6 +509,11 @@ body {
     box-sizing: border-box;
 }
 
+.inner-right {
+    margin-left: -230px;
+    margin-top: 30px;
+}
+
 /*******************************/
 /* 입출금 관련 페이지 글자색 */
 /*******************************/
@@ -302,6 +521,24 @@ body {
 .transaction-container {
     color: white; /* 기본 글자색을 흰색으로 설정 */
 }
-.playButton{
-    cursor:pointer;
+
+.playButton:hover {
+    cursor: pointer;
+}
+
+a.main-link {
+    display: inline-block;          /* 인라인 블록 요소로 설정하여 가로로 정렬됩니다. */
+    padding: 10px 20px;             /* 원하는 패딩값 설정 (상하 10px, 좌우 20px 예시) */
+    text-decoration: none;          /* 기본 링크 텍스트 스타일 제거 */
+    background-color: inherit;      /* 배경색 설정 */
+    color: #fff;                    /* 텍스트 색상 설정 */
+    border: none;                   /* 테두리 제거 */
+    font-size: 34px;                /* 원하는 글꼴 크기 설정 */
+    cursor: pointer;                /* 마우스 커서를 포인터로 변경하여 클릭 가능하다는 표시를 합니다. */
+    margin: 0 auto;                 /* 가운데 정렬을 위해 좌우 마진을 자동으로 조절합니다. */
+}
+
+.main-link-container{
+    margin-top:75px;
+    text-align: center;             /* 텍스트를 가운데 정렬합니다. */
 }

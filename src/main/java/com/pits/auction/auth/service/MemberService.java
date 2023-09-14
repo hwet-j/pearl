@@ -23,9 +23,9 @@ public interface MemberService {
 
     Long getBalanceByEmail(String email);
 
-    void addBalance(Long userId, Long amount);
+    String addBalance(Long userId, Long amount);
 
-    void minusBalance(Long userId, Long amount);
+    String minusBalance(Long userId, Long amount);
 
     boolean duplicatePhoneNumber(Long id, String phoneNumber);
 
@@ -34,6 +34,8 @@ public interface MemberService {
     public Page<Member> getMemberList(Pageable pageable);
     public Page<Member> getMemberYList(Pageable pageable);
     public Member getMemberDetail(Long id);
+
+    public Member getUser(String email);
 
     public void deleteMember(Long id);
 

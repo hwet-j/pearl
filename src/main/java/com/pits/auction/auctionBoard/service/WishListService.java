@@ -18,4 +18,5 @@ public interface WishListService {
 
     List<MusicAuction> getMusicAuctionsByEmail(String email);
 
+    Long countByEmailAndAuctionId(Long auctionId, String email);
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -61,24 +61,38 @@ deleteForm.submit(); // form 제출
 </script>
 <nav class="" th:fragment="navbarFragment"
      xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml" style="width:1920px;height: 100px; float: left; background-color: none;">
-<div class="bigBox" >
-    <ul class="" style="list-style-type:none;">
-        <li class="nav-item">
-            <a class="logo"  th:href="@{/main/list}"><img src="/pictures/logo.png" style="width:84px; height:42px; float:left; margin-left:180px; margin-top:50px;"></a>
-            <a class="loginBtn" sec:authorize="isAnonymous()" th:href="@{/user/plLogin}"
-               style="position: absolute; text-decoration:none; margin-left: 1320px; margin-top: 70px;  font-size: 25px; color:white; font-family: 'Roboto', sans-serif;">LogIn</a>
-            <a class="" sec:authorize="isAuthenticated()" th:href="@{/musicAuction/list}"
-               style="text-decoration:none; float:left; margin-top: 70px; font-size: 25px; color:white; margin-left: 900px; font-family: 'Roboto', sans-serif;">MusicAuctionList</a>
-            <a class="" sec:authorize="isAuthenticated()" th:href="@{/mypage/userinfo}"
-               style="text-decoration:none; float:left; margin-top: 70px; font-size: 25px; color:white; margin-left: 50px; font-family: 'Roboto', sans-serif;">MyPage</a>
-            <a class="" sec:authorize="isAuthenticated()"  th:href="@{/user/plLogout}"
-               style="text-decoration:none; float:left; margin-top: 70px; font-size: 25px; color:white; margin-left: 50px; font-family: 'Roboto', sans-serif;">LogOut</a>
-        </li>
-    </ul>
-</div>
-<body>
+    <div class="bigBox">
 
 
+
+        <ul class="" style="list-style-type:none;">
+            <li class="nav-item">
+                <!-- 타임리프의 security이용
+                sec:authorize="isAnonymous()은 로그인하지않는 경우->로그인 출력
+                sec:authorize="isAuthenticated()은 로그인한 경유->로그아웃 출력
+                -->
+                <a class="logo"  th:href="@{/main/list}"><img src="/pictures/logo.png" style="width:82px; height:57px; float:left; margin-left:180px; margin-top:45px;"></a>
+                <a class="loginBtn" sec:authorize="isAnonymous()" th:href="@{/user/plLogin}"
+                   style="position: absolute; text-decoration:none; margin-left: 1320px; margin-top: 70px;  font-size: 25px; color:white; font-family: 'Roboto', sans-serif;">LogIn</a>
+
+
+
+                <a class="" sec:authorize="isAuthenticated()" th:href="@{/musicAuction/list}"
+                   style="text-decoration:none; float:left; margin-top: 70px; font-size: 25px; color:white; margin-left: 1100px; font-family: 'Roboto', sans-serif;">MusicAuctionList</a>
+                <a class="" sec:authorize="isAuthenticated()"  th:href="@{/user/plLogout}"
+                   style="text-decoration:none; float:left; margin-top: 70px; font-size: 25px; color:white; margin-left: 50px; font-family: 'Roboto', sans-serif;">LogOut</a>
+
+
+
+            </li>
+
+        </ul>
+
+
+    </div>
+
+
+    <body>
 <div style="margin:200px;" >
     <div class="container">
 
@@ -129,7 +143,6 @@ deleteForm.submit(); // form 제출
 
 </div>
 </div>
-
 </body>
 </nav>
 </html>

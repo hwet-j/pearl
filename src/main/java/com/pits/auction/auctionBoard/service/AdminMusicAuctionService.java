@@ -12,4 +12,5 @@ public interface AdminMusicAuctionService {
     void deleteMusicAuction(List<Long> ids);
 
 
+
 }

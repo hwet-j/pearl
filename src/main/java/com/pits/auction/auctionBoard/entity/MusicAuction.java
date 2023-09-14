@@ -46,12 +46,11 @@ public class MusicAuction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "author_nickname",  referencedColumnName = "nickname", nullable = false)
     private Member authorNickname;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "genre_id", nullable = false)
     private MusicGenre genre;
 
@@ -74,7 +73,7 @@ public class MusicAuction {
     @Column(columnDefinition = "TIMESTAMP", nullable = false)
     private LocalDateTime createdAt;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JsonIgnore
     @JoinColumn(nullable = false)
     private BiddingPeriod biddingPeriod;
@@ -85,22 +84,30 @@ public class MusicAuction {
     @Column(nullable = false)
     private String status;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "musicAuction", cascade = CascadeType.REMOVE)
+    private List<AuctionComment> commentList;
+
     // 입찰 정보
     @JsonIgnore
     @OneToMany(mappedBy = "auctionId")
     private List<Bidding> auctionBiddings;
 
 
+    //createdAt생성일에 따라서 endTime입찰 종료 일자를 계산하고 데이터베이스에 추가하는 콜백 메서드
     @PrePersist
     public void setEndTimeUsingBiddingPeriod() {
         if (this.createdAt == null || this.biddingPeriod == null) {
             throw new IllegalStateException("Cannot set end time without created time or bidding period.");
         }
+
+        //Matcher객체가 문자열 형식의 입찰 기간을 패턴 정규식과 대조해 정규식과 일치하는 부분을 찾음
         String periodValue = this.biddingPeriod.getPeriodValue();
         Pattern pattern = Pattern.compile("(\\d+)\\s*(\\D+)");
         Matcher matcher = pattern.matcher(periodValue);
 
-             if (matcher.find()) {
+        //group(1) = (\\d+) 연속된 숫자, group(2) = (\\D+) 연속된 문자, \\s* = 0개 이상의 공백
+        if (matcher.find()) {
             int value = Integer.parseInt(matcher.group(1));
             String unit = matcher.group(2);
 
@@ -153,4 +160,8 @@ public class MusicAuction {
         }
     }
     }
+
+    /* 로그인 한 유저의 wish가 맞는지 확인하는 임시용 필드 > DB 적용 안되는 필드임 */
+    @Transient
+    private int wish;
 }

@@ -16,25 +16,14 @@
 
 
 
-
-
-
 </head>
 <body>
 <div class="nav1" layout:fragment="content" >
 
-
+    <div class="bg0"></div>
     <div class="bg"></div>
-    <div class="bg2"></div>
-    <div class="bg3"></div>
-    <div class="bg4"></div>
-    <div class="bg5"></div>
-    <div class="bg6"></div>
-    <div class="bg7"></div>
-    <div class="bg8"></div>
-    <div class="bg9"></div>
-    <div class="bg10"></div>
-    <div class="bg11"></div>
+
+
 
     <button id="scrollTopBtn" style="display:none; position: fixed; bottom: 70px; right: 130px;"><img src="/pictures/topbtn.png"></button>
 
@@ -64,7 +53,10 @@
                                     <div class="item-text-title" th:text="${musicAuctionList.title}"></div>
                                     <div class="item-text-nickname" th:text="${musicAuctionList.nickname}"></div>
                                     <div class="item-text-timelimit" th:id="'timeDifference' + ${iterStat.index}"></div>
-                                    <div class="item-text-price" th:text="${musicAuctionList.maxPrice != null} ? ${musicAuctionList.maxPrice} + ' &#8361;' : '0 &#8361;'"></div>
+                                    <!--<div class="item-text-price" th:text="${musicAuctionList.maxPrice != null} ? ${musicAuctionList.maxPrice} + ' &#8361;' : '0 &#8361;'"></div>-->
+
+                                    <div class="item-text-price" th:if="${musicAuctionList.maxPrice != null}" th:utext="'<script>document.write(new Intl.NumberFormat().format(' + ${musicAuctionList.maxPrice} + ') + \' &#8361;\')</script>'"></div>
+                                    <div class="item-text-price" th:if="${musicAuctionList.maxPrice == null}">0 &#8361;</div>
                                 </div>
                             </div>
                             </a>
@@ -85,6 +77,26 @@
                     <div class="albumImage">
                         <img th:src="${musicAuctions.albumImage}" th:onerror="'this.src=\'/pictures/image_not_found.png\''">
                     </div>
+                    <div class="genreDiv">
+                        <div th:text="${musicAuctions.genre.name}" class="genreBox"></div>
+                        <div class="genreDiv-rightspace">
+                            <div th:if="${musicAuctions.wish != -1}">
+                                <button th:if="${musicAuctions.wish == 1}" class="heart-button filled" th:onclick="'toggleWish(\'' + ${musicAuctions.id} + '\', event)'">
+                                    <!-- SVG 코드 -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="#9A97FF" stroke="#9A97FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 21.35l-1.45-1.32C5.4 16.25 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 7.75-8.55 11.54L12 21.35z" />
+                                    </svg>
+                                </button>
+                                <button th:if="${musicAuctions.wish == 0}" class="heart-button" th:onclick="'toggleWish(\'' + ${musicAuctions.id} + '\', event)'">
+                                    <!-- SVG 코드 -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#9A97FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 21.35l-1.45-1.32C5.4 16.25 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 7.75-8.55 11.54L12 21.35z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="top">
                         <div th:text="${musicAuctions.title}"></div>
                     </div>
@@ -108,7 +120,6 @@
                 </div>
             </div>
             <div class="music-player">
-
                 <div class="current-track">
                     <p style="margin-left:-250px; margin-top:-20px;">Music Player</p>
                     <img id="currentTrackCover" src="" alt="Current Track Cover" onerror="'this.src=\'/pictures/image_not_found.png\''"/>
@@ -148,6 +159,12 @@
     <script src="/js/dropdown.js"></script>
     <script src="/js/infiniteScroll.js"></script>
     <script src="/js/sidebar-audio-player.js"></script>
+    <script src="/js/wishChanger.js"></script>
+
+
+
+
+
     <script>
         new Swiper('.swiper', {
      direction: 'vertical',
@@ -195,6 +212,7 @@
         }
         /*]]>*/
     </script>
+
     <script>
 
         let scrollTopBtn = document.getElementById("scrollTopBtn");

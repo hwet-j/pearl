@@ -301,7 +301,8 @@
         .volume-bar {
             width: 55px;
             min-width: 30px;
-            height: 70px;
+            height: 65px;
+            margin-top: 20px;
             background: url("/pictures/audio-player-icon-sprite.png") 50% center/500% 100% no-repeat;
             position: relative;
         }
@@ -400,17 +401,20 @@
         
         .duration,
         .current-time {
+            margin-top: 20px;
             position: relative;
             z-index: 1;
             text-shadow: 0 0 2px #111;
         }
         
         .duration {
+            margin-top: 20px;
             margin-left: 2px;
             margin-right: 5px;
         }
         
         .duration::before {
+
             content: '/';
             display: inline-block;
             margin-right: 2px;

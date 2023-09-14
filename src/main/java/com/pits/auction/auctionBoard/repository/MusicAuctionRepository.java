@@ -1,6 +1,5 @@
 package com.pits.auction.auctionBoard.repository;
 
-import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
 import com.pits.auction.auctionBoard.entity.MusicAuctionProjection;
 import com.pits.auction.auth.entity.Member;
@@ -13,7 +12,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface MusicAuctionRepository extends JpaRepository<MusicAuction, Long> {
@@ -52,6 +50,6 @@ public interface MusicAuctionRepository extends JpaRepository<MusicAuction, Long
     @Query(value = "SELECT MAX(id) FROM MusicAuction")
     Long findMaxId();
 
-
     List<MusicAuction> findByAuthorNickname_Nickname(String nickname);
+
 }

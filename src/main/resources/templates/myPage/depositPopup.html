@@ -15,41 +15,52 @@
 <h2>입금</h2>
 
 <div class="transaction-container">
-    <form id="depositForm">
-        <input type="hidden" id="userId" th:value="${userInfo.id}">
-        <label for="depositAmount">입금 금액:</label>
-        <div class="bordered"><input type="number" id="depositAmount" placeholder="입금할 금액을 설정해주세요" required></div>
-        <button type="button" onclick="submitDeposit()">입금</button>
-        <button type="button" onclick="closeWindow()">취소</button>
-    </form>
+    <label for="depositAmount">입금 금액:</label>
+    <div class="bordered">
+        <input type="number" id="depositAmount"
+               onkeydown="handleKeyPress(event)" placeholder="입금할 금액을 설정해주세요" required>
+    </div>
+    <button type="button" onclick="submitDeposit()">입금</button>
+    <button type="button" onclick="closeWindow()">취소</button>
 </div>
 
 
 
 <script th:inline="javascript">
+    function handleKeyPress(event) {
+        if (event.key === "Enter") {
+            submitDeposit();
+        }
+    }
+
     function submitDeposit() {
-        var userId = $('#userId').val();
         var depositAmount = $('#depositAmount').val();
 
-        // AJAX 요청
         $.ajax({
             url: /*[[@{/mypage/balance}]]*/,
             type: "POST",
             data: {
-                userId: userId,
                 action: 'deposit',
                 balance: depositAmount
             },
             success: function(response) {
-                Swal.fire({
-                    icon: 'success',
-                    title: '입금 완료',
-                    text: '입금이 성공적으로 완료되었습니다.'
-                }).then(() => {
-                    // 메인 창을 새로고침하여 변경된 데이터 업데이트
-                    window.opener.location.reload();
-                    window.close();
-                });
+                if (response === 'Success'){
+                    Swal.fire({
+                        icon: 'success',
+                        title: '입금 완료',
+                        text: '입금이 성공적으로 이루어졌습니다.'
+                    }).then(() => {
+                        window.opener.location.reload();
+                        window.close();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '입금 실패',
+                        text: response
+                    });
+                }
+
             },
             error: function(xhr, status, error) {
                 console.log(error);

@@ -15,42 +15,52 @@
 <body>
 <h2>출금</h2>
 
-
 <div class="transaction-container">
-    <form id="withdrawForm">
-        <input type="hidden" id="userId" th:value="${userInfo.id}">
-        <label for="withdrawAmount">출금 금액:</label>
-        <div class="bordered"><input type="number" id="withdrawAmount" placeholder="출금할 금액을 설정해주세요." required></div>
-        <button type="button" onclick="submitWithdraw()">출금</button>
-        <button type="button" onclick="closeWindow()">취소</button>
-    </form>
+    <label for="withdrawAmount">출금 금액:</label>
+    <div class="bordered">
+        <input type="number" id="withdrawAmount" onkeydown="handleKeyPress(event)"
+               placeholder="출금할 금액을 설정해주세요." required>
+    </div>
+    <button type="button" id="withdrawButton" onclick="submitWithdraw()">출금</button>
+    <button type="button" onclick="closeWindow()">취소</button>
 </div>
 
 
 <script th:inline="javascript">
+    function handleKeyPress(event) {
+        if (event.key === "Enter") {
+            submitWithdraw();
+        }
+    }
+
     function submitWithdraw() {
-        var userId = $('#userId').val();
         var withdrawAmount = $('#withdrawAmount').val();
 
-        // AJAX 요청
         $.ajax({
-            url: /*[[@{/mypage/balance}]]*/, // Thymeleaf URL 표현식을 사용하여 URL 설정
+            url: /*[[@{/mypage/balance}]]*/,
             type: "POST",
             data: {
-                userId: userId,
                 action: 'withdraw',
                 balance: withdrawAmount
             },
             success: function(response) {
-                Swal.fire({
-                    icon: 'success',
-                    title: '출금 완료',
-                    text: '출금이 성공적으로 완료되었습니다.'
-                }).then(() => {
-                    // 메인 창을 새로고침하여 변경된 데이터 업데이트
-                    window.opener.location.reload();
-                    window.close();
-                });
+                if (response === 'Success'){
+                    Swal.fire({
+                        icon: 'success',
+                        title: '출금 완료',
+                        text: '출금이 성공적으로 이루어졌습니다.'
+                    }).then(() => {
+                        window.opener.location.reload();
+                        window.close();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '출금 실패',
+                        text: response
+                    });
+                }
+
             },
             error: function(xhr, status, error) {
                 console.log(error);
@@ -61,11 +71,14 @@
                 });
             }
         });
+
     }
 
     function closeWindow() {
         window.close();
     }
+
 </script>
+
 </body>
 </html>

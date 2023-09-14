@@ -2,6 +2,7 @@ package com.pits.auction.user.service;
 
 
 import com.pits.auction.auth.entity.Member;
+import com.pits.auction.auth.repository.MemberRepository;
 import com.pits.auction.user.repository.UserRepository;
 import com.pits.auction.user.validation.UserRole;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ import java.util.Optional;
 public class UserSecurityService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
     //사용자이름으로 (비밀번호)조회
     @Override
@@ -35,7 +37,13 @@ public class UserSecurityService implements UserDetailsService {
             throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
         }
 
+        // 사용자 아이디는 찾았지만 회원 정보의 탈퇴요청이 true라면
         Member siteUser = optionalMember.get();
+        if (memberRepository.findActiveMembersByEmail(email).isPresent()){
+            throw new UsernameNotFoundException("사용자는 탈퇴한 회원입니다.");
+        }
+
+
         List<GrantedAuthority> authorities = new ArrayList<>();
         //nickname "admin"을 포함하면
         if (siteUser.getNickname().contains("admin")) {

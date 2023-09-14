@@ -22,16 +22,18 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-                        .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
-                .headers((headers) -> headers.addHeaderWriter(new XFrameOptionsHeaderWriter(
-                        XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
-                .formLogin((formLogin)->formLogin.loginPage("/user/plLogin")
-                        .defaultSuccessUrl("/main/list"))
-                .logout((logout) -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/user/plLogout"))
-                        .logoutSuccessUrl("/user/plLogin").invalidateHttpSession(true)).csrf().disable()
-        ;
+        http
+            .authorizeRequests((authorizeHttpRequests) -> authorizeHttpRequests
+                    .requestMatchers(new AntPathRequestMatcher("/write")).authenticated()
+                    .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
+            .headers((headers) -> headers.addHeaderWriter(new XFrameOptionsHeaderWriter(
+                    XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
+            .formLogin((formLogin)->formLogin.loginPage("/user/plLogin")
+                    .defaultSuccessUrl("/main/list"))
+            .logout((logout) -> logout
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/user/plLogout"))
+                    .logoutSuccessUrl("/main/list").invalidateHttpSession(true)).csrf().disable();
+
         return http.build();
     }
 

@@ -8,6 +8,22 @@
 
 
 <body class="back">
+<div class="bigBox">
+
+
+
+    <ul class="" style="list-style-type:none;">
+        <li class="nav-item">
+
+            <a class="logo"  th:href="@{/main/list}"><img src="/pictures/logo.png" style="width:82px; height:57px; float:left; margin-left:180px; margin-top:45px;"></a>
+
+
+        </li>
+
+    </ul>
+
+
+</div>
 <h1></h1>
 <form th:action="@{/edit/__${musicAuction.id}__}" th:object="${musicAuction}" method="post" enctype="multipart/form-data">    <div class="form-container">
         <div class="left">
@@ -31,7 +47,7 @@
                 <input type="text" id="title" name="title" th:field="*{title}"></p>
 
             <p><label for="content">Description</label><br>
-                <textarea id="content" class="scroll" name="content" rows="10" cols="80" th:field="*{content}" style="height: 225px;width: 500px; border: none; resize:none;"></textarea></p>
+                <textarea id="content" class="scroll" name="content" rows="10" cols="80" th:field="*{content}" style="height: 225px;width: 500px;  resize:none;"></textarea></p>
         </div>
     <div class="verticalLine">
 
@@ -67,7 +83,7 @@
                 <p>Music</p>
                 <p>
                     <input type="file" id="albumMusic" name="albumMusic" accept="audio/*" th:value="${musicAuction.albumMusic}" style="display: none;">
-                    <input type="text" id="albumMusicName" th:value="|${musicAuction.title}.mp3|" style="border:none; outline:none" readonly>
+                    <input type="text" id="albumMusicName" th:value="${musicAuction.albumMusic}" style="border:none; outline:none" readonly>
                     <br>
                     <label for="albumMusic" class="custom-file-upload">Attachment</label>
                 </p>
@@ -84,5 +100,7 @@
         </div>
     </div>
 </form>
+
+
 </body>
 </html>

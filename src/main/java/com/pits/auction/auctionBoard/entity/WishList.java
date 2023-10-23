@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pits.auction.auth.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 
@@ -20,12 +22,14 @@ public class WishList {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 증가하는 PK 설정
     private Long id; // 자동 증가하는 단일 기본 키
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "member_email", referencedColumnName = "email", nullable = false)
     private Member memberEmail;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "auction_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private MusicAuction auctionId;
 
     @Column(nullable = false)

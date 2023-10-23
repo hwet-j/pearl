@@ -33,7 +33,7 @@ public class MusicGenre {
 
     // 해당 장르의 경매글 정보
     @JsonIgnore
-    @OneToMany(mappedBy = "genre")
+    @OneToMany(mappedBy = "genre", cascade = CascadeType.REMOVE)
     private List<MusicAuction> genreAuctions;
 
 }

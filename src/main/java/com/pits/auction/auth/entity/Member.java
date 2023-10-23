@@ -6,6 +6,8 @@ import com.pits.auction.auctionBoard.entity.MusicAuction;
 import com.pits.auction.auctionBoard.entity.WishList;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
 
@@ -81,7 +83,7 @@ public class Member {
 
     // 찜목록
     @JsonIgnore
-    @OneToMany(mappedBy = "memberEmail")
+    @OneToMany(mappedBy = "memberEmail", cascade = CascadeType.REMOVE)
     private List<WishList> wishList;
 
 

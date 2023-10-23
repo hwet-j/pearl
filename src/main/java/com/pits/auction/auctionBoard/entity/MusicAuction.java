@@ -46,11 +46,11 @@ public class MusicAuction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne
     @JoinColumn(name = "author_nickname",  referencedColumnName = "nickname", nullable = false)
     private Member authorNickname;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne
     @JoinColumn(name = "genre_id", nullable = false)
     private MusicGenre genre;
 
@@ -73,7 +73,7 @@ public class MusicAuction {
     @Column(columnDefinition = "TIMESTAMP", nullable = false)
     private LocalDateTime createdAt;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne
     @JsonIgnore
     @JoinColumn(nullable = false)
     private BiddingPeriod biddingPeriod;
@@ -90,7 +90,7 @@ public class MusicAuction {
 
     // 입찰 정보
     @JsonIgnore
-    @OneToMany(mappedBy = "auctionId")
+    @OneToMany(mappedBy = "auctionId", cascade = CascadeType.REMOVE)
     private List<Bidding> auctionBiddings;
 
 

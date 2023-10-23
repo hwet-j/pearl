@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pits.auction.auth.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
@@ -35,14 +37,16 @@ public class Bidding {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JsonIgnore
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "nickname", referencedColumnName = "nickname" , nullable = false)
     private Member bidder;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "auction_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private MusicAuction auctionId;
 
     @Column(nullable = false)

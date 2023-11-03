@@ -125,7 +125,7 @@ public class MusicAuctionController {
     public String list(Model model) {
         List<MusicAuction> musicAuctions= musicAuctionService.findAll();
         model.addAttribute("musicAuctions", musicAuctions);
-        return "/auction/read";
+        return "auction/read";
     }
 
     /* 글 상세보기 (auctionId) */

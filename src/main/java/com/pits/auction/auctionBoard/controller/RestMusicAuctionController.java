@@ -50,7 +50,7 @@ public class RestMusicAuctionController {
             }
         }
         modelAndView.addObject("musicAuctions", musicAuctions);
-        modelAndView.setViewName("/auction/read");
+        modelAndView.setViewName("auction/read");
         Page<MusicAuctionProjection> musicAuctionList = musicAuctionService.findTop5ByEndTimeAfterCurrent();
 
         List<Long> remainingTimes = new ArrayList<>();

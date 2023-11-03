@@ -14,7 +14,7 @@ public class MainController {
 
         model.addAttribute("team", "Pearl in the Soil");
 
-        return "/auction/read";
+        return "auction/read";
     }
 
 

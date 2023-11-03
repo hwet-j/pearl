@@ -24,7 +24,7 @@ public class ImageUpload {
 
 
 
-        String uploadDirectory = "C:/Auction/Image" +  saveFolder;
+        String uploadDirectory = "/home/opc/asset/Auction/Image" +  saveFolder;
 
         File directory = new File(uploadDirectory);
         if (!directory.exists()) {

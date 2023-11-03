@@ -16,7 +16,7 @@ public class AudioUpload {
         // 오디오 저장 폴더 -> 오디오는 경매글에만 존재
         String saveFolder = "\\auction_audios";
 
-        String uploadDirectory = "C:/Auction/Audio" + saveFolder;
+        String uploadDirectory = "/home/opc/asset/Auction/Audio" + saveFolder;
 
         File directory = new File(uploadDirectory);
         // 저장 경로가 없으면 생성

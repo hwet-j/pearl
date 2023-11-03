@@ -34,7 +34,7 @@ public class BiddingController {
 
         model.addAttribute("biddingList", biddingService.getAuctionBiddings());
 
-        return "/myPage/bid/bidList";
+        return "myPage/bid/bidList";
     }
 
 
@@ -45,7 +45,7 @@ public class BiddingController {
 
         model.addAttribute("bidding", biddingDTO);
 
-        return "/myPage/bid/bidDetail";
+        return "myPage/bid/bidDetail";
     }
 
 
@@ -53,7 +53,7 @@ public class BiddingController {
     @GetMapping("/create")
     public String biddingCreateForm(Model model){
 
-        return "/myPage/bid/bidCreate";
+        return "myPage/bid/bidCreate";
     }
 
     /* 입찰 생성 기능 (상세페이지가 구현되면 이 기능 사용) */

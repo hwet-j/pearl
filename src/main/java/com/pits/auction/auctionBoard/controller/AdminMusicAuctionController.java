@@ -33,7 +33,7 @@ public class AdminMusicAuctionController {
         model.addAttribute("endPage",endPage);
         model.addAttribute("firstPage",firstPage);
         model.addAttribute("lastPage",lastPage);
-        return "/admin/plAdminMusicAuctionList";
+        return "admin/plAdminMusicAuctionList";
     }
 
     //체크박스 회원삭제

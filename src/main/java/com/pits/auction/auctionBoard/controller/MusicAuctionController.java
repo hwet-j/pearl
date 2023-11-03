@@ -185,7 +185,7 @@ public class MusicAuctionController {
 
         // 댓글 기능 완성 후 - 해당 경매글에 대한 댓글 가져오기
 
-        return  "/auction/detail";
+        return  "auction/detail";
     }
 
 
@@ -209,7 +209,7 @@ public class MusicAuctionController {
         model.addAttribute("genres", genres);
         model.addAttribute("biddingPeriods", biddingPeriods);
         model.addAttribute("musicAuction",musicAuction);
-        return "/auction/edit";
+        return "auction/edit";
     }
 
     @PostMapping("/edit/{id}")

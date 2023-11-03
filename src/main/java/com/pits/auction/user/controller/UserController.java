@@ -51,7 +51,7 @@ public class UserController {
 
     @GetMapping("/plLogin")
     public String login(){
-        return "/user/plLogin";
+        return "user/plLogin";
     }
 
 
@@ -89,7 +89,7 @@ public class UserController {
         if(bindingResult.hasErrors()){
 
 
-            return "/user/plLogin";//templates폴더하위의 signup_form.html문서를 보여줘
+            return "user/plLogin";//templates폴더하위의 signup_form.html문서를 보여줘
         }
         try {
 
@@ -102,13 +102,13 @@ public class UserController {
             //여기에서는 username(회원id은 uk, email은 uk)->제약조건에 걸리면 발생
             e.printStackTrace();
             model.addAttribute("joinFailed", "이미 등록된 회원입니다.");
-            return "/user/plLogin";// signup_form.html문서로 이동
+            return "user/plLogin";// signup_form.html문서로 이동
         }catch (Exception e){
 
             e.printStackTrace();
             model.addAttribute("joinFailed", "이미 등록된 회원입니다.");
 
-            return "/user/plLogin";
+            return "user/plLogin";
         }
 
         //3.Model //4.view

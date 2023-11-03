@@ -49,7 +49,7 @@ public class MyPageController {
         
         model.addAttribute("userInfoList", memberService.findAllActiveMembers());
         
-        return "/myPage/plMyPage";
+        return "myPage/plMyPage";
     }
 
 
@@ -91,7 +91,7 @@ public class MyPageController {
         // 찜목록
         model.addAttribute("wishLists", wishListService.getMusicAuctionsByEmail(userInfo.getEmail()));
 
-        return "/myPage/userRead";
+        return "myPage/userRead";
     }
 
 
@@ -118,7 +118,7 @@ public class MyPageController {
 
         model.addAttribute("userInfo", memberDTO);
 
-        return "/myPage/userEdit";
+        return "myPage/userEdit";
     }
 
 
@@ -159,7 +159,7 @@ public class MyPageController {
                 bindingResult.reject("phoneNumber", bindingResult.getFieldError("phoneNumber").getDefaultMessage());
             }
 
-            return "/myPage/userEdit";      // 유효성 검사 에러가 있을 경우 수정 페이지로 다시 돌아감
+            return "myPage/userEdit";      // 유효성 검사 에러가 있을 경우 수정 페이지로 다시 돌아감
         }
 
         if (!imageFile.isEmpty()){   // 파일이 있을 경우에만 파일 업로드 진행
@@ -206,7 +206,7 @@ public class MyPageController {
 
         model.addAttribute("userInfo", memberService.getUserInfo(userId));
 
-        return "/myPage/userBalance";
+        return "myPage/userBalance";
     }
 
 
@@ -228,7 +228,7 @@ public class MyPageController {
             }
         }
         model.addAttribute("userInfo", memberService.getUserInfo(userId));
-        return "/myPage/depositPopup";
+        return "myPage/depositPopup";
     }
 
     /* 출금 폼 (서브창을 띄울때 사용) */
@@ -251,7 +251,7 @@ public class MyPageController {
 
 
         model.addAttribute("userInfo", memberService.getUserInfo(userId));
-        return "/myPage/withdrawPopup";
+        return "myPage/withdrawPopup";
     }
 
     /* 입/출금 기능 (입금인지 출금인지 action변수에 받아와 하나의 메서드에서 두 기능을 구현) */

@@ -10,11 +10,11 @@ public class ResourceConfiguration implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/images/**")
-                .addResourceLocations("file:/home/opc/asset/Auction"); // 로컬 경로 설정
+                .addResourceLocations("file:///home/opc/asset/Auction"); // 로컬 경로 설정
 
     // 오디오 리소스 핸들러 추가
         registry.addResourceHandler("/audios/**")
-                .addResourceLocations("file:/home/opc/asset/Auction");
+                .addResourceLocations("file:///home/opc/asset/Auction");
     }
 
 }

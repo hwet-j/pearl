@@ -1,5 +1,6 @@
 package com.pits.auction.global.upload;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -9,6 +10,7 @@ import java.util.UUID;
 
 
 @Component
+@Slf4j
 public class ImageUpload {
 
     // 로컬 컴퓨터에 저장
@@ -46,6 +48,9 @@ public class ImageUpload {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        log.info("이미지 저장 경로 : /images"  + saveFolder + "/" + uniqueFileName);
+
         return "/images"  + saveFolder + "/" + uniqueFileName;
     }
 }

@@ -1,7 +1,6 @@
 package com.pits.auction.auctionBoard.dto;
 
 
-import com.pits.auction.auctionBoard.entity.Bidding;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

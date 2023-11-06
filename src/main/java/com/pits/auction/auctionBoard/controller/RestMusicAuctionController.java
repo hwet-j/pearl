@@ -1,6 +1,5 @@
 package com.pits.auction.auctionBoard.controller;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
 import com.pits.auction.auctionBoard.entity.MusicAuctionProjection;
 import com.pits.auction.auctionBoard.service.MusicAuctionService;
@@ -17,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/main")

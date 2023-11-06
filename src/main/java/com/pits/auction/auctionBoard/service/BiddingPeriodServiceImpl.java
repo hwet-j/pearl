@@ -2,11 +2,8 @@ package com.pits.auction.auctionBoard.service;
 
 
 import com.pits.auction.auctionBoard.entity.BiddingPeriod;
-import com.pits.auction.auctionBoard.entity.MusicGenre;
 import com.pits.auction.auctionBoard.repository.BiddingPeriodRepository;
-import com.pits.auction.auctionBoard.repository.MusicGenreRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

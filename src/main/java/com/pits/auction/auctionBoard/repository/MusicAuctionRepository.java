@@ -2,7 +2,6 @@ package com.pits.auction.auctionBoard.repository;
 
 import com.pits.auction.auctionBoard.entity.MusicAuction;
 import com.pits.auction.auctionBoard.entity.MusicAuctionProjection;
-import com.pits.auction.auth.entity.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

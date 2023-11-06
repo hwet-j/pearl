@@ -1,6 +1,5 @@
 package com.pits.auction.auctionBoard.controller;
 
-import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO2;
 import com.pits.auction.auctionBoard.entity.AuctionComment;
 import com.pits.auction.auctionBoard.entity.BiddingPeriod;
@@ -9,13 +8,11 @@ import com.pits.auction.auctionBoard.entity.MusicGenre;
 import com.pits.auction.auctionBoard.repository.MusicAuctionRepository;
 import com.pits.auction.auctionBoard.service.*;
 import com.pits.auction.auctionBoard.validation.CommentForm;
-import com.pits.auction.auth.dto.MemberDTO;
 import com.pits.auction.auth.entity.Member;
 import com.pits.auction.auth.repository.MemberRepository;
 import com.pits.auction.global.upload.AudioUpload;
 import com.pits.auction.global.upload.ImageUpload;
 import com.pits.auction.user.service.UserSecurityService;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -25,10 +22,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 import java.util.Optional;
 

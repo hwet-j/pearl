@@ -2,14 +2,11 @@ package com.pits.auction.auctionBoard.controller;
 
 
 import com.pits.auction.auctionBoard.dto.BiddingDTO;
-import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
-import com.pits.auction.auctionBoard.entity.Bidding;
 import com.pits.auction.auctionBoard.service.BiddingService;
 import com.pits.auction.auctionBoard.service.MusicAuctionService;
 import com.pits.auction.auth.entity.Member;
 import com.pits.auction.auth.repository.MemberRepository;
 import com.pits.auction.auth.service.MemberService;
-import com.pits.auction.global.exception.InsufficientBiddingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

@@ -1,6 +1,5 @@
 package com.pits.auction.auctionBoard.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pits.auction.auth.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;

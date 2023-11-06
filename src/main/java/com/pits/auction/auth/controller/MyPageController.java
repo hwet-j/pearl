@@ -1,7 +1,6 @@
 package com.pits.auction.auth.controller;
 
 import com.pits.auction.auctionBoard.dto.MusicAuctionDTO;
-import com.pits.auction.auctionBoard.entity.WishList;
 import com.pits.auction.auctionBoard.service.BiddingService;
 import com.pits.auction.auctionBoard.service.MusicAuctionService;
 import com.pits.auction.auctionBoard.service.WishListService;
@@ -13,7 +12,6 @@ import com.pits.auction.auth.validation.MemberEditValidator;
 import com.pits.auction.global.exception.InsufficientBalanceException;
 import com.pits.auction.global.exception.PhoneNumberDuplicateException;
 import com.pits.auction.global.upload.ImageUpload;
-import jakarta.annotation.security.PermitAll;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +24,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.Optional;
 
 

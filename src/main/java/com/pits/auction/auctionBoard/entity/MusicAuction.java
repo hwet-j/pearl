@@ -7,12 +7,11 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static java.time.LocalTime.now;
 
 
 /*  경매정보 (경매글)
@@ -127,38 +126,45 @@ public class MusicAuction {
     }
 
 
-   @PreUpdate
+    @PreUpdate
     public void updateEndTimeUsingBiddingPeriod() {
         if (biddingPeriod == null) {
             throw new IllegalStateException("Cannot set end time without created time or bidding period.");
         }
+        if (endTime != null){
+            LocalDateTime currentTime = LocalDateTime.now();
+            Duration duration = Duration.between(currentTime, endTime);
+
+            if (duration.toMinutes() < 10) {
+                return;
+            }
+        }
+
+
         String periodValue = this.biddingPeriod.getPeriodValue();
         Pattern pattern = Pattern.compile("(\\d+)\\s*(\\D+)");
         Matcher matcher = pattern.matcher(periodValue);
-       System.out.println("periodValue="+periodValue);
-       System.out.println("pattern="+pattern);
-       System.out.println("matcher"+matcher);
 
         if(this.biddingPeriod != null){
 
-        if (matcher.find()) {
-            int value = Integer.parseInt(matcher.group(1));
-            String unit = matcher.group(2);
+            if (matcher.find()) {
+                int value = Integer.parseInt(matcher.group(1));
+                String unit = matcher.group(2);
 
-            switch (unit) {
-                case "week":
-                    this.endTime = LocalDateTime.now().plusWeeks(value);
-                    break;
-                case "month":
-                    this.endTime =  LocalDateTime.now().plusMonths(value);
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unknown bidding period unit: " + unit);
+                switch (unit) {
+                    case "week":
+                        this.endTime = LocalDateTime.now().plusWeeks(value);
+                        break;
+                    case "month":
+                        this.endTime =  LocalDateTime.now().plusMonths(value);
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Unknown bidding period unit: " + unit);
+                }
+            } else {
+                throw new IllegalArgumentException("Invalid bidding period format: " + periodValue);
             }
-        } else {
-            throw new IllegalArgumentException("Invalid bidding period format: " + periodValue);
         }
-    }
     }
 
     /* 로그인 한 유저의 wish가 맞는지 확인하는 임시용 필드 > DB 적용 안되는 필드임 */

@@ -5,7 +5,6 @@ import com.pits.auction.auth.entity.Member;
 import com.pits.auction.exception.DataNotFoundException;
 import com.pits.auction.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

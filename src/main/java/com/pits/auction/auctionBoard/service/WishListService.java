@@ -1,6 +1,5 @@
 package com.pits.auction.auctionBoard.service;
 
-import com.pits.auction.auctionBoard.entity.BiddingPeriod;
 import com.pits.auction.auctionBoard.entity.MusicAuction;
 import com.pits.auction.auctionBoard.entity.WishList;
 import com.pits.auction.auth.entity.Member;

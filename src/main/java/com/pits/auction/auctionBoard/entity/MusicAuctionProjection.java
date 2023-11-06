@@ -1,7 +1,9 @@
 package com.pits.auction.auctionBoard.entity;
 
 import com.pits.auction.auth.entity.Member;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 

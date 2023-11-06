@@ -68,13 +68,13 @@ public class UserController {
 
     @GetMapping("/findId")
     public String findId(){
-        return "/user/findId";
+        return "findId";
     }
 
 
     @GetMapping("/findPw")
     public String findPw(){
-        return "/user/findPw";
+        return "user/findPw";
     }
 
 

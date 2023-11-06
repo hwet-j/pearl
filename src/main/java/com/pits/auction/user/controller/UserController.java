@@ -115,36 +115,5 @@ public class UserController {
         return "redirect:/main/list"; //회원가입성공시  메인화면으로 이동
     }
 
-
-
-
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
